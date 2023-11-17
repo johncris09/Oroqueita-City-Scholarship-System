@@ -1,0 +1,81 @@
+
+api/application/cache/*
+api/!application/cache/index.html 
+api/application/logs/*
+api/!application/logs/index.html 
+api/!application/*/.htaccess 
+api/composer.lock
+api/tests/mocks/database/ci_test.sqlite 
+api/user_guide_src/build/*
+api/user_guide_src/cilexer/build/*
+api/user_guide_src/cilexer/dist/*
+api/user_guide_src/cilexer/pycilexer.egg-info/*
+api/vendor/
+ 
+api/nbproject/
+api/.idea/*  
+api/## Sublime Text cache files
+api/*.tmlanguage.cache
+api/*.tmPreferences.cache
+api/*.stTheme.cache
+api/*.sublime-workspace
+api/*.sublime-project
+api/tests/tests/
+api/tests/results/ 
+api/system
+api/vendor1
+api/.gitignore.0
+api/license.txt
+api/readme.rst
+
+# api/application/config/database.php
+  
+client/.github
+client/node_modules
+
+# testing
+client/src/assets/images/avatars/1.jpg
+client/src/assets/images/avatars/2.jpg
+client/src/assets/images/avatars/3.jpg
+client/src/assets/images/avatars/4.jpg
+client/src/assets/images/avatars/5.jpg
+client/src/assets/images/avatars/6.jpg
+client/src/assets/images/avatars/7.jpg
+client/src/assets/images/avatars/8.jpg
+client/src/assets/images/avatars/9.jpg
+client/src/assets/images/angular.jpg
+client/src/assets/images/react.jpg
+client/src/assets/images/vue.jpg
+
+client/src/views/base
+client/src/views/buttons 
+client/src/views/forms
+client/src/views/icons
+client/src/views/notifications
+client/src/views/theme
+client/src/views/widgets
+client/src/views/charts
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+# dependencies
+# /node_modules
+client/package-lock.json
+client/yarn.lock
+
+# testing
+client/coverage
+
+# production
+client/build
+
+# misc
+client/.eslintcache
+client/.DS_Store
+client/.idea
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
