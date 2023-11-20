@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const api = axios.create({ 
-  baseURL: 'http://localhost/oroqscholar/api/',
+const api = axios.create({
+  baseURL: process.env.REACT_APP_BASEURL_DEVELOPMENT,
 
   auth: {
-    username: __USERNAME__,
-    password: __PASSWORD__, 
+    username: process.env.REACT_APP_USERNAME,
+    password: process.env.REACT_APP_PASSWORD,
   },
 })
 
