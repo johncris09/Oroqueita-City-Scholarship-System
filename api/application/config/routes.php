@@ -8,7 +8,10 @@ $route['api/demo'] = 'api/ApiDemoController/index';
 
 
 $route['login'] = 'User/login';
-
+ 
+// Search
+// $route['search'] = 'Search'; 
+$route['search/find'] = 'Search/find';
 
 // Senior High
 $route['senior_high'] = 'SeniorHigh';

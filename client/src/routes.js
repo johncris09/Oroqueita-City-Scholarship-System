@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+const Search = React.lazy(() => import('./views/search/Search'))
 const Registration = React.lazy(() => import('./views/registration/Registration'))
 // Manage Application
 const Approved = React.lazy(() => import('./views/approved/Approved'))
@@ -19,6 +20,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/registration', name: 'Registration', element: Registration },
+  { path: '/search', name: 'Advance Search', element: Search },
 
   { path: '/manage', name: 'Manage', element: Approved, exact: true },
   { path: '/manage/approved', name: 'Approved', element: Approved },
