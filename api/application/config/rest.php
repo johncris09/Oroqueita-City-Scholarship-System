@@ -210,7 +210,7 @@ $config['auth_library_function'] = '';
 | Array of usernames and passwords for login, if ldap is configured this is ignored
 |
 */
-$config['rest_valid_logins'] = ['oroqscholarship' => '($+i1/&wO/C;_p-q$_?{L{|n40D1dvX8y0kA*£a#xTV'];
+$config['rest_valid_logins'] = ['oroqscholarship' => '+i1&wOC_p-q?L|n40D1dvX8y0kA*£axTV'];
 
 /*
 |--------------------------------------------------------------------------
