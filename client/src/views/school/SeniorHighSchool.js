@@ -286,28 +286,15 @@ const SeniorHighSchool = () => {
                   closeMenu()
 
                   let id = row.original.ID
-                  setFetchSeniorHighSchoolLoading(true)
+                  setEditId(id)
+                  formik.setValues({
+                    school_name: row.original.SchoolName,
+                    address: row.original.address,
+                    manager: row.original.Manager,
+                  })
+                  setIsEnableEdit(true)
 
-                  api
-                    .get('senior_high_school/find/' + id)
-                    .then((response) => {
-                      setEditId(id)
-                      setIsEnableEdit(true)
-
-                      setModalVisible(true)
-                      formik.setValues({
-                        school_name: response.data.SchoolName,
-                        address: response.data.address,
-                        manager: response.data.Manager,
-                      })
-                    })
-                    .catch((error) => {
-                      toast.error('Error fetching data')
-                      console.error('Error fetching data:', error)
-                    })
-                    .finally(() => {
-                      setFetchSeniorHighSchoolLoading(false)
-                    })
+                  setModalVisible(true)
                 }}
                 sx={{ m: 0 }}
               >

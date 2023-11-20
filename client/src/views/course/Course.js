@@ -278,28 +278,15 @@ const Course = () => {
                   closeMenu()
 
                   let id = row.original.ID
-                  setFetchCourseLoading(true)
+                  setEditId(id)
+                  formik.setValues({
+                    course: row.original.colCourse,
+                    manager: row.original.colManager,
+                  })
 
-                  api
-                    .get('course/find/' + id)
-                    .then((response) => {
-                      setEditId(id)
-                      setIsEnableEdit(true)
+                  setIsEnableEdit(true)
 
-                      setModalVisible(true)
-                      formik.setValues({
-                        course: response.data.colCourse,
-                        manager: response.data.colManager,
-                        // Update more fields as needed
-                      })
-                    })
-                    .catch((error) => {
-                      toast.error('Error fetching data')
-                      console.error('Error fetching data:', error)
-                    })
-                    .finally(() => {
-                      setFetchCourseLoading(false)
-                    })
+                  setModalVisible(true)
                 }}
                 sx={{ m: 0 }}
               >

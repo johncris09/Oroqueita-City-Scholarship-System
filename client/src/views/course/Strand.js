@@ -278,28 +278,16 @@ const Strand = () => {
                   closeMenu()
 
                   let id = row.original.ID
-                  setFetchStrandLoading(true)
 
-                  api
-                    .get('strand/find/' + id)
-                    .then((response) => {
-                      setEditId(id)
-                      setIsEnableEdit(true)
+                  setEditId(id)
 
-                      setModalVisible(true)
-                      formik.setValues({
-                        strand: response.data.Strand,
-                        manager: response.data.Manager,
-                        // Update more fields as needed
-                      })
-                    })
-                    .catch((error) => {
-                      toast.error('Error fetching data')
-                      console.error('Error fetching data:', error)
-                    })
-                    .finally(() => {
-                      setFetchStrandLoading(false)
-                    })
+                  formik.setValues({
+                    strand: row.original.Strand,
+                    manager: row.original.Manager,
+                  })
+
+                  setIsEnableEdit(true)
+                  setModalVisible(true)
                 }}
                 sx={{ m: 0 }}
               >
