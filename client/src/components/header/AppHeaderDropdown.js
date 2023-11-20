@@ -1,27 +1,6 @@
 import React from 'react'
-import {
-  CAvatar,
-  CBadge,
-  CDropdown,
-  CDropdownDivider,
-  CDropdownHeader,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
-} from '@coreui/react'
-import {
-  cilBell,
-  cilCreditCard,
-  cilCommentSquare,
-  cilEnvelopeOpen,
-  cilFile,
-  cilLockLocked,
-  cilSettings,
-  cilTask,
-  cilUser,
-  cilZoomOut,
-  cilAccountLogout,
-} from '@coreui/icons'
+import { CAvatar, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/react'
+import { cilAccountLogout } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import avatar from './../../assets/images/avatars/user.png'
