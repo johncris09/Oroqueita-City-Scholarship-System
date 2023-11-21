@@ -32,6 +32,7 @@ import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { ApprovedType, SchoolYear, Semester } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { DefaultLoading } from 'src/components/Loading'
+import { decrypted } from 'src/components/Encrypt'
 
 const College = () => {
   const [data, setData] = useState([])
@@ -49,7 +50,7 @@ const College = () => {
     api
       .get('college/pending')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -218,7 +219,7 @@ const College = () => {
     api
       .get('college/all_pending')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -323,7 +324,7 @@ const College = () => {
         await api
           .post('college/filter_pending', values)
           .then((response) => {
-            setData(response.data)
+            setData(decrypted(response.data))
             setValidated(false)
           })
           .catch((error) => {

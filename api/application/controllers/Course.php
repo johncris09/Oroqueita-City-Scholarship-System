@@ -14,11 +14,13 @@ class Course extends RestController
 		// Construct the parent class
 		parent::__construct();
 		$this->load->model('CourseModel');
+		$this->load->helper('crypto_helper');
 	}
 	public function index_get()
 	{
 		$course = new CourseModel;
-		$result = $course->get_active_course();
+		$CryptoHelper = new CryptoHelper; 
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($course->get_active_course()));
 		$this->response($result, RestController::HTTP_OK);
 	}
 
@@ -26,7 +28,8 @@ class Course extends RestController
 	public function get_all_get()
 	{
 		$course = new CourseModel;
-		$result = $course->get_all_course();
+		$CryptoHelper = new CryptoHelper; 
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($course->get_all_course()));
 		$this->response($result, RestController::HTTP_OK);
 	}
 	public function insert_post()

@@ -14,11 +14,13 @@ class Strand extends RestController
 		// Construct the parent class
 		parent::__construct();
 		$this->load->model('StrandModel');
+		$this->load->helper('crypto_helper');
 	}
 	public function index_get()
 	{
 		$strand = new StrandModel;
-		$result = $strand->get_active_strand();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($strand->get_active_strand()));
 		$this->response($result, RestController::HTTP_OK);
 	}
 
@@ -26,8 +28,9 @@ class Strand extends RestController
 
 	public function get_all_get()
 	{
-		$strand = new StrandModel;
-		$result = $strand->get_all_strand();
+		$strand = new StrandModel; 
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($strand->get_all_strand()));
 		$this->response($result, RestController::HTTP_OK);
 	}
 	public function insert_post()

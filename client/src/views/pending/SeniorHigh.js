@@ -32,6 +32,7 @@ import { DefaultLoading } from 'src/components/Loading'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { ApprovedType, SchoolYear, Semester } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
+import { decrypted } from 'src/components/Encrypt'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -49,7 +50,7 @@ const SeniorHigh = () => {
     api
       .get('senior_high/pending')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -286,7 +287,7 @@ const SeniorHigh = () => {
     api
       .get('senior_high/all_pending')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -322,7 +323,7 @@ const SeniorHigh = () => {
         await api
           .post('senior_high/filter_pending', values)
           .then((response) => {
-            setData(response.data)
+            setData(decrypted(response.data))
             setValidated(false)
           })
           .catch((error) => {

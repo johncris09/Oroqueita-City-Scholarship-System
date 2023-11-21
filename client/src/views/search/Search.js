@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
 import { Box } from '@mui/material'
+import { decrypted } from 'src/components/Encrypt'
 
 const Dashboard = () => {
   const [data, setData] = useState([])
@@ -41,7 +42,7 @@ const Dashboard = () => {
         await api
           .post('search/find', values)
           .then((response) => {
-            setData(response.data)
+            setData(decrypted(response.data))
           })
           .catch((error) => {
             console.error('Error fetching data:', error)

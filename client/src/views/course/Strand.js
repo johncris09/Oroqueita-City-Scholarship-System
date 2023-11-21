@@ -29,6 +29,7 @@ import { Box, ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
+import { decrypted } from 'src/components/Encrypt'
 
 const Strand = () => {
   const [strand, setStrand] = useState([])
@@ -58,7 +59,7 @@ const Strand = () => {
     api
       .get('strand/get_all')
       .then((response) => {
-        setStrand(response.data)
+        setStrand(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {

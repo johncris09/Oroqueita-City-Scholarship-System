@@ -14,18 +14,22 @@ class SeniorHighSchool extends RestController
 		// Construct the parent class
 		parent::__construct();
 		$this->load->model('SeniorHighSchoolModel');
+		$this->load->helper('crypto_helper');
 	}
 	public function index_get()
 	{
 		$school = new SeniorHighSchoolModel;
-		$result = $school->get_active_school();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($school->get_active_school()));
+
 		$this->response($result, RestController::HTTP_OK);
 	}
 
 	public function get_all_get()
 	{
 		$school = new SeniorHighSchoolModel;
-		$result = $school->get_all_school();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($school->get_all_school()));
 		$this->response($result, RestController::HTTP_OK);
 	}
 	public function insert_post()
@@ -33,7 +37,7 @@ class SeniorHighSchool extends RestController
 
 		$school = new SeniorHighSchoolModel;
 		$requestData = json_decode($this->input->raw_input_stream, true);
-  
+
 		$data = array(
 			'SchoolName' => $requestData['school_name'],
 			'address' => $requestData['address'],
@@ -76,13 +80,13 @@ class SeniorHighSchool extends RestController
 		$school = new SeniorHighSchoolModel;
 
 		$requestData = json_decode($this->input->raw_input_stream, true);
-	  
+
 		$data = array(
 			'SchoolName' => $requestData['school_name'],
 			'address' => $requestData['address'],
-			'Manager' => $requestData['manager'], 
+			'Manager' => $requestData['manager'],
 		);
-		 
+
 
 		$update_result = $school->update($id, $data);
 
@@ -134,9 +138,9 @@ class SeniorHighSchool extends RestController
 		}, $requestData);
 
 		// Convert IDs to integers
-		$ids = array_map('intval', $ids); 
+		$ids = array_map('intval', $ids);
 
-		$result = $school->bulk_delete($ids); 
+		$result = $school->bulk_delete($ids);
 
 		if ($result > 0) {
 			$this->response([

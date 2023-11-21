@@ -14,11 +14,14 @@ class CollegeSchool extends RestController
         // Construct the parent class
         parent::__construct();
         $this->load->model('collegeSchoolModel');
+		$this->load->helper('crypto_helper');
     }
     public function index_get()
     {
         $school = new collegeSchoolModel;
-        $result = $school->get_active_school();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode( $school->get_active_school()));
+         
         $this->response($result, RestController::HTTP_OK);
     } 
 
@@ -26,7 +29,8 @@ class CollegeSchool extends RestController
 	public function get_all_get()
 	{
 		$school = new CollegeSchoolModel;
-		$result = $school->get_all_school();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode( $school->get_all_school())); 
 		$this->response($result, RestController::HTTP_OK);
 	}
 	public function insert_post()

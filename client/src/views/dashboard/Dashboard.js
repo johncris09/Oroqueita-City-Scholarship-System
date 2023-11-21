@@ -21,6 +21,7 @@ import { faCancel, faEye, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { SchoolYear, Semester } from 'src/components/DefaultValue'
+import { decrypted } from 'src/components/Encrypt'
 
 const Dashboard = () => {
   const [loadingTotal, setLoadingTotal] = useState(false)
@@ -43,7 +44,7 @@ const Dashboard = () => {
       api.get('tvet/total_status'),
     ])
       .then((responses) => {
-        const newData = responses.map((response) => response.data)
+        const newData = responses.map((response) => decrypted(response.data))
         setTotalStatusData(newData)
       })
       .catch((error) => {
@@ -61,11 +62,10 @@ const Dashboard = () => {
       .then((responses) => {
         const response = responses.map((response) => response.data)
         const newData = {
-          senior_high: response[0],
-          college: response[1],
-          tvet: response[2],
+          senior_high: decrypted(response[0]),
+          college: decrypted(response[1]),
+          tvet: decrypted(response[2]),
         }
-
         setTotalData(newData)
       })
       .catch((error) => {
@@ -98,9 +98,8 @@ const Dashboard = () => {
       api.get('tvet/all_total_status'),
     ])
       .then((responses) => {
-        const newData = responses.map((response) => response.data)
-        console.info(newData)
-        // setTotalStatusData(newData);
+        const newData = responses.map((response) => decrypted(response.data))
+        setTotalStatusData(newData)
       })
       .catch((error) => {
         console.error('Error fetching total status data:', error)
@@ -121,9 +120,9 @@ const Dashboard = () => {
           (response) => response.data,
         )
         const newData = {
-          senior_high: responseSeniorHigh,
-          college: responseCollege,
-          tvet: responseTvet,
+          senior_high: decrypted(responseSeniorHigh),
+          college: decrypted(responseCollege),
+          tvet: decrypted(responseTvet),
         }
         setTotalData(newData)
       })
@@ -159,7 +158,7 @@ const Dashboard = () => {
           api.post('tvet/filter_total_status', values),
         ])
           .then((responses) => {
-            const newData = responses.map((response) => response.data)
+            const newData = responses.map((response) => decrypted(response.data))
             setTotalStatusData(newData)
           })
           .catch((error) => {
@@ -181,9 +180,9 @@ const Dashboard = () => {
               (response) => response.data,
             )
             const newData = {
-              senior_high: responseSeniorHigh,
-              college: responseCollege,
-              tvet: responseTvet,
+              senior_high: decrypted(responseSeniorHigh),
+              college: decrypted(responseCollege),
+              tvet: decrypted(responseTvet),
             }
 
             setTotalData(newData)
@@ -226,7 +225,7 @@ const Dashboard = () => {
       <CRow className="justify-content-center ">
         <CCol md={12}>
           <CCard className="mb-4">
-            <CCardHeader>Pending</CCardHeader>
+            <CCardHeader>Dashboard</CCardHeader>
             <CCardBody>
               <h5>
                 <FontAwesomeIcon icon={faFilter} /> Filter

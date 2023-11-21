@@ -13,6 +13,7 @@ import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { useFormik } from 'formik'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { SchoolYear, Semester } from 'src/components/DefaultValue'
+import { decrypted } from 'src/components/Encrypt'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -28,7 +29,7 @@ const Tvet = () => {
     api
       .get('tvet/approved')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -181,7 +182,7 @@ const Tvet = () => {
     api
       .get('tvet/all_approved')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -218,7 +219,7 @@ const Tvet = () => {
         await api
           .post('tvet/filter_approved', values)
           .then((response) => {
-            setData(response.data)
+            setData(decrypted(response.data))
             setValidated(false)
           })
           .catch((error) => {

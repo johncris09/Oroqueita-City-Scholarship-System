@@ -13,6 +13,7 @@ import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { useFormik } from 'formik'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { SchoolYear, Semester } from 'src/components/DefaultValue'
+import { decrypted } from 'src/components/Encrypt'
 
 const College = () => {
   const [data, setData] = useState([])
@@ -28,7 +29,7 @@ const College = () => {
     api
       .get('college/approved')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -182,7 +183,7 @@ const College = () => {
     api
       .get('college/all_approved')
       .then((response) => {
-        setData(response.data)
+        setData(decrypted(response.data))
       })
       .catch((error) => {
         switch (error.code) {
@@ -219,7 +220,7 @@ const College = () => {
         await api
           .post('college/filter_approved', values)
           .then((response) => {
-            setData(response.data)
+            setData(decrypted(response.data))
             setValidated(false)
           })
           .catch((error) => {
