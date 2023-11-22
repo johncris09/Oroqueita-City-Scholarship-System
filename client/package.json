@@ -45,6 +45,7 @@
     "chart.js": "^3.9.1",
     "classnames": "^2.3.2",
     "core-js": "^3.29.0",
+    "crypto-js": "^4.2.0",
     "dayjs": "^1.11.7",
     "export-to-csv": "^0.2.2",
     "faker": "^6.6.6",
