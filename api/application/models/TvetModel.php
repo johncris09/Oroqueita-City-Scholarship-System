@@ -134,7 +134,142 @@ class TvetModel extends CI_Model
 			->get($this->table);
 		return $query->result();
 	}
+	public function void()
+	{
 
+		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+		$query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'void')
+			->where('colSem', $query_sem->current_semester)
+			->where('colSY', $query_sy->current_sy)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+
+	public function archived()
+	{
+
+		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+		$query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'archived')
+			->where('colSem', $query_sem->current_semester)
+			->where('colSY', $query_sy->current_sy)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+	public function disapproved()
+	{
+
+		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+		$query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'disapproved')
+			->where('colSem', $query_sem->current_semester)
+			->where('colSY', $query_sy->current_sy)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
 
 
 	public function all_pending()
@@ -178,6 +313,132 @@ class TvetModel extends CI_Model
 		return $query->result();
 	}
 
+
+	public function all_archived()
+	{
+ 
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'archived') 
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+
+
+
+	public function all_void()
+	{
+ 
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'void') 
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+
+
+	public function all_disapproved()
+	{
+ 
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'disapproved') 
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
 
 
 
@@ -263,6 +524,134 @@ class TvetModel extends CI_Model
 		return $query->result();
 	}
 
+
+
+	public function filter_archived($data)
+	{
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'archived')
+			->where($data)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+
+
+	public function filter_void($data)
+	{
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'void')
+			->where($data)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
+
+	public function filter_disapproved($data)
+	{
+
+		$query = $this->db->select(
+			'ID,
+			colAppNoYear,
+			colAppNoID,
+			colAppNoSem,
+			colAppStat,
+			colFirstName,
+			colLastName,
+			colMI,
+			colSuffix,
+			colAddress,
+			colDOB,
+			colAge,
+			colCivilStat,
+			colGender,
+			colContactNo,
+			colCTC,
+			colEmailAdd,
+			colAvailment,
+			colSchool,
+			colSchoolAddress,
+			colCourse,
+			colYearLevel,
+			colSem,
+			colSY,
+			colFathersName,
+			colFatherOccu,
+			colMothersName,
+			colMotherOccu,
+			colManager,
+			colUnits'
+		)
+			->where('colAppStat', 'disapproved')
+			->where($data)
+			->order_by('ID', 'desc')
+			->get($this->table);
+		return $query->result();
+	}
 	public function approved()
 	{ 
 		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
@@ -418,11 +807,63 @@ class TvetModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function total_archived()
+    {
+
+        $query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+        $query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0]; 
+
+        $query = $this->db->select('count(*) as total_archived') 
+		->where('colAppStat  ', 'archived')
+		->where('colSem', $query_sem->current_semester)
+		->where('colSY', $query_sy->current_sy)
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
+    public function total_void()
+    {
+
+        $query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+        $query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0]; 
+
+        $query = $this->db->select('count(*) as total_void') 
+		->where('colAppStat  ', 'void')
+		->where('colSem', $query_sem->current_semester)
+		->where('colSY', $query_sy->current_sy)
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
     public function filter_total_disapproved($data)
     {
  
         $query = $this->db->select('count(*) as total_disapproved') 
 		->where('colAppStat  ', 'disapproved') 
+		->where($data)
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
+    public function filter_total_archived($data)
+    {
+ 
+        $query = $this->db->select('count(*) as total_archived') 
+		->where('colAppStat  ', 'archived') 
+		->where($data)
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
+    public function filter_total_void($data)
+    {
+ 
+        $query = $this->db->select('count(*) as total_void') 
+		->where('colAppStat  ', 'void') 
 		->where($data)
 		->where('colManager', 'Active')
             ->get($this->table);
@@ -440,6 +881,28 @@ class TvetModel extends CI_Model
         return $query->result()[0];
     }
 
+    public function all_total_archived()
+    {
+ 
+        $query = $this->db->select('count(*) as total_archived') 
+		->where('colAppStat  ', 'archived')  
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
+
+    public function all_total_void()
+    {
+ 
+        $query = $this->db->select('count(*) as total_void') 
+		->where('colAppStat  ', 'void')  
+		->where('colManager', 'Active')
+            ->get($this->table);
+ 
+        return $query->result()[0];
+    }
+ 
 
 	public function filter_approved($data)
 	{
@@ -488,55 +951,7 @@ class TvetModel extends CI_Model
 	}
 
 
-
-
-	public function archived()
-	{
-
-		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
-		$query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
-
-
-		$query = $this->db->select(
-			'ID,
-			colAppNoYear,
-			colAppNoID,
-			colAppNoSem,
-			colAppStat,
-			colFirstName,
-			colLastName,
-			colMI,
-			colSuffix,
-			colAddress,
-			colDOB,
-			colAge,
-			colCivilStat,
-			colGender,
-			colContactNo,
-			colCTC,
-			colEmailAdd,
-			colAvailment,
-			colSchool,
-			colSchoolAddress,
-			colCourse,
-			colYearLevel,
-			colSem,
-			colSY,
-			colFathersName,
-			colFatherOccu,
-			colMothersName,
-			colMotherOccu,
-			colManager,
-			colUnits'
-		)
-			->where('colAppStat', 'archived')
-			->where('colSem', $query_sem->current_semester)
-			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
-			->order_by('id', 'desc')
-			->get($this->table);
-		return $query->result();
-	}
+ 
 
 
 

@@ -99,6 +99,7 @@ const Dashboard = () => {
     ])
       .then((responses) => {
         const newData = responses.map((response) => decrypted(response.data))
+
         setTotalStatusData(newData)
       })
       .catch((error) => {
@@ -184,7 +185,6 @@ const Dashboard = () => {
               college: decrypted(responseCollege),
               tvet: decrypted(responseTvet),
             }
-
             setTotalData(newData)
           })
           .catch((error) => {
@@ -217,6 +217,14 @@ const Dashboard = () => {
     {
       accessorKey: 'disapproved',
       header: 'Dispproved',
+    },
+    {
+      accessorKey: 'archived',
+      header: 'Archived',
+    },
+    {
+      accessorKey: 'void',
+      header: 'Void',
     },
   ]
 

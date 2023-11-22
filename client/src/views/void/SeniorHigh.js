@@ -27,7 +27,7 @@ const SeniorHigh = () => {
 
   const fetchData = () => {
     api
-      .get('senior_high/archived')
+      .get('senior_high/void')
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -181,7 +181,7 @@ const SeniorHigh = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('senior_high/all_archived')
+      .get('senior_high/all_void')
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -217,7 +217,7 @@ const SeniorHigh = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('senior_high/filter_archived', values)
+          .post('senior_high/filter_void', values)
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

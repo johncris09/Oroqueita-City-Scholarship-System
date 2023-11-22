@@ -14,14 +14,14 @@ import SeniorHigh from './SeniorHigh'
 import College from './College'
 import Tvet from './Tvet'
 
-const Archived = () => {
+const Disapproved = () => {
   const [activeKey, setActiveKey] = useState(1)
 
   useEffect(() => {}, [])
   return (
     <>
       <CCard className="mb-4">
-        <CCardHeader>Archived</CCardHeader>
+        <CCardHeader>Disapproved</CCardHeader>
         <CCardBody>
           <CNav variant="pills" layout="justified">
             <CNavItem role="presentation">
@@ -96,4 +96,4 @@ const Archived = () => {
   )
 }
 
-export default Archived
+export default Disapproved

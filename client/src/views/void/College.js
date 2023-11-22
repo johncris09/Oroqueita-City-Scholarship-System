@@ -15,7 +15,7 @@ import { SchoolYear, Semester } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 
-const SeniorHigh = () => {
+const College = () => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ const SeniorHigh = () => {
 
   const fetchData = () => {
     api
-      .get('senior_high/archived')
+      .get('college/void')
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -53,9 +53,9 @@ const SeniorHigh = () => {
 
   const column = [
     {
-      accessorKey: 'AppNoID',
+      accessorKey: 'colAppNoID',
       header: 'Application #',
-      accessorFn: (row) => `${row.AppNoYear}-${row.AppNoSem}-${row.AppNoID}`,
+      accessorFn: (row) => `${row.colAppNoYear}-${row.colAppNoSem}-${row.colAppNoID}`,
       //custom conditional format and styling
       Cell: ({ cell }) => (
         <Box
@@ -74,47 +74,47 @@ const SeniorHigh = () => {
       ),
     },
     {
-      accessorKey: 'AppFirstName',
+      accessorKey: 'colFirstName',
       header: 'First Name',
     },
     {
-      accessorKey: 'AppLastName',
+      accessorKey: 'colLastName',
       header: 'Last Name',
     },
     {
-      accessorKey: 'AppMidIn',
+      accessorKey: 'colMI',
       header: 'Middle Name',
     },
     {
-      accessorKey: 'AppContact',
+      accessorKey: 'colContactNo',
       header: 'Contact #',
     },
     {
-      accessorKey: 'AppAddress',
+      accessorKey: 'colAddress',
       header: 'Address',
     },
     {
-      accessorKey: 'AppGender',
+      accessorKey: 'colGender',
       header: 'Gender',
     },
     {
-      accessorKey: 'AppSchool',
+      accessorKey: 'colSchool',
       header: 'School',
     },
     {
-      accessorKey: 'AppCourse',
+      accessorKey: 'colCourse',
       header: 'Strand',
     },
     {
-      accessorKey: 'AppSY',
+      accessorKey: 'colSY',
       header: 'School Year',
     },
     {
-      accessorKey: 'AppSem',
+      accessorKey: 'colSem',
       header: 'Semester',
     },
     {
-      accessorKey: 'AppStatus',
+      accessorKey: 'colAppStat',
       header: 'Application Status',
     },
   ]
@@ -140,18 +140,18 @@ const SeniorHigh = () => {
       .map((row) => row.original)
       .map((item) => {
         return {
-          'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
-          'First Name': item.AppFirstName,
-          'Last Name': item.AppLastName,
-          'Middle Name': item.AppMidIn,
-          Address: item.AppAddress,
-          'Contact #': item.AppContact,
-          Gender: item.AppGender,
-          School: item.AppSchool,
-          Strand: item.AppCourse,
-          'School Year': item.AppSY,
-          Semester: item.AppSem,
-          'Application Status': item.AppStatus,
+          'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+          'First Name': item.colFirstName,
+          'Last Name': item.colLastName,
+          'Middle Name': item.colMI,
+          Address: item.colAddress,
+          'Contact #': item.colContactNo,
+          Gender: item.colGender,
+          School: item.colSchool,
+          Strand: item.colCourse,
+          'School Year': item.colSY,
+          Semester: item.colSem,
+          'Application Status': item.colAppStat,
         }
       })
 
@@ -161,18 +161,18 @@ const SeniorHigh = () => {
   const handleExportData = () => {
     const exportedData = data.map((item) => {
       return {
-        'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
-        'First Name': item.AppFirstName,
-        'Last Name': item.AppLastName,
-        'Middle Name': item.AppMidIn,
-        Address: item.AppAddress,
-        'Contact #': item.AppContact,
-        Gender: item.AppGender,
-        School: item.AppSchool,
-        Strand: item.AppCourse,
-        'School Year': item.AppSY,
-        Semester: item.AppSem,
-        'Application Status': item.AppStatus,
+        'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+        'First Name': item.colFirstName,
+        'Last Name': item.colLastName,
+        'Middle Name': item.colMI,
+        Address: item.colAddress,
+        'Contact #': item.colContactNo,
+        Gender: item.colGender,
+        School: item.colSchool,
+        Strand: item.colCourse,
+        'School Year': item.colSY,
+        Semester: item.colSem,
+        'Application Status': item.colAppStat,
       }
     })
     csvExporter.generateCsv(exportedData)
@@ -181,7 +181,7 @@ const SeniorHigh = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('senior_high/all_archived')
+      .get('college/all_void')
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -217,7 +217,7 @@ const SeniorHigh = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('senior_high/filter_archived', values)
+          .post('college/filter_void', values)
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -416,4 +416,4 @@ const SeniorHigh = () => {
   )
 }
 
-export default SeniorHigh
+export default College

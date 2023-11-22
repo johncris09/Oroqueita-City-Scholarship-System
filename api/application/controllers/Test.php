@@ -14,14 +14,17 @@ class Test extends RestController
 		// Construct the parent class
 		parent::__construct();
 		$this->load->model('TestModel');
+		$this->load->helper('crypto_helper');
 	}
 	public function index_get()
-	{
+	{ 
+
 		$test = new TestModel;
-		$result = $test->get_active();
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($test->get_active()));
 		$this->response($result, RestController::HTTP_OK);
 	}
-
+ 
 
 	public function get_all_get()
 	{

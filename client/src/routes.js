@@ -6,7 +6,9 @@ const Registration = React.lazy(() => import('./views/registration/Registration'
 // Manage Application
 const Approved = React.lazy(() => import('./views/approved/Approved'))
 const Pending = React.lazy(() => import('./views/pending/Pending'))
+const Disapproved = React.lazy(() => import('./views/disapproved/Disapproved'))
 const Archived = React.lazy(() => import('./views/archived/Archived'))
+const Void = React.lazy(() => import('./views/void/Void'))
 
 // School
 const SeniorHighSchool = React.lazy(() => import('./views/school/SeniorHighSchool'))
@@ -25,7 +27,9 @@ const routes = [
   { path: '/manage', name: 'Manage', element: Approved, exact: true },
   { path: '/manage/approved', name: 'Approved', element: Approved },
   { path: '/manage/pending', name: 'Pending', element: Pending },
+  { path: '/manage/disapproved', name: 'Disapproved', element: Disapproved },
   { path: '/manage/archived', name: 'Archived', element: Archived },
+  { path: '/manage/void', name: 'Void', element: Void },
 
   { path: '/school', name: 'School', element: SeniorHighSchool, exact: true },
   {

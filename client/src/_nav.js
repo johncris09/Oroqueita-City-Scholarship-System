@@ -38,11 +38,21 @@ const _nav = [
         name: 'Pending',
         to: '/manage/pending',
       },
-      // {
-      //   component: CNavItem,
-      //   name: 'Archived',
-      //   to: '/manage/archived',
-      // },
+      {
+        component: CNavItem,
+        name: 'Disapproved',
+        to: '/manage/disapproved',
+      },
+      {
+        component: CNavItem,
+        name: 'Archived',
+        to: '/manage/archived',
+      },
+      {
+        component: CNavItem,
+        name: 'Void',
+        to: '/manage/void',
+      },
     ],
   },
   {
