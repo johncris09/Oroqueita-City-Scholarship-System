@@ -30,6 +30,7 @@ import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
 import { decrypted } from 'src/components/Encrypt'
+import HandleError from 'src/components/HandleError'
 
 const SeniorHighSchool = () => {
   const [seniorHighSchool, setSeniorHighSchool] = useState([])
@@ -66,18 +67,7 @@ const SeniorHighSchool = () => {
         setSeniorHighSchool(decrypted(response.data))
       })
       .catch((error) => {
-        switch (error.code) {
-          case 'ERR_BAD_RESPONSE':
-            toast.error('Error fetching data!')
-            break
-          case 'ERR_NETWORK':
-            toast.error('Please check you internet connect and try again!')
-            break
-          default:
-            toast.error('An error occurred!')
-            console.error('An error occurred:', error)
-            break
-        }
+        toast.error(HandleError(error))
       })
       .finally(() => {
         setFetchSeniorHighSchoolLoading(false)
@@ -107,8 +97,7 @@ const SeniorHighSchool = () => {
                 setValidated(false)
               })
               .catch((error) => {
-                toast.error('Error fetching data')
-                console.error('Error fetching data:', error)
+                toast.error(HandleError(error))
               })
               .finally(() => {
                 setSeniorHighSchoolOperationLoading(false)
@@ -123,8 +112,7 @@ const SeniorHighSchool = () => {
                 setModalVisible(false)
               })
               .catch((error) => {
-                toast.error('Error fetching data')
-                console.error('Error fetching data:', error)
+                toast.error(HandleError(error))
               })
               .finally(() => {
                 setSeniorHighSchoolOperationLoading(false)
@@ -206,8 +194,7 @@ const SeniorHighSchool = () => {
             toast.success(response.data.message)
           })
           .catch((error) => {
-            toast.error('Error fetching data')
-            console.error('Error fetching data:', error)
+            toast.error(HandleError(error))
           })
           .finally(() => {
             setFetchSeniorHighSchoolLoading(false)
@@ -330,7 +317,7 @@ const SeniorHighSchool = () => {
                           toast.success(response.data.message)
                         })
                         .catch((error) => {
-                          console.error('Error fetching data:', error)
+                          toast.error(HandleError(error))
                         })
                         .finally(() => {
                           setFetchSeniorHighSchoolLoading(false)

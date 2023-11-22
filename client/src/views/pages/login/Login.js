@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import api from 'src/components/Api'
 import { ToastContainer, toast } from 'react-toastify'
 import { DefaultLoading } from 'src/components/Loading'
+import HandleError from 'src/components/HandleError'
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
@@ -55,17 +56,7 @@ const Login = () => {
             }
           })
           .catch((error) => {
-            switch (error.code) {
-              case 'ERR_BAD_RESPONSE':
-                toast.error('Invalid Username/Password. Please Try Again!')
-                break
-              case 'ERR_NETWORK':
-                toast.error('Please check you internet connect and try again!')
-                break
-              default:
-                console.error('An error occurred:', error)
-                break
-            }
+            toast.error(HandleError(error))
           })
           .finally(() => {
             setLoading(false)

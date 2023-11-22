@@ -14,6 +14,7 @@ import { useFormik } from 'formik'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { SchoolYear, Semester } from 'src/components/DefaultValue'
 import { decrypted } from 'src/components/Encrypt'
+import HandleError from 'src/components/HandleError'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -32,18 +33,7 @@ const Tvet = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        switch (error.code) {
-          case 'ERR_BAD_RESPONSE':
-            toast.error('Error fetching data!')
-            break
-          case 'ERR_NETWORK':
-            toast.error('Please check you internet connect and try again!')
-            break
-          default:
-            toast.error('An error occurred!')
-            console.error('An error occurred:', error)
-            break
-        }
+        toast.error(HandleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -185,18 +175,7 @@ const Tvet = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        switch (error.code) {
-          case 'ERR_BAD_RESPONSE':
-            toast.error('Error fetching data!')
-            break
-          case 'ERR_NETWORK':
-            toast.error('Please check you internet connect and try again!')
-            break
-          default:
-            toast.error('An error occurred!')
-            console.error('An error occurred:', error)
-            break
-        }
+        toast.error(HandleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -223,8 +202,7 @@ const Tvet = () => {
             setValidated(false)
           })
           .catch((error) => {
-            toast.error('Error fetching data')
-            console.error('Error fetching data:', error)
+            toast.error(HandleError(error))
           })
           .finally(() => {
             setLoadingOperation(false)

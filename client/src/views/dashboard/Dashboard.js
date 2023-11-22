@@ -99,7 +99,6 @@ const Dashboard = () => {
     ])
       .then((responses) => {
         const newData = responses.map((response) => decrypted(response.data))
-
         setTotalStatusData(newData)
       })
       .catch((error) => {
