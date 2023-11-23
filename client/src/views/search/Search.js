@@ -18,6 +18,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
 import { Box } from '@mui/material'
 import { decrypted } from 'src/components/Encrypt'
+import HandleError from 'src/components/HandleError'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Dashboard = () => {
   const [data, setData] = useState([])
@@ -45,7 +47,7 @@ const Dashboard = () => {
             setData(decrypted(response.data))
           })
           .catch((error) => {
-            console.error('Error fetching data:', error)
+            toast.error(HandleError(error))
           })
           .finally(() => {
             setLoading(false)
@@ -133,6 +135,7 @@ const Dashboard = () => {
   ]
   return (
     <>
+      <ToastContainer />
       <CRow className="mb-3">
         <CCol md={12}>
           <CCard>
@@ -152,7 +155,7 @@ const Dashboard = () => {
                         name="query"
                         onChange={handleInputChange}
                         value={searchForm.values.query}
-                        placeholder="Search Name..."
+                        placeholder="Search name then press enter..."
                         aria-describedby="label-search"
                       />
                       <CButton type="submit" color="primary" variant="outline" id="label-search">

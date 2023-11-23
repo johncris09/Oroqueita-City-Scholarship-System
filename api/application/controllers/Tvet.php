@@ -24,6 +24,47 @@ class Tvet extends RestController
         $this->response($result, RestController::HTTP_OK);
     }
 
+
+    // Applicable in all status except approved
+    public function get_by_status_get()
+    {
+
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = array(
+            'colAppStat' => $this->input->get('status'),
+        );
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->get_by_status($data))); // current status list
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+    public function filter_by_status_get()
+    {
+
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+        $data = array(
+            'colSem' => $this->input->get('semester'),
+            'colSY' => $this->input->get('school_year'),
+            'colAppStat' => $this->input->get('status'),
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_by_status($data)));
+        $this->response($result, RestController::HTTP_OK);
+    }
+    public function get_all_by_status_get()
+    {
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = array(
+            'colAppStat' => $this->input->get('status'),
+        );
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_by_status($data)));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
     public function total_status_get()
     {
         $tvet = new TvetModel;
@@ -78,117 +119,10 @@ class Tvet extends RestController
         $encrypt = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
         $this->response($encrypt, RestController::HTTP_OK);
     }
-
-    public function pending_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->pending())); // current pending list
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function disapproved_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->disapproved())); // current pending list
-        $this->response($result, RestController::HTTP_OK);
-    }
- 
-    public function all_pending_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->all_pending()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function all_disapproved_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->all_disapproved()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function all_archived_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->all_archived()));
-        $this->response($result, RestController::HTTP_OK);
-    } 
-
-    public function all_void_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->all_void()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function filter_pending_post()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_pending($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function filter_disapproved_post()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_disapproved($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function filter_archived_post()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_archived($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function filter_void_post()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_void($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
     public function bulk_approved_post()
     {
 
-        $college = new CollegeModel;
+        $tvet = new TvetModel;
         $requestData = json_decode($this->input->raw_input_stream, true);
 
         // Extract IDs
@@ -201,7 +135,7 @@ class Tvet extends RestController
         $ids = array_map('intval', $ids);
 
 
-        $result = $college->bulk_approved($requestData['status'], $ids);
+        $result = $tvet->bulk_approved($requestData['status'], $ids);
 
         $this->response($result, RestController::HTTP_OK);
 
@@ -226,7 +160,7 @@ class Tvet extends RestController
     public function bulk_disapproved_post()
     {
 
-        $college = new CollegeModel;
+        $tvet = new TvetModel;
         $requestData = json_decode($this->input->raw_input_stream, true);
 
         // Extract IDs
@@ -239,7 +173,7 @@ class Tvet extends RestController
         $ids = array_map('intval', $ids);
 
 
-        $result = $college->bulk_disapproved($ids);
+        $result = $tvet->bulk_disapproved($ids);
         $this->response($result, RestController::HTTP_OK);
 
 
@@ -259,55 +193,6 @@ class Tvet extends RestController
 
     }
 
-
-    public function approved_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->approved()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function all_approved_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->all_approved()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-
-    public function filter_approved_post()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->filter_approved($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function archived_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->archived())); // current archived list
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function void_get()
-    {
-        $tvet = new TvetModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->void())); // current archived list
-        $this->response($result, RestController::HTTP_OK);
-    }
     public function total_get()
     {
         $tvet = new TvetModel;

@@ -28,7 +28,11 @@ const Tvet = () => {
 
   const fetchData = () => {
     api
-      .get('tvet/approved')
+      .get('tvet/get_by_status', {
+        params: {
+          status: 'approved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -170,7 +174,11 @@ const Tvet = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('tvet/all_approved')
+      .get('tvet/get_all_by_status', {
+        params: {
+          status: 'approved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -196,7 +204,12 @@ const Tvet = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('tvet/filter_approved', values)
+          .get('tvet/filter_by_status', {
+            params: {
+              ...values,
+              status: 'approved',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -327,7 +340,7 @@ const Tvet = () => {
             positionToolbarAlertBanner="bottom"
             enableStickyHeader
             enableStickyFooter
-            enableRowActions
+            // enableRowActions
             selectAllMode="all"
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [

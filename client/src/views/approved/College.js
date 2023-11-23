@@ -28,7 +28,11 @@ const College = () => {
 
   const fetchData = () => {
     api
-      .get('college/approved')
+      .get('college/get_by_status', {
+        params: {
+          status: 'approved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -171,7 +175,11 @@ const College = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('college/all_approved')
+      .get('college/get_all_by_status', {
+        params: {
+          status: 'approved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -197,7 +205,12 @@ const College = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('college/filter_approved', values)
+          .get('college/filter_by_status', {
+            params: {
+              ...values,
+              status: 'approved',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -327,7 +340,7 @@ const College = () => {
             positionToolbarAlertBanner="bottom"
             enableStickyHeader
             enableStickyFooter
-            enableRowActions
+            // enableRowActions
             selectAllMode="all"
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [

@@ -28,7 +28,11 @@ const College = () => {
 
   const fetchData = () => {
     api
-      .get('college/archived')
+      .get('college/get_by_status', {
+        params: {
+          status: 'archived',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -46,7 +50,6 @@ const College = () => {
       accessorKey: 'colAppNoID',
       header: 'Application #',
       accessorFn: (row) => `${row.colAppNoYear}-${row.colAppNoSem}-${row.colAppNoID}`,
-      //custom conditional format and styling
       Cell: ({ cell }) => (
         <Box
           fontSize={12}
@@ -171,7 +174,11 @@ const College = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('college/all_archived')
+      .get('college/get_all_by_status', {
+        params: {
+          status: 'archived',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -196,7 +203,12 @@ const College = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('college/filter_archived', values)
+          .get('college/filter_by_status', {
+            params: {
+              ...values,
+              status: 'archived',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

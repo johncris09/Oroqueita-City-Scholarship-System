@@ -28,10 +28,10 @@ import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box, ListItemIcon, MenuItem } from '@mui/material'
 import api from 'src/components/Api'
+import { DefaultLoading } from 'src/components/Loading'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
 import { ApprovedType, SchoolYear, Semester } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { DefaultLoading } from 'src/components/Loading'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 
@@ -49,7 +49,11 @@ const College = () => {
 
   const fetchData = () => {
     api
-      .get('college/pending')
+      .get('college/get_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -204,22 +208,6 @@ const College = () => {
     csvExporter.generateCsv(exportedData)
   }
 
-  const handleViewAllData = () => {
-    setLoading(true)
-    api
-      .get('college/all_pending')
-      .then((response) => {
-        setData(decrypted(response.data))
-      })
-      .catch((error) => {
-        toast.error(HandleError(error))
-      })
-      .finally(() => {
-        setLoading(false)
-        setLoadingOperation(false)
-      })
-  }
-
   const handleDeleteRows = (table) => {
     const rows = table.getSelectedRowModel().rows
     console.info(rows)
@@ -288,6 +276,25 @@ const College = () => {
     csvExporter.generateCsv(exportedData)
   }
 
+  const handleViewAllData = () => {
+    setLoading(true)
+    api
+      .get('college/get_all_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
+      .then((response) => {
+        setData(decrypted(response.data))
+      })
+      .catch((error) => {
+        toast.error(HandleError(error))
+      })
+      .finally(() => {
+        setLoading(false)
+        setLoadingOperation(false)
+      })
+  }
   const filterForm = useFormik({
     initialValues: {
       semester: '',
@@ -301,7 +308,12 @@ const College = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('college/filter_pending', values)
+          .get('college/filter_by_status', {
+            params: {
+              ...values,
+              status: 'pending',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -330,7 +342,6 @@ const College = () => {
   return (
     <>
       <ToastContainer />
-
       <CRow className="justify-content-center">
         <CCol md={6}>
           <h5>
@@ -363,6 +374,7 @@ const College = () => {
                   ))}
                 </CFormSelect>
               </CCol>
+
               <CCol md={6}>
                 <CFormSelect
                   feedbackInvalid="School Year is required."
@@ -381,6 +393,7 @@ const College = () => {
                 </CFormSelect>
               </CCol>
             </CRow>
+
             <CRow className="justify-content-between mt-1">
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <CButton color="danger" size="sm" variant="outline" onClick={handleRemoveFilter}>
@@ -431,7 +444,7 @@ const College = () => {
             positionToolbarAlertBanner="bottom"
             enableStickyHeader
             enableStickyFooter
-            enableRowActions
+            // enableRowActions
             selectAllMode="all"
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [
@@ -488,7 +501,7 @@ const College = () => {
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows
                   </CButton>
-                  <CButton
+                  {/* <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
                     color="danger"
@@ -513,7 +526,7 @@ const College = () => {
                     onClick={() => handleBulkDispprovedRows(table)}
                   >
                     <FontAwesomeIcon icon={faTimesRectangle} /> Bulk Disapproved
-                  </CButton>
+                  </CButton> */}
                 </Box>
               </>
             )}
@@ -522,7 +535,6 @@ const College = () => {
       </CRow>
 
       {loading && <DefaultLoading />}
-
       <CModal
         alignment="center"
         backdrop="static"

@@ -49,7 +49,11 @@ const SeniorHigh = () => {
 
   const fetchData = () => {
     api
-      .get('senior_high/pending')
+      .get('senior_high/get_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -275,7 +279,11 @@ const SeniorHigh = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('senior_high/all_pending')
+      .get('senior_high/get_all_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -300,7 +308,12 @@ const SeniorHigh = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('senior_high/filter_pending', values)
+          .get('senior_high/filter_by_status', {
+            params: {
+              ...values,
+              status: 'pending',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -431,7 +444,7 @@ const SeniorHigh = () => {
             positionToolbarAlertBanner="bottom"
             enableStickyHeader
             enableStickyFooter
-            enableRowActions
+            // enableRowActions
             selectAllMode="all"
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [
@@ -488,7 +501,7 @@ const SeniorHigh = () => {
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows
                   </CButton>
-                  <CButton
+                  {/* <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
                     color="danger"
@@ -513,7 +526,7 @@ const SeniorHigh = () => {
                     onClick={() => handleBulkDispprovedRows(table)}
                   >
                     <FontAwesomeIcon icon={faTimesRectangle} /> Bulk Disapproved
-                  </CButton>
+                  </CButton> */}
                 </Box>
               </>
             )}

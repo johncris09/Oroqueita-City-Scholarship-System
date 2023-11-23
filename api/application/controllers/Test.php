@@ -19,9 +19,9 @@ class Test extends RestController
 	public function index_get()
 	{ 
 
-		$test = new TestModel;
+		$test = new TestModel; 
 		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($test->get_active()));
+		$result = $test->get_active() ;
 		$this->response($result, RestController::HTTP_OK);
 	}
  

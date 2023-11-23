@@ -25,6 +25,48 @@ class College extends RestController
     }
 
 
+
+    // Applicable in all status except approved
+    public function get_by_status_get()
+    {
+
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = array(
+            'colAppStat' => $this->input->get('status'),
+        );
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->get_by_status($data))); // current status list
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+    public function filter_by_status_get()
+    {
+
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+        $data = array(
+            'colSem' => $this->input->get('semester'),
+            'colSY' => $this->input->get('school_year'),
+            'colAppStat' => $this->input->get('status'),
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_by_status($data)));
+        $this->response($result, RestController::HTTP_OK);
+    }
+    public function get_all_by_status_get()
+    {
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = array(
+            'colAppStat' => $this->input->get('status'),
+        );
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_by_status($data)));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
     public function total_status_get()
     {
         $college = new CollegeModel;
@@ -79,83 +121,6 @@ class College extends RestController
         );
         $encrypt = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
         $this->response($encrypt, RestController::HTTP_OK);
-    }
-    public function pending_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->pending())); // current pending list
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function all_pending_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->all_pending()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function all_archived_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->all_archived()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function all_void_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->all_void()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function filter_pending_post()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_pending($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function filter_archived_post()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_archived($data)));
-         
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function filter_void_post()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_void($data)));
-         
-        $this->response($result, RestController::HTTP_OK);
     }
     public function bulk_approved_post()
     {
@@ -229,79 +194,6 @@ class College extends RestController
 
         // }
 
-    }
-
-    public function approved_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->approved()));  // current approved list
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function disapproved_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->disapproved()));  // current approved list
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function all_approved_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->all_approved()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function all_disapproved_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->all_disapproved()));
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function filter_approved_post()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_approved($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-
-    public function filter_disapproved_post()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-        $data = array(
-            'colSem' => $requestData['semester'],
-            'colSY' => $requestData['school_year'],
-
-        );
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->filter_disapproved($data)));
-        $this->response($result, RestController::HTTP_OK);
-    }
-    public function archived_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->archived())); // current archived list
-        $this->response($result, RestController::HTTP_OK);
-    }
-
-    public function void_get()
-    {
-        $college = new CollegeModel;
-        $CryptoHelper = new CryptoHelper;
-        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->void())); // current archived list
-        $this->response($result, RestController::HTTP_OK);
     }
     public function total_get()
     {

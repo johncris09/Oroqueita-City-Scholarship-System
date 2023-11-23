@@ -28,7 +28,11 @@ const SeniorHigh = () => {
 
   const fetchData = () => {
     api
-      .get('senior_high/void')
+      .get('senior_high/get_by_status', {
+        params: {
+          status: 'void',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -171,8 +175,13 @@ const SeniorHigh = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('senior_high/all_void')
+      .get('senior_high/get_all_by_status', {
+        params: {
+          status: 'void',
+        },
+      })
       .then((response) => {
+        console.info(response.data)
         setData(decrypted(response.data))
       })
       .catch((error) => {
@@ -196,7 +205,12 @@ const SeniorHigh = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('senior_high/filter_void', values)
+          .get('senior_high/filter_by_status', {
+            params: {
+              ...values,
+              status: 'void',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

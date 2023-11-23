@@ -49,7 +49,11 @@ const Tvet = () => {
 
   const fetchData = () => {
     api
-      .get('tvet/pending')
+      .get('tvet/get_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -275,7 +279,11 @@ const Tvet = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('tvet/all_pending')
+      .get('tvet/get_all_by_status', {
+        params: {
+          status: 'pending',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -287,7 +295,6 @@ const Tvet = () => {
         setLoadingOperation(false)
       })
   }
-
   const filterForm = useFormik({
     initialValues: {
       semester: '',
@@ -301,7 +308,12 @@ const Tvet = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('tvet/filter_pending', values)
+          .get('tvet/filter_by_status', {
+            params: {
+              ...values,
+              status: 'pending',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
@@ -330,7 +342,6 @@ const Tvet = () => {
   return (
     <>
       <ToastContainer />
-
       <CRow className="justify-content-center">
         <CCol md={6}>
           <h5>
@@ -382,6 +393,7 @@ const Tvet = () => {
                 </CFormSelect>
               </CCol>
             </CRow>
+
             <CRow className="justify-content-between mt-1">
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <CButton color="danger" size="sm" variant="outline" onClick={handleRemoveFilter}>
@@ -401,7 +413,6 @@ const Tvet = () => {
           <hr />
         </CCol>
       </CRow>
-
       <CRow>
         <CCol>
           <MaterialReactTable
@@ -433,7 +444,7 @@ const Tvet = () => {
             positionToolbarAlertBanner="bottom"
             enableStickyHeader
             enableStickyFooter
-            enableRowActions
+            // enableRowActions
             selectAllMode="all"
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [
@@ -490,7 +501,7 @@ const Tvet = () => {
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows
                   </CButton>
-                  <CButton
+                  {/* <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
                     color="danger"
@@ -515,7 +526,7 @@ const Tvet = () => {
                     onClick={() => handleBulkDispprovedRows(table)}
                   >
                     <FontAwesomeIcon icon={faTimesRectangle} /> Bulk Disapproved
-                  </CButton>
+                  </CButton> */}
                 </Box>
               </>
             )}
@@ -524,7 +535,6 @@ const Tvet = () => {
       </CRow>
 
       {loading && <DefaultLoading />}
-
       <CModal
         alignment="center"
         backdrop="static"

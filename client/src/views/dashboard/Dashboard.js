@@ -22,6 +22,8 @@ import { useFormik } from 'formik'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { SchoolYear, Semester } from 'src/components/DefaultValue'
 import { decrypted } from 'src/components/Encrypt'
+import HandleError from 'src/components/HandleError'
+import { ToastContainer, toast } from 'react-toastify'
 
 const Dashboard = () => {
   const [loadingTotal, setLoadingTotal] = useState(false)
@@ -48,7 +50,7 @@ const Dashboard = () => {
         setTotalStatusData(newData)
       })
       .catch((error) => {
-        console.error('Error fetching data:', error)
+        toast.error(HandleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -229,6 +231,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <ToastContainer />
       <CRow className="justify-content-center ">
         <CCol md={12}>
           <CCard className="mb-4">

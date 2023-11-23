@@ -28,7 +28,11 @@ const Tvet = () => {
 
   const fetchData = () => {
     api
-      .get('tvet/disapproved')
+      .get('tvet/get_by_status', {
+        params: {
+          status: 'disapproved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -170,7 +174,11 @@ const Tvet = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('tvet/all_disapproved')
+      .get('tvet/get_all_by_status', {
+        params: {
+          status: 'disapproved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -195,7 +203,12 @@ const Tvet = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('tvet/filter_disapproved', values)
+          .get('tvet/filter_by_status', {
+            params: {
+              ...values,
+              status: 'disapproved',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

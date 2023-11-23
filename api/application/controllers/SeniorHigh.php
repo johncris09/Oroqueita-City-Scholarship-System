@@ -25,6 +25,46 @@ class SeniorHigh extends RestController
 	}
 
 
+	// Applicable in all status except approved
+	public function get_by_status_get()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$data = array(
+			'AppStatus' => $this->input->get('status'),
+		);
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->get_by_status($data))); // current status list 
+		$this->response($result, RestController::HTTP_OK);
+	}
+
+
+	public function filter_by_status_get()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$data = array(
+			'AppSem' => $this->input->get('semester'),
+			'AppSY' => $this->input->get('school_year'),
+			'AppStatus' => $this->input->get('status'),
+		);
+
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_by_status($data)));
+		$this->response($result, RestController::HTTP_OK);
+	}
+	public function get_all_by_status_get()
+	{
+
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$data = array(
+			'AppStatus' => $this->input->get('status'),
+		);
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_by_status($data)));
+		$this->response($result, RestController::HTTP_OK);
+	}
+
+
+
 	public function total_status_get()
 	{
 		$seniorhigh = new SeniorHighModel;
@@ -45,14 +85,13 @@ class SeniorHigh extends RestController
 	public function filter_total_status_post()
 	{
 		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
+		$CryptoHelper = new CryptoHelper; 
 		$requestData = json_decode($this->input->raw_input_stream, true);
 		$data = array(
 			'AppSem' => $requestData['semester'],
 			'AppSY' => $requestData['school_year'],
 
 		);
-
 		$result = array(
 			'type' => "Senior High",
 			'pending' => (int) $seniorhigh->filter_total_pending($data)->total_pending,
@@ -156,160 +195,9 @@ class SeniorHigh extends RestController
 
 	}
 
-	public function pending_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->pending())); // current pending list
-		$this->response($result, RestController::HTTP_OK);
-
-	}
-
-	public function archived_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->archived())); // current archived list
-		$this->response($result, RestController::HTTP_OK);
-
-	}
-
-	public function void_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->void())); // current void list
-		$this->response($result, RestController::HTTP_OK);
-
-	}
-	public function all_pending_get()
-	{
-
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->all_pending()));
-		$this->response($result, RestController::HTTP_OK);
-	}
-	public function all_archived_get()
-	{
-
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->all_archived()));
-		// $result =  $seniorhigh->all_archived() ;
-		$this->response($result, RestController::HTTP_OK);
-	}
-	public function all_void_get()
-	{
-
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->all_void()));
-		$this->response($result, RestController::HTTP_OK);
-	}
 
 
 
-	public function filter_pending_post()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$requestData = json_decode($this->input->raw_input_stream, true);
-		$data = array(
-			'AppSem' => $requestData['semester'],
-			'AppSY' => $requestData['school_year'],
-
-		);
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_pending($data)));
-		$this->response($result, RestController::HTTP_OK);
-	}
-
-	public function filter_archived_post()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$requestData = json_decode($this->input->raw_input_stream, true);
-		$data = array(
-			'AppSem' => $requestData['semester'],
-			'AppSY' => $requestData['school_year'],
-
-		);
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_archived($data)));
-		$this->response($result, RestController::HTTP_OK);
-	}
-	public function filter_void_post()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$requestData = json_decode($this->input->raw_input_stream, true);
-		$data = array(
-			'AppSem' => $requestData['semester'],
-			'AppSY' => $requestData['school_year'],
-
-		);
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_void($data)));
-		$this->response($result, RestController::HTTP_OK);
-	}
-
-	public function approved_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->approved())); // current approved list
-		$this->response($result, RestController::HTTP_OK);
-	}
-
-	public function disapproved_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->disapproved())); // current approved list
-		$this->response($result, RestController::HTTP_OK);
-	}
-	public function all_approved_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->all_approved()));
-		$this->response($result, RestController::HTTP_OK);
-	}
-	public function all_disapproved_get()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->all_disapproved()));
-		$this->response($result, RestController::HTTP_OK);
-	}
-
-	public function filter_approved_post()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$requestData = json_decode($this->input->raw_input_stream, true);
-		$data = array(
-			'AppSem' => $requestData['semester'],
-			'AppSY' => $requestData['school_year'],
-
-		);
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_approved($data)));
-		$this->response($result, RestController::HTTP_OK);
-	}
-
-
-	public function filter_disapproved_post()
-	{
-		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
-		$requestData = json_decode($this->input->raw_input_stream, true);
-		$data = array(
-			'AppSem' => $requestData['semester'],
-			'AppSY' => $requestData['school_year'],
-
-		);
-		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_disapproved($data)));
-		$this->response($result, RestController::HTTP_OK);
-	}
- 
 	public function total_get()
 	{
 		$seniorhigh = new SeniorHighModel;
@@ -323,7 +211,7 @@ class SeniorHigh extends RestController
 	public function filter_total_post()
 	{
 		$seniorhigh = new SeniorHighModel;
-		$CryptoHelper = new CryptoHelper;
+		$CryptoHelper = new CryptoHelper; 
 		$requestData = json_decode($this->input->raw_input_stream, true);
 		$data = array(
 			'AppSem' => $requestData['semester'],

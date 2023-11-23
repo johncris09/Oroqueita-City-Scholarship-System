@@ -28,7 +28,11 @@ const SeniorHigh = () => {
 
   const fetchData = () => {
     api
-      .get('senior_high/archived')
+      .get('senior_high/get_by_status', {
+        params: {
+          status: 'archived',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -171,7 +175,11 @@ const SeniorHigh = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('senior_high/all_archived')
+      .get('senior_high/get_all_by_status', {
+        params: {
+          status: 'archived',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -196,7 +204,12 @@ const SeniorHigh = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('senior_high/filter_archived', values)
+          .get('senior_high/filter_by_status', {
+            params: {
+              ...values,
+              status: 'archived',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

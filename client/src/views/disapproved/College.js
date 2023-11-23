@@ -28,7 +28,11 @@ const College = () => {
 
   const fetchData = () => {
     api
-      .get('college/disapproved')
+      .get('college/get_by_status', {
+        params: {
+          status: 'disapproved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -170,7 +174,11 @@ const College = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('college/all_disapproved')
+      .get('college/get_all_by_status', {
+        params: {
+          status: 'disapproved',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -195,7 +203,12 @@ const College = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('college/filter_disapproved', values)
+          .get('college/filter_by_status', {
+            params: {
+              ...values,
+              status: 'disapproved',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)

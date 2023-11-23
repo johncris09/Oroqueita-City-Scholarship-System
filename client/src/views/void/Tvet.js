@@ -28,7 +28,11 @@ const Tvet = () => {
 
   const fetchData = () => {
     api
-      .get('tvet/void')
+      .get('tvet/get_by_status', {
+        params: {
+          status: 'void',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -46,7 +50,6 @@ const Tvet = () => {
       accessorKey: 'colAppNoID',
       header: 'Application #',
       accessorFn: (row) => `${row.colAppNoYear}-${row.colAppNoSem}-${row.colAppNoID}`,
-      //custom conditional format and styling
       Cell: ({ cell }) => (
         <Box
           fontSize={12}
@@ -171,7 +174,11 @@ const Tvet = () => {
   const handleViewAllData = () => {
     setLoading(true)
     api
-      .get('tvet/all_void')
+      .get('tvet/get_all_by_status', {
+        params: {
+          status: 'void',
+        },
+      })
       .then((response) => {
         setData(decrypted(response.data))
       })
@@ -196,7 +203,12 @@ const Tvet = () => {
         setLoadingOperation(true)
         setLoading(true)
         await api
-          .post('tvet/filter_void', values)
+          .get('tvet/filter_by_status', {
+            params: {
+              ...values,
+              status: 'void',
+            },
+          })
           .then((response) => {
             setData(decrypted(response.data))
             setValidated(false)
