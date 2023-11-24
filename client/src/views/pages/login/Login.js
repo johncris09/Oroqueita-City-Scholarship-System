@@ -25,7 +25,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem('token') // Assuming the token is stored in local storage
+    const token = localStorage.getItem('oroqScholarshipToken') // Assuming the token is stored in local storage
     if (token) {
       // If the token is set, navigate to the dashboard
       navigate('/dashboard', { replace: true })
@@ -48,7 +48,7 @@ const Login = () => {
           .then((response) => {
             if (response.data.status) {
               toast.success(response.data.message)
-              localStorage.setItem('token', response.data.token)
+              localStorage.setItem('oroqScholarshipToken', response.data.token)
 
               navigate('/dashboard', { replace: true })
             } else {

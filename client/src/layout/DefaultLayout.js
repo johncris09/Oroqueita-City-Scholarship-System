@@ -8,7 +8,7 @@ const DefaultLayout = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const token = localStorage.getItem('token') // Assuming the token is stored in local storage
+    const token = localStorage.getItem('oroqScholarshipToken') // Assuming the token is stored in local storage
 
     if (!token) {
       setUser(true)
