@@ -52,7 +52,7 @@ const Dashboard = () => {
           .finally(() => {
             setLoading(false)
           })
-        setResultText('Result for ' + values.query)
+        setResultText('Result for `' + values.query + '`')
       } else {
         setLoading(false)
         setData([])
@@ -124,6 +124,10 @@ const Dashboard = () => {
       header: 'Semester',
     },
 
+    {
+      accessorKey: 'availment',
+      header: 'Availment',
+    },
     {
       accessorKey: 'status',
       header: 'Application Status',
