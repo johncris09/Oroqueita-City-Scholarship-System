@@ -15,6 +15,7 @@ class College extends RestController
         parent::__construct();
         $this->load->model('CollegeModel');
         $this->load->helper('crypto_helper');
+        $this->load->model('SystemSequenceModel');
     }
     public function index_get()
     {
@@ -26,7 +27,72 @@ class College extends RestController
 
 
 
-    // Applicable in all status except approved
+
+    public function insert_post()
+    {
+
+        $college = new CollegeModel;
+        $system_sequence = new SystemSequenceModel;
+
+        $requestData = json_decode($this->input->raw_input_stream, true);
+        $data = array(
+            'colAppNoYear'     => $requestData['app_no_year'],
+            'colAppNoSem'      => $requestData['app_no_sem'],
+            'colAppNoID'       => $requestData['app_no_id'],
+            'colAppStat'       => 'Pending',
+            'colFirstName'     => $requestData['firstname'],
+            'colLastName'      => $requestData['lastname'],
+            'colMI'            => $requestData['middle_initial'],
+            'colSuffix'        => $requestData['suffix'],
+            'colAddress'       => $requestData['address'],
+            'colDOB'           => $requestData['birthdate'],
+            'colAge'           => $requestData['age'],
+            'colCivilStat'     => $requestData['civil_status'],
+            'colGender'        => $requestData['sex'],
+            'colContactNo'     => $requestData['contact_number'],
+            'colCTC'           => $requestData['ctc_number'],
+            'colEmailAdd'      => $requestData['email_address'],
+            'colAvailment'     => $requestData['availment'],
+            'colSchool'        => $requestData['school'],
+            'colCourse'        => $requestData['course'],
+            'colSchoolAddress' => $requestData['school_address'],
+            'colYearLevel'     => $requestData['year_level'],
+            'colSem'           => $requestData['semester'],
+            'colUnits'         => $requestData['units'],
+            'colSY'            => $requestData['school_year'],
+            'colFathersName'   => $requestData['father_name'],
+            'colFatherOccu'    => $requestData['father_occupation'],
+            'colMothersName'   => $requestData['mother_name'],
+            'colMotherOccu'    => $requestData['mother_occupation'],
+            'colManager'       => 'Active'
+        );
+
+        $result = $college->insert($data);
+
+        if ($result > 0) {
+
+            // update the system app no
+            $appno_data = array(
+                'seq_appno' => $requestData['app_no_id'],
+            );
+            $system_sequence->update(2, $appno_data);
+
+            $this->response([
+                'status' => true,
+                'message' => 'Successfully Inserted.'
+            ], RestController::HTTP_OK);
+        } else {
+
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to create new data.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+    }
+
+
+
+     
     public function get_by_status_get()
     {
 

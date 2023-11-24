@@ -39,6 +39,12 @@ class SeniorHighModel extends CI_Model
         AppManager
     ';
 
+
+    public function insert($data)
+    {
+        return $this->db->insert($this->table, $data);
+    }
+
     public function total()
     {
 

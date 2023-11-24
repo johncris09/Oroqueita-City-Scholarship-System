@@ -40,6 +40,10 @@ class TvetModel extends CI_Model
 	';
 
 
+    public function insert($data)
+    {
+        return $this->db->insert($this->table, $data);
+    }
 	public function total()
 	{
 		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];

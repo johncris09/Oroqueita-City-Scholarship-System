@@ -11,6 +11,7 @@ import {
   CInputGroupText,
   CRow,
 } from '@coreui/react'
+import { ToastContainer, toast } from 'react-toastify'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import {
   Address,
@@ -21,38 +22,60 @@ import {
   Sex,
 } from 'src/components/DefaultValue'
 import api from 'src/components/Api'
-
+import { decrypted } from 'src/components/Encrypt'
+import { DefaultLoading } from 'src/components/Loading'
+import * as Yup from 'yup'
+import HandleError from 'src/components/HandleError'
 const SeniorHigh = () => {
   const [validated, setValidated] = useState(false)
   const [school, setSchool] = useState([])
   const [strand, setStrand] = useState([])
+  const [shsAppNo, setShsAppNo] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadingOperation, setLoadingOperation] = useState(false)
 
   useEffect(() => {
-    const fetchSchool = () => {
-      api
-        .get('senior_high_school')
-        .then((response) => {
-          setSchool(response.data)
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error)
-        })
-    }
-
-    const fetchStrand = () => {
-      api
-        .get('strand')
-        .then((response) => {
-          setStrand(response.data)
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error)
-        })
-    }
-
     fetchSchool()
     fetchStrand()
-  }, [])
+    fetchappno()
+  }, [school])
+
+  const fetchappno = async () => {
+    await api
+      .get('system_sequence/shs_appno')
+      .then((response) => {
+        formik.setFieldValue('app_no_year', response.data.seq_year)
+        formik.setFieldValue('app_no_sem', response.data.seq_sem)
+        formik.setFieldValue('app_no_id', parseInt(response.data.seq_appno) + 1)
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+    // .finally(() => {
+    //   setLoading(false)
+    // })
+  }
+  const fetchSchool = () => {
+    api
+      .get('senior_high_school')
+      .then((response) => {
+        setSchool(decrypted(response.data))
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+  }
+
+  const fetchStrand = () => {
+    api
+      .get('strand')
+      .then((response) => {
+        setStrand(decrypted(response.data))
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -83,22 +106,49 @@ const SeniorHigh = () => {
       mother_name: '',
       mother_occupation: '',
     },
-    // validationSchema: validated,
-    onSubmit: (values) => {
-      const areAllFieldsFilled = Object.keys(values).every((key) => !!values[key])
+    onSubmit: async (values) => {
+      const nonOptionalFields = [
+        'middle_initial',
+        'suffix',
+        'age',
+        'email_address',
+        'father_name',
+        'father_occupation',
+        'mother_name',
+        'mother_occupation',
+        'school_address',
+        'contact_number',
+      ]
 
-      if (areAllFieldsFilled) {
-        console.info(JSON.stringify(values, null, 2))
+      const allNonOptionalFieldsNotEmpty = Object.keys(values).every((key) => {
+        // Check if the field is non-optional and not empty
+        return nonOptionalFields.includes(key) || !!values[key]
+      })
+      if (allNonOptionalFieldsNotEmpty) {
+        setLoadingOperation(true)
+        await api
+          .post('senior_high/insert', values)
+          .then((response) => {
+            toast.success(response.data.message)
+            formik.resetForm()
+            setValidated(false)
+          })
+          .catch((error) => {
+            toast.error(HandleError(error))
+          })
+          .finally(() => {
+            setLoadingOperation(false)
+          })
       } else {
-        console.warn('Please fill in all required fields.')
+        toast.warning('Please fill in all required fields.')
         setValidated(true)
       }
     },
   })
 
   const handleInputChange = (e) => {
+    formik.handleChange(e)
     const { name, value, type } = e.target
-    console.info(type)
     if (type === 'text') {
       const titleCaseValue = value
         .toLowerCase()
@@ -106,21 +156,31 @@ const SeniorHigh = () => {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ')
 
-      formik.handleChange(e)
       formik.setFieldValue(name, titleCaseValue)
     } else {
       formik.setFieldValue(name, value)
     }
-  }
 
+    if (type === 'date') {
+      const birthDate = new Date(value)
+      const currentDate = new Date()
+
+      const ageInMilliseconds = currentDate - birthDate
+      const ageInYears = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000))
+
+      formik.setFieldValue('age', ageInYears)
+    }
+  }
   return (
     <div>
+      <ToastContainer />
       <RequiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate
         validated={validated}
         onSubmit={formik.handleSubmit}
+        style={{ position: 'relative' }}
       >
         <CRow className="justify-content-between">
           <CCol md={7} sm={6} xs={6} lg={4} xl={4}>
@@ -135,7 +195,7 @@ const SeniorHigh = () => {
                 placeholder="Year"
                 aria-label="Year"
                 required
-                readOnly
+                // readOnly
               />
               <CInputGroupText className="bg-transparent font-weight-bolder">-</CInputGroupText>
               <CFormInput
@@ -147,7 +207,7 @@ const SeniorHigh = () => {
                 placeholder="Semester"
                 aria-label="Sem"
                 required
-                readOnly
+                // readOnly
               />
               <CInputGroupText className="bg-transparent font-weight-bolder">-</CInputGroupText>
               <CFormInput
@@ -159,7 +219,7 @@ const SeniorHigh = () => {
                 placeholder="App No"
                 aria-label="App No"
                 required
-                readOnly
+                // readOnly
               />
             </CInputGroup>
           </CCol>
@@ -491,6 +551,7 @@ const SeniorHigh = () => {
           </div>
         </CRow>
       </CForm>
+      {loadingOperation && <DefaultLoading />}
     </div>
   )
 }
