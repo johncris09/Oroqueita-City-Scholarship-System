@@ -5,6 +5,7 @@ import {
   cilCog,
   cilDescription,
   cilMagnifyingGlass,
+  cilPlus,
   cilSpeedometer,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem } from '@coreui/react'
@@ -21,6 +22,12 @@ const _nav = [
     name: 'Advance Search',
     to: '/search',
     icon: <CIcon icon={cilMagnifyingGlass} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Registration',
+    to: '/registration',
+    icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
