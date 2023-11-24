@@ -111,6 +111,10 @@ const SeniorHigh = () => {
       accessorKey: 'AppStatus',
       header: 'Application Status',
     },
+    {
+      accessorKey: 'AppAvailment',
+      header: 'Availment',
+    },
   ]
 
   const handleInputChange = (e) => {
@@ -146,6 +150,7 @@ const SeniorHigh = () => {
           'School Year': item.AppSY,
           Semester: item.AppSem,
           'Application Status': item.AppStatus,
+          Availment: item.AppAvailment,
         }
       })
 
@@ -167,6 +172,7 @@ const SeniorHigh = () => {
         'School Year': item.AppSY,
         Semester: item.AppSem,
         'Application Status': item.AppStatus,
+        Availment: item.AppAvailment,
       }
     })
     csvExporter.generateCsv(exportedData)

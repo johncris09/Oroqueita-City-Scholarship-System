@@ -166,6 +166,10 @@ const Tvet = () => {
       accessorKey: 'colAppStat',
       header: 'Application Status',
     },
+    {
+      accessorKey: 'colAvailment',
+      header: 'Availment',
+    },
   ]
 
   const handleInputChange = (e) => {
@@ -202,6 +206,7 @@ const Tvet = () => {
           'School Year': item.colSY,
           Semester: item.colSem,
           'Application Status': item.colAppStat,
+          Availment: item.colAvailment,
         }
       })
 
@@ -271,6 +276,7 @@ const Tvet = () => {
         'School Year': item.colSY,
         Semester: item.colSem,
         'Application Status': item.colAppStat,
+        Availment: item.colAvailment,
       }
     })
     csvExporter.generateCsv(exportedData)

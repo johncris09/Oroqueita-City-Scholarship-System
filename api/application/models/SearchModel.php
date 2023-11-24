@@ -25,7 +25,8 @@ class SearchModel extends CI_Model
             AppCourse as course,
             AppSY as school_year,
             AppSem as semester,  
-            AppStatus as status
+            AppStatus as status,
+            AppAvailment as availment
         FROM
             table_scholarregistration
         WHERE
@@ -52,9 +53,9 @@ class SearchModel extends CI_Model
             colSchool as school,
             colCourse as course,
             colSY as school_year,
-            colSem as semester,  
-
-            colAppStat as status
+            colSem as semester,   
+            colAppStat as status,
+            colAvailment as availment
         FROM
             table_collegeapp
         WHERE
@@ -82,7 +83,8 @@ class SearchModel extends CI_Model
             colCourse as course,
             colSY as school_year,
             colSem as semester,  
-            colAppStat as status
+            colAppStat as status,
+            colAvailment as availment
         FROM
             table_tvet
         WHERE
