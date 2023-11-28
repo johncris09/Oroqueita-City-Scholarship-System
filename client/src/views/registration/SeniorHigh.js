@@ -24,14 +24,11 @@ import {
 import api from 'src/components/Api'
 import { decrypted } from 'src/components/Encrypt'
 import { DefaultLoading } from 'src/components/Loading'
-import * as Yup from 'yup'
 import HandleError from 'src/components/HandleError'
 const SeniorHigh = () => {
   const [validated, setValidated] = useState(false)
   const [school, setSchool] = useState([])
   const [strand, setStrand] = useState([])
-  const [shsAppNo, setShsAppNo] = useState([])
-  const [loading, setLoading] = useState(true)
   const [loadingOperation, setLoadingOperation] = useState(false)
 
   useEffect(() => {

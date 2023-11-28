@@ -3,6 +3,7 @@ import {
   CButton,
   CCard,
   CCardBody,
+  CCardFooter,
   CCardGroup,
   CCol,
   CContainer,
@@ -131,8 +132,25 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-
               {loading && <DefaultLoading />}
+              <div
+                style={{
+                  position: 'fixed',
+                  bottom: -5,
+                  right: 10,
+                  // width: '100%',
+                  // height: '100%',
+                  // backgroundColor: 'rgba(0, 0, 0, 0.07)', // Adjust the background color and opacity as needed
+                  zIndex: 100, // Ensure the backdrop is above other content
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <p style={{ fontSize: '10px' }}>
+                  Date Update: {process.env.REACT_APP_DATE_UPDATED}
+                </p>
+              </div>
             </CCardGroup>
           </CCol>
         </CRow>

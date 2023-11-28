@@ -25,13 +25,109 @@ class Tvet extends RestController
         $this->response($result, RestController::HTTP_OK);
     }
 
+
+    public function find_get($id)
+    {
+        $tvet = new TvetModel;
+        $result = $tvet->find($id);
+        $this->response($result, RestController::HTTP_OK);
+
+    }
+
+    public function update_put($id)
+    {
+
+        $tvet = new TvetModel;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+
+        $data = array(
+            'colAppNoYear' => $requestData['app_no_year'],
+            'colAppNoSem' => $requestData['app_no_sem'],
+            'colAppNoID' => $requestData['app_no_id'],
+            'colAppStat' => $requestData['status'],
+            'colFirstName' => $requestData['firstname'],
+            'colLastName' => $requestData['lastname'],
+            'colMI' => $requestData['middle_initial'],
+            'colSuffix' => $requestData['suffix'],
+            'colAddress' => $requestData['address'],
+            'colDOB' => $requestData['birthdate'],
+            'colAge' => $requestData['age'],
+            'colCivilStat' => $requestData['civil_status'],
+            'colGender' => $requestData['sex'],
+            'colContactNo' => $requestData['contact_number'],
+            'colCTC' => $requestData['ctc_number'],
+            'colEmailAdd' => $requestData['email_address'],
+            'colAvailment' => $requestData['availment'],
+            'colSchool' => $requestData['school'],
+            'colCourse' => $requestData['course'],
+            'colSchoolAddress' => $requestData['school_address'],
+            'colYearLevel' => $requestData['year_level'],
+            'colSem' => $requestData['semester'],
+            'colUnits' => $requestData['units'],
+            'colSY' => $requestData['school_year'],
+            'colFathersName' => $requestData['father_name'],
+            'colFatherOccu' => $requestData['father_occupation'],
+            'colMothersName' => $requestData['mother_name'],
+            'colMotherOccu' => $requestData['mother_occupation'],
+            // 'colManager' => 'Active'
+        );
+
+
+        $update_result = $tvet->update($id, $data);
+
+        if ($update_result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Application Updated.'
+            ], RestController::HTTP_OK);
+        } else {
+
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to update application.'
+            ], RestController::HTTP_BAD_REQUEST);
+
+        }
+    }
+
+
+    public function update_status_put($id)
+    { 
+        $tvet = new TvetModel;
+
+        $requestData = json_decode($this->input->raw_input_stream, true);
+
+
+        $data = array(
+            'colAppStat' => $requestData['status'],
+        );
+
+        $update_result = $tvet->update($id, $data);
+
+        if ($update_result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Application Updated.'
+            ], RestController::HTTP_OK);
+        } else {
+
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to update application.'
+            ], RestController::HTTP_BAD_REQUEST);
+
+        }
+    }
+
+
+
     public function insert_post()
     {
 
         $tvet = new TvetModel;
-        $system_sequence = new SystemSequenceModel; 
+        $system_sequence = new SystemSequenceModel;
 
-        $requestData = json_decode($this->input->raw_input_stream, true); 
+        $requestData = json_decode($this->input->raw_input_stream, true);
         $data = array(
             'colAppNoYear' => $requestData['app_no_year'],
             'colAppNoSem' => $requestData['app_no_sem'],
@@ -63,9 +159,9 @@ class Tvet extends RestController
             'colManager' => 'Active'
         );
 
- 
 
- 
+
+
         $result = $tvet->insert($data);
 
         if ($result > 0) {
@@ -183,6 +279,39 @@ class Tvet extends RestController
         $encrypt = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
         $this->response($encrypt, RestController::HTTP_OK);
     }
+    public function bulk_status_update_post()
+    {
+
+        $tvet = new TvetModel;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+
+        // Extract IDs
+        // Object to array
+        $ids = array_map(function ($item) {
+            return $item['ID'];
+        }, $requestData['data']);
+
+        // Convert IDs to integers
+        $ids = array_map('intval', $ids);
+
+        $result = $tvet->bulk_status_update($requestData['status'], $ids);
+
+        if ($result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Application Updated.'
+            ], RestController::HTTP_OK);
+        } else {
+
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to update application.'
+            ], RestController::HTTP_BAD_REQUEST);
+
+        }
+
+    }
+
     public function bulk_approved_post()
     {
 

@@ -45,6 +45,23 @@ class SeniorHighModel extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+
+
+	public function find($id)
+	{
+		$this->db->where('id', $id);
+		$query = $this->db->get($this->table);
+		return $query->row();
+	}
+
+    public function update($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update($this->table, $data);
+	}
+    
+
+    
     public function total()
     {
 
@@ -356,21 +373,12 @@ class SeniorHighModel extends CI_Model
     }
 
 
-    public function bulk_approved($status, $id)
+    public function bulk_status_update($status, $id)
     {
-        return [$status, $id];
-        // $this->db->where('id', $id);
-        // return $this->db->update($this->table, ['AppStatus' => $status]);
+        $this->db->where_in('id', $id);
+        return $this->db->update($this->table, ['AppStatus' => $status]);
 
     }
-
-    public function bulk_disapproved($id)
-    {
-        return ['Disapproved', $id];
-        // $this->db->where('id', $id);
-        // return $this->db->update($this->table, ['AppStatus' => 'Disapproved']);
-
-    }
-
+ 
 
 }

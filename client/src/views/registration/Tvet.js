@@ -37,6 +37,7 @@ const Tvet = () => {
     fetchCourse()
     fetchappno()
   }, [school])
+
   const fetchappno = async () => {
     await api
       .get('system_sequence/tvet_appno')

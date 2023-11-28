@@ -266,6 +266,7 @@ const Course = () => {
                   closeMenu()
 
                   let id = row.original.ID
+                  console.info(id)
                   setEditId(id)
                   formik.setValues({
                     course: row.original.colCourse,

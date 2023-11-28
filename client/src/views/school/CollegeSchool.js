@@ -188,7 +188,6 @@ const CollegeSchool = () => {
         api
           .delete('college_school/bulk_delete', { data: selectedRows })
           .then((response) => {
-            console.info(response.data)
             fetchCollegeSchool()
 
             toast.success(response.data.message)

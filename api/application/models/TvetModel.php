@@ -39,6 +39,19 @@ class TvetModel extends CI_Model
 		colUnits
 	';
 
+	public function find($id)
+	{
+		$this->db->where('id', $id);
+		$query = $this->db->get($this->table);
+		return $query->row();
+	}
+
+    public function update($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update($this->table, $data);
+	}
+    
 
     public function insert($data)
     {
@@ -334,22 +347,12 @@ class TvetModel extends CI_Model
 
 		return $query->result()[0];
 	}
+  
 
+    public function bulk_status_update($status, $id)
+    {
+        $this->db->where_in('id', $id);
+        return $this->db->update($this->table, ['colAppStat' => $status]);
 
-	public function bulk_approved($status, $id)
-	{
-		return [$status, $id];
-		// $this->db->where('id', $id);
-		// return $this->db->update($this->table, ['colAppStat' => $status]);
-
-	}
-
-	public function bulk_disapproved($id)
-	{
-		return ['Disapproved', $id];
-		// $this->db->where('id', $id);
-		// return $this->db->update($this->table, ['colAppStat' => 'Disapproved']);
-
-	}
-
+    } 
 }
