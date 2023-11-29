@@ -23,8 +23,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/oroqscholar/api/'; 
+// $config['base_url'] = 'http://localhost/oroqscholar/api/';
+$config['base_url'] = 'https://oroquietacity.net/oroqscholarship/api/';
 
+
+$config['address'] = [
+    'Apil',
+    'Binuangan',
+    'Bolibol',
+    'Buenavista',
+    'Bunga',
+    'Buntawan',
+    'Burgos',
+    'Canubay',
+    'Ciriaco Pastrano',
+    'Clarin Settlement',
+    'Dolipos Alto',
+    'Dolipos Bajo',
+    'Dulapo',
+    'Dullan Norte',
+    'Dullan Sur',
+    'Layawan',
+    'Lower Lamac',
+    'Lower Langcangan',
+    'Lower Loboc',
+    'Lower Rizal',
+    'Malindang',
+    'Mialen',
+    'Mobod',
+    'Paypayan',
+    'Pines',
+    'Poblacion 1',
+    'Poblacion 2',
+    'Proper Langcangan',
+    'San Vicente Alto',
+    'San Vicente Bajo',
+    'Sebucal',
+    'Senote',
+    'Taboc Norte',
+    'Taboc Sur',
+    'Talairon',
+    'Talic',
+    'Tipan',
+    'Toliyok',
+    'Tuyabang Alto',
+    'Tuyabang Bajo',
+    'Tuyabang Proper',
+    'Upper Lamac',
+    'Upper Langcangan',
+    'Upper Loboc',
+    'Upper Rizal',
+    'Victoria',
+    'Villaflor',
+];
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -326,7 +377,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/userguide3/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'encryption_key';
 
 /*
 |--------------------------------------------------------------------------
