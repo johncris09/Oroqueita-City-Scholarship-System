@@ -35,6 +35,7 @@ class User extends RestController
 
 
       if ($userLogin) {
+        $tokenData['firstname'] =$userLogin->FirstName;
         $tokenData['id'] = $userLogin->ID;
         $tokenData['exp'] = time() + 1000;
         $jwtToken = $this->objOfJwt->GenerateToken($tokenData);

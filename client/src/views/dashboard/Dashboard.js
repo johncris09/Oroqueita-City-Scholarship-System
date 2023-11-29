@@ -8,7 +8,12 @@ import {
   CCol,
   CForm,
   CFormSelect,
+  CNav,
+  CNavItem,
+  CNavLink,
   CRow,
+  CTabContent,
+  CTabPane,
   CWidgetStatsF,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
@@ -24,19 +29,51 @@ import { SchoolYear, Semester } from 'src/components/DefaultValue'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import { ToastContainer, toast } from 'react-toastify'
-
+import { CChart } from '@coreui/react-chartjs'
+import { jwtDecode } from 'jwt-decode'
 const Dashboard = () => {
-  const [loadingTotal, setLoadingTotal] = useState(false)
+  const [loadingTotal, setLoadingTotal] = useState(true)
   const [loading, setLoading] = useState(false)
+  const [loadingChart, setLoadingChart] = useState(false)
   const [totalStatusData, setTotalStatusData] = useState([])
   const [totalData, setTotalData] = useState([])
   const [validated, setValidated] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(false)
+  const [statusAddressChartData, setStatusAddressChartData] = useState(false)
+  const [activeKey, setActiveKey] = useState(1)
+  const [user, setUser] = useState([])
 
   useEffect(() => {
     fetchTotalStatus()
     fetchTotal()
+    fetchStatusAddress()
+    setUser(jwtDecode(localStorage.getItem('oroqScholarshipToken')))
   }, [])
+
+  const fetchStatusAddress = () => {
+    setLoadingChart(true)
+    Promise.all([
+      api.get('senior_high/get_status_by_barangay'),
+      api.get('college/get_status_by_barangay'),
+      api.get('tvet/get_status_by_barangay'),
+    ])
+      .then((responses) => {
+        const response = responses.map((response) => response.data)
+        const newData = {
+          senior_high: decrypted(response[0]),
+          college: decrypted(response[1]),
+          tvet: decrypted(response[2]),
+        }
+        setStatusAddressChartData(newData)
+      })
+      .catch((error) => {
+        toast.error(HandleError(error))
+      })
+      .finally(() => {
+        setLoadingChart(false)
+        setLoadingOperation(false)
+      })
+  }
 
   const fetchTotalStatus = () => {
     setLoading(true)
@@ -82,18 +119,22 @@ const Dashboard = () => {
   const handleRemoveFilter = () => {
     setLoading(true)
     setLoadingOperation(true)
+    setLoadingChart(true)
     filterForm.resetForm()
     fetchTotal()
+    fetchStatusAddress()
     fetchTotalStatus()
   }
 
   const handleViewAllData = () => {
     setLoadingTotal(true)
     setLoadingOperation(true)
+    setLoadingChart(true)
 
     filterForm.resetForm()
     setValidated(false)
 
+    // Widget
     Promise.all([
       api.get('senior_high/all_total_status'),
       api.get('college/all_total_status'),
@@ -135,6 +176,30 @@ const Dashboard = () => {
         setLoadingTotal(false)
         setLoadingOperation(false)
       })
+
+    // chart status in every barangay
+    Promise.all([
+      api.get('senior_high/all_status_by_barangay'),
+      api.get('college/all_status_by_barangay'),
+      api.get('tvet/all_status_by_barangay'),
+    ])
+      .then((responses) => {
+        const response = responses.map((response) => response.data)
+        const newData = {
+          senior_high: decrypted(response[0]),
+          college: decrypted(response[1]),
+          tvet: decrypted(response[2]),
+        }
+        setStatusAddressChartData(newData)
+      })
+      .catch((error) => {
+        toast.error(HandleError(error))
+      })
+      .finally(() => {
+        setLoading(false)
+        setLoadingOperation(false)
+        setLoadingChart(false)
+      })
   }
 
   const handleInputChange = (e) => {
@@ -153,6 +218,7 @@ const Dashboard = () => {
       if (areAllFieldsFilled) {
         setLoadingTotal(true)
         setLoadingOperation(true)
+        setLoadingChart(true)
         // Fetch total status data
         Promise.all([
           api.post('senior_high/filter_total_status', values),
@@ -195,6 +261,32 @@ const Dashboard = () => {
             setLoadingTotal(false)
             setLoadingOperation(false)
           })
+
+        // chart status in every barangay
+        Promise.all([
+          api.post('senior_high/filter_status_by_barangay', values),
+          api.post('college/filter_status_by_barangay', values),
+          api.post('tvet/filter_status_by_barangay', values),
+        ])
+          .then((responses) => {
+            const [responseSeniorHigh, responseCollege, responseTvet] = responses.map(
+              (response) => response.data,
+            )
+            const newData = {
+              senior_high: decrypted(responseSeniorHigh),
+              college: decrypted(responseCollege),
+              tvet: decrypted(responseTvet),
+            }
+            setStatusAddressChartData(newData)
+          })
+          .catch((error) => {
+            console.error('Error fetching total data:', error)
+          })
+          .finally(() => {
+            setLoadingTotal(false)
+            setLoadingOperation(false)
+            setLoadingChart(false)
+          })
       } else {
         console.warn('Please fill in all required fields.')
         setValidated(true)
@@ -228,11 +320,11 @@ const Dashboard = () => {
       header: 'Void',
     },
   ]
-
   return (
     <>
       <ToastContainer />
-      <CRow className="justify-content-center ">
+      <h5>Welcome {user.firstname},</h5>
+      <CRow className="justify-content-center mt-2">
         <CCol md={12}>
           <CCard className="mb-4">
             <CCardHeader>Dashboard</CCardHeader>
@@ -313,7 +405,6 @@ const Dashboard = () => {
               </CForm>
 
               {loadingOperation && <DefaultLoading />}
-              <hr />
             </CCardBody>
           </CCard>
         </CCol>
@@ -395,6 +486,85 @@ const Dashboard = () => {
             initialState={{ density: 'compact' }}
           />
           {loadingTotal && <DefaultLoading />}
+        </CCol>
+      </CRow>
+
+      <CRow className="justify-content-center mt-4">
+        <CCol md={12}>
+          <CCard className="mb-4">
+            <CCardBody>
+              <p className="text-medium-emphasis small">
+                A chart that shows the application status for each address.
+              </p>
+
+              <CNav variant="pills" layout="justified">
+                <CNavItem role="presentation">
+                  <CNavLink
+                    active={activeKey === 1}
+                    component="button"
+                    role="tab"
+                    aria-controls="senior-high-tab-pane"
+                    aria-selected={activeKey === 1}
+                    onClick={() => setActiveKey(1)}
+                  >
+                    Senior High
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem role="presentation">
+                  <CNavLink
+                    active={activeKey === 2}
+                    component="button"
+                    role="tab"
+                    aria-controls="college-tab-pane"
+                    aria-selected={activeKey === 2}
+                    onClick={() => setActiveKey(2)}
+                  >
+                    College
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem role="presentation">
+                  <CNavLink
+                    active={activeKey === 3}
+                    component="button"
+                    role="tab"
+                    aria-controls="tvet-tab-pane"
+                    aria-selected={activeKey === 3}
+                    onClick={() => setActiveKey(3)}
+                  >
+                    Tvet
+                  </CNavLink>
+                </CNavItem>
+              </CNav>
+              <CTabContent>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="senior-high-tab-pane"
+                  visible={activeKey === 1}
+                  style={{ position: 'relative' }}
+                >
+                  <CChart type="bar" data={statusAddressChartData.senior_high} />
+                </CTabPane>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="college-tab-pane"
+                  visible={activeKey === 2}
+                  style={{ position: 'relative' }}
+                >
+                  <CChart type="bar" data={statusAddressChartData.college} />
+                </CTabPane>
+                <CTabPane
+                  role="tabpanel"
+                  aria-labelledby="tvet-tab-pane"
+                  visible={activeKey === 3}
+                  style={{ position: 'relative' }}
+                >
+                  <CChart type="bar" data={statusAddressChartData.tvet} />
+                </CTabPane>
+
+                {loadingChart && <DefaultLoading />}
+              </CTabContent>
+            </CCardBody>
+          </CCard>
         </CCol>
       </CRow>
     </>

@@ -45,35 +45,35 @@ class College extends RestController
         $requestData = json_decode($this->input->raw_input_stream, true);
 
         $data = array(
-            'colAppNoYear'     => $requestData['app_no_year'],
-            'colAppNoSem'      => $requestData['app_no_sem'],
-            'colAppNoID'       => $requestData['app_no_id'],
-            'colAppStat'       => $requestData['status'],
-            'colFirstName'     => $requestData['firstname'],
-            'colLastName'      => $requestData['lastname'],
-            'colMI'            => $requestData['middle_initial'],
-            'colSuffix'        => $requestData['suffix'],
-            'colAddress'       => $requestData['address'],
-            'colDOB'           => $requestData['birthdate'],
-            'colAge'           => $requestData['age'],
-            'colCivilStat'     => $requestData['civil_status'],
-            'colGender'        => $requestData['sex'],
-            'colContactNo'     => $requestData['contact_number'],
-            'colCTC'           => $requestData['ctc_number'],
-            'colEmailAdd'      => $requestData['email_address'],
-            'colAvailment'     => $requestData['availment'],
-            'colSchool'        => $requestData['school'],
-            'colCourse'        => $requestData['course'],
+            'colAppNoYear' => $requestData['app_no_year'],
+            'colAppNoSem' => $requestData['app_no_sem'],
+            'colAppNoID' => $requestData['app_no_id'],
+            'colAppStat' => $requestData['status'],
+            'colFirstName' => $requestData['firstname'],
+            'colLastName' => $requestData['lastname'],
+            'colMI' => $requestData['middle_initial'],
+            'colSuffix' => $requestData['suffix'],
+            'colAddress' => $requestData['address'],
+            'colDOB' => $requestData['birthdate'],
+            'colAge' => $requestData['age'],
+            'colCivilStat' => $requestData['civil_status'],
+            'colGender' => $requestData['sex'],
+            'colContactNo' => $requestData['contact_number'],
+            'colCTC' => $requestData['ctc_number'],
+            'colEmailAdd' => $requestData['email_address'],
+            'colAvailment' => $requestData['availment'],
+            'colSchool' => $requestData['school'],
+            'colCourse' => $requestData['course'],
             'colSchoolAddress' => $requestData['school_address'],
-            'colYearLevel'     => $requestData['year_level'],
-            'colSem'           => $requestData['semester'],
-            'colUnits'         => $requestData['units'],
-            'colSY'            => $requestData['school_year'],
-            'colFathersName'   => $requestData['father_name'],
-            'colFatherOccu'    => $requestData['father_occupation'],
-            'colMothersName'   => $requestData['mother_name'],
-            'colMotherOccu'    => $requestData['mother_occupation'],
-              // 'colManager' => 'Active'
+            'colYearLevel' => $requestData['year_level'],
+            'colSem' => $requestData['semester'],
+            'colUnits' => $requestData['units'],
+            'colSY' => $requestData['school_year'],
+            'colFathersName' => $requestData['father_name'],
+            'colFatherOccu' => $requestData['father_occupation'],
+            'colMothersName' => $requestData['mother_name'],
+            'colMotherOccu' => $requestData['mother_occupation'],
+            // 'colManager' => 'Active'
         );
 
 
@@ -131,35 +131,35 @@ class College extends RestController
 
         $requestData = json_decode($this->input->raw_input_stream, true);
         $data = array(
-            'colAppNoYear'     => $requestData['app_no_year'],
-            'colAppNoSem'      => $requestData['app_no_sem'],
-            'colAppNoID'       => $requestData['app_no_id'],
-            'colAppStat'       => 'Pending',
-            'colFirstName'     => $requestData['firstname'],
-            'colLastName'      => $requestData['lastname'],
-            'colMI'            => $requestData['middle_initial'],
-            'colSuffix'        => $requestData['suffix'],
-            'colAddress'       => $requestData['address'],
-            'colDOB'           => $requestData['birthdate'],
-            'colAge'           => $requestData['age'],
-            'colCivilStat'     => $requestData['civil_status'],
-            'colGender'        => $requestData['sex'],
-            'colContactNo'     => $requestData['contact_number'],
-            'colCTC'           => $requestData['ctc_number'],
-            'colEmailAdd'      => $requestData['email_address'],
-            'colAvailment'     => $requestData['availment'],
-            'colSchool'        => $requestData['school'],
-            'colCourse'        => $requestData['course'],
+            'colAppNoYear' => $requestData['app_no_year'],
+            'colAppNoSem' => $requestData['app_no_sem'],
+            'colAppNoID' => $requestData['app_no_id'],
+            'colAppStat' => 'Pending',
+            'colFirstName' => $requestData['firstname'],
+            'colLastName' => $requestData['lastname'],
+            'colMI' => $requestData['middle_initial'],
+            'colSuffix' => $requestData['suffix'],
+            'colAddress' => $requestData['address'],
+            'colDOB' => $requestData['birthdate'],
+            'colAge' => $requestData['age'],
+            'colCivilStat' => $requestData['civil_status'],
+            'colGender' => $requestData['sex'],
+            'colContactNo' => $requestData['contact_number'],
+            'colCTC' => $requestData['ctc_number'],
+            'colEmailAdd' => $requestData['email_address'],
+            'colAvailment' => $requestData['availment'],
+            'colSchool' => $requestData['school'],
+            'colCourse' => $requestData['course'],
             'colSchoolAddress' => $requestData['school_address'],
-            'colYearLevel'     => $requestData['year_level'],
-            'colSem'           => $requestData['semester'],
-            'colUnits'         => $requestData['units'],
-            'colSY'            => $requestData['school_year'],
-            'colFathersName'   => $requestData['father_name'],
-            'colFatherOccu'    => $requestData['father_occupation'],
-            'colMothersName'   => $requestData['mother_name'],
-            'colMotherOccu'    => $requestData['mother_occupation'],
-            'colManager'       => 'Active'
+            'colYearLevel' => $requestData['year_level'],
+            'colSem' => $requestData['semester'],
+            'colUnits' => $requestData['units'],
+            'colSY' => $requestData['school_year'],
+            'colFathersName' => $requestData['father_name'],
+            'colFatherOccu' => $requestData['father_occupation'],
+            'colMothersName' => $requestData['mother_name'],
+            'colMotherOccu' => $requestData['mother_occupation'],
+            'colManager' => 'Active'
         );
 
         $result = $college->insert($data);
@@ -285,113 +285,40 @@ class College extends RestController
     }
 
 
-	public function bulk_status_update_post()
-	{
+    public function bulk_status_update_post()
+    {
 
         $college = new CollegeModel;
-		$requestData = json_decode($this->input->raw_input_stream, true);
+        $requestData = json_decode($this->input->raw_input_stream, true);
 
-		// Extract IDs
-		// Object to array
-		$ids = array_map(function ($item) {
-			return $item['ID'];
-		}, $requestData['data']);
+        // Extract IDs
+        // Object to array
+        $ids = array_map(function ($item) {
+            return $item['ID'];
+        }, $requestData['data']);
 
-		// Convert IDs to integers
-		$ids = array_map('intval', $ids);
+        // Convert IDs to integers
+        $ids = array_map('intval', $ids);
+
+        $result = $college->bulk_status_update($requestData['status'], $ids);
+
+        if ($result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Application Updated.'
+            ], RestController::HTTP_OK);
+        } else {
+
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to update application.'
+            ], RestController::HTTP_BAD_REQUEST);
+
+        }
+
+    }
+
  
-		$result = $college->bulk_status_update($requestData['status'], $ids);
-
-		if ($result > 0) {
-			$this->response([
-				'status' => true,
-				'message' => 'Application Updated.'
-			], RestController::HTTP_OK);
-		} else {
-
-			$this->response([
-				'status' => false,
-				'message' => 'Failed to update application.'
-			], RestController::HTTP_BAD_REQUEST);
-
-		}
-
-	}
-
-
-    public function bulk_approved_post()
-    {
-
-        $college = new CollegeModel;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-
-        // Extract IDs
-        // Object to array
-        $ids = array_map(function ($item) {
-            return $item['ID'];
-        }, $requestData['data']);
-
-        // Convert IDs to integers
-        $ids = array_map('intval', $ids);
-
-
-        $result = $college->bulk_approved($requestData['status'], $ids);
-
-        $this->response($result, RestController::HTTP_OK);
-
-        // if ($result > 0) {
-        // 	$this->response([
-        // 		'status' => true,
-        // 		'message' => 'Course Deleted.'
-        // 	], RestController::HTTP_OK);
-        // } else {
-
-        // 	$this->response([
-        // 		'status' => false,
-        // 		'message' => 'Failed to delete course.'
-        // 	], RestController::HTTP_BAD_REQUEST);
-
-        // }
-
-    }
-
-
-
-    public function bulk_disapproved_post()
-    {
-
-        $college = new CollegeModel;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-
-        // Extract IDs
-        // Object to array
-        $ids = array_map(function ($item) {
-            return $item['ID'];
-        }, $requestData['data']);
-
-        // Convert IDs to integers
-        $ids = array_map('intval', $ids);
-
-
-        $result = $college->bulk_disapproved($ids);
-        $this->response($result, RestController::HTTP_OK);
-
-
-        // if ($result > 0) {
-        // 	$this->response([
-        // 		'status' => true,
-        // 		'message' => 'Course Deleted.'
-        // 	], RestController::HTTP_OK);
-        // } else {
-
-        // 	$this->response([
-        // 		'status' => false,
-        // 		'message' => 'Failed to delete course.'
-        // 	], RestController::HTTP_BAD_REQUEST);
-
-        // }
-
-    }
     public function total_get()
     {
         $college = new CollegeModel;
@@ -422,5 +349,109 @@ class College extends RestController
     }
 
 
+
+    public function get_status_by_barangay_get()
+    {
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = $college->get_status_by_barangay();
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+
+    public function all_status_by_barangay_get()
+    {
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = $college->all_status_by_barangay();
+
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+
+    public function filter_status_by_barangay_post()
+    {
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+        $data = array(
+            'colSem' => $requestData['semester'],
+            'colSY' => $requestData['school_year'],
+        );
+        $data = $college->filter_status_by_barangay($data);
+
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
 
 }

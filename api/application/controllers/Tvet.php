@@ -92,7 +92,7 @@ class Tvet extends RestController
 
 
     public function update_status_put($id)
-    { 
+    {
         $tvet = new TvetModel;
 
         $requestData = json_decode($this->input->raw_input_stream, true);
@@ -310,81 +310,7 @@ class Tvet extends RestController
 
         }
 
-    }
-
-    public function bulk_approved_post()
-    {
-
-        $tvet = new TvetModel;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-
-        // Extract IDs
-        // Object to array
-        $ids = array_map(function ($item) {
-            return $item['ID'];
-        }, $requestData['data']);
-
-        // Convert IDs to integers
-        $ids = array_map('intval', $ids);
-
-
-        $result = $tvet->bulk_approved($requestData['status'], $ids);
-
-        $this->response($result, RestController::HTTP_OK);
-
-        // if ($result > 0) {
-        // 	$this->response([
-        // 		'status' => true,
-        // 		'message' => 'Course Deleted.'
-        // 	], RestController::HTTP_OK);
-        // } else {
-
-        // 	$this->response([
-        // 		'status' => false,
-        // 		'message' => 'Failed to delete course.'
-        // 	], RestController::HTTP_BAD_REQUEST);
-
-        // }
-
-    }
-
-
-
-    public function bulk_disapproved_post()
-    {
-
-        $tvet = new TvetModel;
-        $requestData = json_decode($this->input->raw_input_stream, true);
-
-        // Extract IDs
-        // Object to array
-        $ids = array_map(function ($item) {
-            return $item['ID'];
-        }, $requestData['data']);
-
-        // Convert IDs to integers
-        $ids = array_map('intval', $ids);
-
-
-        $result = $tvet->bulk_disapproved($ids);
-        $this->response($result, RestController::HTTP_OK);
-
-
-        // if ($result > 0) {
-        // 	$this->response([
-        // 		'status' => true,
-        // 		'message' => 'Course Deleted.'
-        // 	], RestController::HTTP_OK);
-        // } else {
-
-        // 	$this->response([
-        // 		'status' => false,
-        // 		'message' => 'Failed to delete course.'
-        // 	], RestController::HTTP_BAD_REQUEST);
-
-        // }
-
-    }
+    } 
 
     public function total_get()
     {
@@ -417,5 +343,110 @@ class Tvet extends RestController
 
 
 
+    public function get_status_by_barangay_get()
+    {
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = $tvet->get_status_by_barangay();
+
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+
+    public function all_status_by_barangay_get()
+    {
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $data = $tvet->all_status_by_barangay();
+
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
+
+    public function filter_status_by_barangay_post()
+    {
+        $tvet = new TvetModel;
+        $CryptoHelper = new CryptoHelper;
+        $requestData = json_decode($this->input->raw_input_stream, true);
+        $data = array(
+            'colSem' => $requestData['semester'],
+            'colSY' => $requestData['school_year'],
+        );
+        $data = $tvet->filter_status_by_barangay($data);
+
+        // Initialize arrays for labels and datasets
+        $labels = array();
+        $datasets = array(
+            array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+            array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+            array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+        );
+
+        // Populate labels and datasets
+        foreach ($data as $item) {
+            $labels[] = $item['address'];
+            $datasets[0]['data'][] = $item['approved'];
+            $datasets[1]['data'][] = $item['pending'];
+            $datasets[2]['data'][] = $item['disapproved'];
+        }
+
+        // Assemble the final result
+        $result = array(
+            'labels' => $labels,
+            'datasets' => $datasets
+        );
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+        $this->response($result, RestController::HTTP_OK);
+    }
 
 }

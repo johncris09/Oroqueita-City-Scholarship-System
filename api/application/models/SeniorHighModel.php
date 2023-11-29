@@ -47,21 +47,21 @@ class SeniorHighModel extends CI_Model
 
 
 
-	public function find($id)
-	{
-		$this->db->where('id', $id);
-		$query = $this->db->get($this->table);
-		return $query->row();
-	}
+    public function find($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get($this->table);
+        return $query->row();
+    }
 
     public function update($id, $data)
-	{
-		$this->db->where('id', $id);
-		return $this->db->update($this->table, $data);
-	}
-    
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, $data);
+    }
 
-    
+
+
     public function total()
     {
 
@@ -140,7 +140,7 @@ class SeniorHighModel extends CI_Model
             ->order_by('id', 'desc');
 
         if ($data['AppStatus'] == 'approved') {
-            $this->db->where($data)
+            $this->db
                 ->like('AppStatus', 'approved', 'both')
                 ->where('AppStatus !=', 'disapproved');
         } else {
@@ -379,6 +379,91 @@ class SeniorHighModel extends CI_Model
         return $this->db->update($this->table, ['AppStatus' => $status]);
 
     }
+
+
+
+    public function get_status_by_barangay()
+    {
+        $addresses = $this->config->item('address');
+        $data = array();
+        $query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+        $query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
+
+        foreach ($addresses as $address) {
+
+            $query = $this->db->select("COUNT(CASE WHEN AppStatus like '%approved%' AND AppStatus != 'disapproved' AND AppAddress = '$address' THEN 1 END) as approved_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Pending' AND AppAddress = '$address' THEN 1 END) as pending_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Disapproved' AND AppAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+                ->where('AppSem', $query_sem->current_semester)
+                ->where('AppSY', $query_sy->current_sy)
+                ->get($this->table);
+
+            $result = $query->row_array();
+
+            $data[] = array(
+                'address' => $address,
+                'approved' => $result['approved_count'],
+                'pending' => $result['pending_count'],
+                'disapproved' => $result['disapproved_count'],
+            );
+        }
+
+        return $data;
+
+    }
+
+    public function all_status_by_barangay()
+    {
+        $addresses = $this->config->item('address');
+        $data = array();
+        foreach ($addresses as $address) {
+
+            $query = $this->db->select("COUNT(CASE WHEN AppStatus like '%approved%' AND AppStatus != 'disapproved' AND AppAddress = '$address' THEN 1 END) as approved_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Pending' AND AppAddress = '$address' THEN 1 END) as pending_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Disapproved' AND AppAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+                ->get($this->table);
+
+            $result = $query->row_array();
+
+            $data[] = array(
+                'address' => $address,
+                'approved' => $result['approved_count'],
+                'pending' => $result['pending_count'],
+                'disapproved' => $result['disapproved_count'],
+            );
+        }
+
+        return $data;
+
+    }
+
+
+    public function filter_status_by_barangay($filter_data)
+    {
  
+        $addresses = $this->config->item('address');
+        $data = array();
+        foreach ($addresses as $address) {
+
+            $query = $this->db->select("COUNT(CASE WHEN AppStatus like '%approved%' AND AppStatus != 'disapproved' AND AppAddress = '$address' THEN 1 END) as approved_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Pending' AND AppAddress = '$address' THEN 1 END) as pending_count", FALSE)
+                ->select("COUNT(CASE WHEN AppStatus = 'Disapproved' AND AppAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+                ->where($filter_data)
+                ->get($this->table);
+
+            $result = $query->row_array();
+
+            $data[] = array(
+                'address' => $address,
+                'approved' => $result['approved_count'],
+                'pending' => $result['pending_count'],
+                'disapproved' => $result['disapproved_count'],
+            );
+        }
+
+        return $data;
+
+    }
 
 }
+

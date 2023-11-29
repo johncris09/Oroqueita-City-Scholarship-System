@@ -303,7 +303,7 @@ class SeniorHigh extends RestController
 
 		// Convert IDs to integers
 		$ids = array_map('intval', $ids);
- 
+
 		$result = $seniorhigh->bulk_status_update($requestData['status'], $ids);
 
 		if ($result > 0) {
@@ -322,7 +322,7 @@ class SeniorHigh extends RestController
 
 	}
 
- 
+
 
 	public function total_get()
 	{
@@ -356,6 +356,112 @@ class SeniorHigh extends RestController
 		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode((int) $seniorhigh->all_total()));
 		$this->response($result, RestController::HTTP_OK);
 	}
+
+
+
+	public function get_status_by_barangay_get()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$data = $seniorhigh->get_status_by_barangay();
+
+		// Initialize arrays for labels and datasets
+		$labels = array();
+		$datasets = array(
+			array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+			array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+			array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+		);
+
+		// Populate labels and datasets
+		foreach ($data as $item) {
+			$labels[] = $item['address'];
+			$datasets[0]['data'][] = $item['approved'];
+			$datasets[1]['data'][] = $item['pending'];
+			$datasets[2]['data'][] = $item['disapproved'];
+		}
+
+		// Assemble the final result
+		$result = array(
+			'labels' => $labels,
+			'datasets' => $datasets
+		);
+
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+		$this->response($result, RestController::HTTP_OK);
+	}
+
+
+
+	public function all_status_by_barangay_get()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$data = $seniorhigh->all_status_by_barangay();
+
+		// Initialize arrays for labels and datasets
+		$labels = array();
+		$datasets = array(
+			array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+			array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+			array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+		);
+
+		// Populate labels and datasets
+		foreach ($data as $item) {
+			$labels[] = $item['address'];
+			$datasets[0]['data'][] = $item['approved'];
+			$datasets[1]['data'][] = $item['pending'];
+			$datasets[2]['data'][] = $item['disapproved'];
+		}
+
+		// Assemble the final result
+		$result = array(
+			'labels' => $labels,
+			'datasets' => $datasets
+		);
+
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+		$this->response($result, RestController::HTTP_OK);
+	}
+
+	public function filter_status_by_barangay_post()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$requestData = json_decode($this->input->raw_input_stream, true);
+		$data = array(
+			'AppSem' => $requestData['semester'],
+			'AppSY' => $requestData['school_year'],
+		); 
+		$data = $seniorhigh->filter_status_by_barangay($data);
+
+		// Initialize arrays for labels and datasets
+		$labels = array();
+		$datasets = array(
+			array('label' => 'Approved', 'backgroundColor' => '#0dcaf0', 'data' => array()),
+			array('label' => 'Pending', 'backgroundColor' => '#ffc107', 'data' => array()),
+			array('label' => 'Disapproved', 'backgroundColor' => '#f87979', 'data' => array())
+		);
+
+		// Populate labels and datasets
+		foreach ($data as $item) {
+			$labels[] = $item['address'];
+			$datasets[0]['data'][] = $item['approved'];
+			$datasets[1]['data'][] = $item['pending'];
+			$datasets[2]['data'][] = $item['disapproved'];
+		}
+
+		// Assemble the final result
+		$result = array(
+			'labels' => $labels,
+			'datasets' => $datasets
+		);
+
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
+		$this->response($result, RestController::HTTP_OK);
+	}
+
 
 
 }

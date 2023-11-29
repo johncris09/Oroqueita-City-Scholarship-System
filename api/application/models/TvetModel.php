@@ -137,7 +137,7 @@ class TvetModel extends CI_Model
 			->order_by('id', 'desc');
 
 		if ($data['colAppStat'] == 'approved') {
-			$this->db->where($data)
+			$this->db
 				->like('colAppStat', 'approved', 'both')
 				->where('colAppStat !=', 'disapproved');
 		} else {
@@ -355,4 +355,91 @@ class TvetModel extends CI_Model
         return $this->db->update($this->table, ['colAppStat' => $status]);
 
     } 
+
+
+    public function get_status_by_barangay()
+    {
+        $addresses = $this->config->item('address');
+        $data = array();
+        $query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
+        $query_sy = $this->db->query('SELECT current_sy FROM  config where id = 1')->result()[0];
+
+        foreach ($addresses as $address) { 
+            $query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' and colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
+                ->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
+                ->select("COUNT(CASE WHEN colAppStat = 'Disapproved' AND colAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+                ->where('colSem', $query_sem->current_semester)
+                ->where('colSY', $query_sy->current_sy)
+                ->get($this->table);
+
+            $result = $query->row_array();
+
+            $data[] = array(
+                'address' => $address,
+                'approved' => $result['approved_count'],
+                'pending' => $result['pending_count'],
+                'disapproved' => $result['disapproved_count'],
+            );
+        }
+
+        return $data;
+ 
+    }
+
+
+	public function all_status_by_barangay()
+	{
+		$addresses = $this->config->item('address');
+		$data = array(); 
+		foreach ($addresses as $address) {
+			$query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' and colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
+				->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
+				->select("COUNT(CASE WHEN colAppStat = 'Disapproved' AND colAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+				->get($this->table);
+
+			$result = $query->row_array();
+
+			$data[] = array(
+				'address' => $address,
+				'approved' => $result['approved_count'],
+				'pending' => $result['pending_count'],
+				'disapproved' => $result['disapproved_count'],
+			);
+		}
+
+		return $data;
+
+	}
+
+
+
+    public function filter_status_by_barangay($filter_data)
+    {
+ 
+        $addresses = $this->config->item('address');
+        $data = array();
+        foreach ($addresses as $address) {
+
+            $query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' AND colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
+                ->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
+                ->select("COUNT(CASE WHEN colAppStat = 'Disapproved' AND colAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+                ->where($filter_data)
+                ->get($this->table);
+
+            $result = $query->row_array();
+
+            $data[] = array(
+                'address' => $address,
+                'approved' => $result['approved_count'],
+                'pending' => $result['pending_count'],
+                'disapproved' => $result['disapproved_count'],
+            );
+        }
+
+        return $data;
+
+    }
+
+
+	
 }
