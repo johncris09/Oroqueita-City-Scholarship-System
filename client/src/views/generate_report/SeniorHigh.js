@@ -84,7 +84,7 @@ const SeniorHigh = () => {
             text += `List of ${values.status} Senior High Scholarship Applicants `
             text += values.school_year === '' ? '' : `for ${values.school_year} `
             setTitle(text)
-            setData(response.data)
+            setData(decrypted(response.data))
           })
           .catch((error) => {
             toast.error(HandleError(error))
