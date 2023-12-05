@@ -7,7 +7,13 @@ $route['translate_uri_dashes'] = FALSE;
 $route['api/demo']             = 'api/ApiDemoController/index';
 
 
-$route['login'] = 'User/login';
+  // User
+$route['user']                        = 'User/index';
+$route['login']                       = 'User/login';
+$route['user/find/(:any)']            = 'User/find/$1';
+$route['user/update/(:any)']          = 'User/update/$1';
+$route['user/change_password/(:any)'] = 'User/change_password/$1';
+$route['user/delete/(:any)']          = 'User/delete/$1';
 
   // Search
   // $route['search'] = 'Search'; 
@@ -33,7 +39,7 @@ $route['senior_high/get_all_by_status']         = 'SeniorHigh/get_all_by_status'
 $route['senior_high/get_status_by_barangay']    = 'SeniorHigh/get_status_by_barangay';
 $route['senior_high/all_status_by_barangay']    = 'SeniorHigh/all_status_by_barangay';
 $route['senior_high/filter_status_by_barangay'] = 'SeniorHigh/filter_status_by_barangay';
-
+$route['senior_high/generate_report']           = 'SeniorHigh/generate_report';
 
   // College
 $route['college']                           = 'College';
@@ -55,6 +61,7 @@ $route['college/get_all_by_status']         = 'College/get_all_by_status';
 $route['college/get_status_by_barangay']    = 'College/get_status_by_barangay';
 $route['college/all_status_by_barangay']    = 'College/all_status_by_barangay';
 $route['college/filter_status_by_barangay'] = 'College/filter_status_by_barangay';
+$route['college/generate_report']           = 'College/generate_report';
 
 
   // Tvet
@@ -78,6 +85,7 @@ $route['tvet/get_all_by_status']         = 'Tvet/get_all_by_status';
 $route['tvet/get_status_by_barangay']    = 'Tvet/get_status_by_barangay';
 $route['tvet/all_status_by_barangay']    = 'Tvet/all_status_by_barangay';
 $route['tvet/filter_status_by_barangay'] = 'Tvet/filter_status_by_barangay';
+$route['tvet/generate_report']           = 'Tvet/generate_report';
 
 
   // Senior High School 
@@ -116,8 +124,10 @@ $route['course/bulk_delete/']  = 'Course/bulk_delete/';
 
 
 
-  // Course
+  // System Sequence
 $route['system_sequence']               = 'SystemSequence/index';
+$route['system_sequence/find/(:any)']   = 'SystemSequence/find/$1';
+$route['system_sequence/update/(:any)'] = 'SystemSequence/update/$1';
 $route['system_sequence/shs_appno']     = 'SystemSequence/shs_appno';
 $route['system_sequence/college_appno'] = 'SystemSequence/college_appno';
 $route['system_sequence/tvet_appno']    = 'SystemSequence/tvet_appno';

@@ -10,6 +10,8 @@ const Disapproved = React.lazy(() => import('./views/disapproved/Disapproved'))
 const Archived = React.lazy(() => import('./views/archived/Archived'))
 const Void = React.lazy(() => import('./views/void/Void'))
 
+const GenerateReport = React.lazy(() => import('./views/generate_report/GenerateReport'))
+
 // School
 const SeniorHighSchool = React.lazy(() => import('./views/school/SeniorHighSchool'))
 const CollegeSchool = React.lazy(() => import('./views/school/CollegeSchool'))
@@ -17,6 +19,9 @@ const CollegeSchool = React.lazy(() => import('./views/school/CollegeSchool'))
 // Course/Strand
 const Course = React.lazy(() => import('./views/course/Course'))
 const Strand = React.lazy(() => import('./views/course/Strand'))
+const User = React.lazy(() => import('./views/user/User'))
+const Profile = React.lazy(() => import('./views/profile/Profile'))
+const SystemSequence = React.lazy(() => import('./views/system_sequence/SystemSequence'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -42,10 +47,14 @@ const routes = [
     name: 'College/Tvet School',
     element: CollegeSchool,
   },
+  { path: '/generate_report', name: 'Generate Report', element: GenerateReport },
 
   { path: '/manage', name: 'Manage', element: Strand, exact: true },
   { path: '/manage/strand', name: 'Strand', element: Strand },
   { path: '/manage/course', name: 'Course', element: Course },
+  { path: '/user', name: 'User', element: User },
+  { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/system_sequence', name: 'System Sequence', element: SystemSequence },
 ]
 
 export default routes

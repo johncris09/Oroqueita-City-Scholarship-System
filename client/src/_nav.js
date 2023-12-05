@@ -4,11 +4,14 @@ import {
   cibGooglesCholar,
   cilCog,
   cilDescription,
+  cilFile,
   cilMagnifyingGlass,
   cilPlus,
+  cilReportSlash,
   cilSpeedometer,
+  cilUser,
 } from '@coreui/icons'
-import { CNavGroup, CNavItem } from '@coreui/react'
+import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
   {
@@ -63,6 +66,20 @@ const _nav = [
     ],
   },
   {
+    component: CNavTitle,
+    name: 'Generated Report',
+  },
+  {
+    component: CNavItem,
+    name: 'Generate Report',
+    to: '/generate_report',
+    icon: <CIcon icon={cilFile} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Utilities',
+  },
+  {
     component: CNavGroup,
     name: 'Manage School',
     to: '/school',
@@ -97,6 +114,18 @@ const _nav = [
         to: '/manage/course',
       },
     ],
+  },
+  {
+    component: CNavItem,
+    name: 'System Sequence',
+    to: '/system_sequence',
+    icon: <CIcon icon={cilCog} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'User',
+    to: '/user',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
 ]
 
