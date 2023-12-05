@@ -12,6 +12,13 @@ class UserModel extends CI_Model
 		parent::__construct();
 	}
 
+	public function get()
+	{
+
+		$query = $this->db->get($this->table);
+		return $query->result();
+
+	}
 	public function login($data)
 	{
 		$this->db->select('*');
@@ -24,7 +31,7 @@ class UserModel extends CI_Model
 		if ($result) {
 			$providedPassword = $data['password'];
 
-			if ($providedPassword == $result->ConfirmPassword) {
+			if ($providedPassword == $result->Password) {
 				return $result; // Passwords match
 			}
 		}
@@ -32,5 +39,32 @@ class UserModel extends CI_Model
 		return false;
 
 	}
+
+
+	public function find($id)
+	{
+		$this->db->where('id', $id);
+		$query = $this->db->get($this->table);
+		return $query->row();
+	}
+
+	public function insert($data)
+	{
+		return $this->db->insert($this->table, $data);
+	}
+
+
+	public function update($id, $data)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update($this->table, $data);
+	}
+
+	public function delete($id)
+	{
+		return $this->db->delete($this->table, ['id' => $id]);
+	}
+
+	
 
 }
