@@ -1,6 +1,6 @@
 import React from 'react'
 import { CAvatar, CDropdown, CDropdownItem, CDropdownMenu, CDropdownToggle } from '@coreui/react'
-import { cilAccountLogout } from '@coreui/icons'
+import { cilAccountLogout, cilUser } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import avatar from './../../assets/images/avatars/user.png'
@@ -18,6 +18,10 @@ const AppHeaderDropdown = () => {
         <CAvatar src={avatar} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
+        <CDropdownItem href="#/profile">
+          <CIcon icon={cilUser} className="me-2" />
+          Profile
+        </CDropdownItem>
         <CDropdownItem href="#/login" onClick={handleLogout}>
           <CIcon icon={cilAccountLogout} className="me-2" />
           Logout
