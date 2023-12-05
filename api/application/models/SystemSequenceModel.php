@@ -43,4 +43,13 @@ class SystemSequenceModel extends CI_Model
 		return $this->db->update($this->table, $data);
 	}
 
+
+
+	public function find($id)
+	{
+		$this->db->where('Sys_ID', $id);
+		$query = $this->db->get($this->table);
+		return $query->row();
+	}
+
 }

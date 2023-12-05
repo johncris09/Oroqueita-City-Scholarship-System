@@ -53,4 +53,51 @@ class SystemSequence extends RestController
 
 
 
+	public function find_get($id)
+	{
+		$system_sequence = new SystemSequenceModel;
+		$CryptoHelper = new CryptoHelper;
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($system_sequence->find($id)));
+		$this->response($result, RestController::HTTP_OK);
+
+	}
+
+
+
+
+	public function update_put($id)
+	{
+
+
+		$system_sequence = new SystemSequenceModel;
+
+		$requestData = json_decode($this->input->raw_input_stream, true);
+
+		$data = array(
+			'seq_name' => $requestData['seq_name'],
+			'seq_year' => $requestData['seq_year'],
+			'seq_sem' => $requestData['seq_sem'],
+			'seq_appno' => $requestData['seq_appno'],
+
+		);
+
+		$update_result = $system_sequence->update($id, $data);
+
+		if ($update_result > 0) {
+			$this->response([
+				'status' => true,
+				'message' => 'Course Updated.'
+			], RestController::HTTP_OK);
+		} else {
+
+			$this->response([
+				'status' => false,
+				'message' => 'Failed to update Course.'
+			], RestController::HTTP_BAD_REQUEST);
+
+		}
+	}
+
+
+
 }
