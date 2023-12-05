@@ -440,7 +440,7 @@ class SeniorHighModel extends CI_Model
 
     public function filter_status_by_barangay($filter_data)
     {
- 
+
         $addresses = $this->config->item('address');
         $data = array();
         foreach ($addresses as $address) {
@@ -464,6 +464,19 @@ class SeniorHighModel extends CI_Model
         return $data;
 
     }
+
+
+
+
+    public function generate_report($data)
+    {
+        $query = $this->db->where($data)
+        ->order_by('AppLastName', 'asc')
+            ->get($this->table);
+        return $query->result();
+
+    }
+
 
 }
 

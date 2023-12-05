@@ -318,7 +318,7 @@ class College extends RestController
 
     }
 
- 
+
     public function total_get()
     {
         $college = new CollegeModel;
@@ -453,5 +453,46 @@ class College extends RestController
         $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($result));
         $this->response($result, RestController::HTTP_OK);
     }
+
+
+
+    public function generate_report_get()
+    {
+        $college = new CollegeModel;
+        $CryptoHelper = new CryptoHelper;
+        $requestData = $this->input->get();
+
+        $data = array();
+        if (isset($requestData['school']) && !empty($requestData['school'])) {
+            $data['colSchool'] = $requestData['school'];
+        }
+        if (isset($requestData['semester']) && !empty($requestData['semester'])) {
+            $data['colSem'] = $requestData['semester'];
+        }
+        if (isset($requestData['school_year']) && !empty($requestData['school_year'])) {
+            $data['colSY'] = $requestData['school_year'];
+        }
+        if (isset($requestData['status']) && !empty($requestData['status'])) {
+            $data['colAppStat'] = $requestData['status'];
+        }
+        if (isset($requestData['availment']) && !empty($requestData['availment'])) {
+            $data['colAvailment'] = $requestData['availment'];
+        }
+        if (isset($requestData['sex']) && !empty($requestData['sex'])) {
+            $data['colGender'] = $requestData['sex'];
+        }
+        if (isset($requestData['year_level']) && !empty($requestData['year_level'])) {
+            $data['colYearLevel'] = $requestData['year_level'];
+        }
+        if (isset($requestData['address']) && !empty($requestData['address'])) {
+            $data['colAddress'] = $requestData['address'];
+        }
+
+
+        $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->generate_report($data)));
+        $this->response($result, RestController::HTTP_OK);
+    }
+
+
 
 }

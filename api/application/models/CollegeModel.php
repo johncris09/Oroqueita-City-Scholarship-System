@@ -133,7 +133,7 @@ class CollegeModel extends CI_Model
 			$this->db->where($data);
 		}
 
-		$query = $this->db->get($this->table); 
+		$query = $this->db->get($this->table);
 		return $query->result();
 
 	}
@@ -399,7 +399,7 @@ class CollegeModel extends CI_Model
 	public function all_status_by_barangay()
 	{
 		$addresses = $this->config->item('address');
-		$data = array(); 
+		$data = array();
 		foreach ($addresses as $address) {
 			$query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' and colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
 				->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
@@ -421,33 +421,40 @@ class CollegeModel extends CI_Model
 	}
 
 
-    public function filter_status_by_barangay($filter_data)
-    {
- 
-        $addresses = $this->config->item('address');
-        $data = array();
-        foreach ($addresses as $address) {
+	public function filter_status_by_barangay($filter_data)
+	{
 
-            $query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' AND colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
-                ->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
-                ->select("COUNT(CASE WHEN colAppStat = 'Disapproved' AND colAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
-                ->where($filter_data)
-                ->get($this->table);
+		$addresses = $this->config->item('address');
+		$data = array();
+		foreach ($addresses as $address) {
 
-            $result = $query->row_array();
+			$query = $this->db->select("COUNT(CASE WHEN colAppStat like '%approved%' AND colAppStat != 'disapproved' AND colAddress = '$address' THEN 1 END) as approved_count", FALSE)
+				->select("COUNT(CASE WHEN colAppStat = 'Pending' AND colAddress = '$address' THEN 1 END) as pending_count", FALSE)
+				->select("COUNT(CASE WHEN colAppStat = 'Disapproved' AND colAddress = '$address' THEN 1 END) as disapproved_count", FALSE)
+				->where($filter_data)
+				->get($this->table);
 
-            $data[] = array(
-                'address' => $address,
-                'approved' => $result['approved_count'],
-                'pending' => $result['pending_count'],
-                'disapproved' => $result['disapproved_count'],
-            );
-        }
+			$result = $query->row_array();
 
-        return $data;
+			$data[] = array(
+				'address' => $address,
+				'approved' => $result['approved_count'],
+				'pending' => $result['pending_count'],
+				'disapproved' => $result['disapproved_count'],
+			);
+		}
 
-    }
+		return $data;
 
+	}
 
+	public function generate_report($data)
+	{
+		$query = $this->db->where($data)
+			->order_by('colLastName', 'asc')
+			->get($this->table);
+		return $query->result();
+
+	}
 
 }

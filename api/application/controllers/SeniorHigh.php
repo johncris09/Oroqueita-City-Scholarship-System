@@ -433,7 +433,7 @@ class SeniorHigh extends RestController
 		$data = array(
 			'AppSem' => $requestData['semester'],
 			'AppSY' => $requestData['school_year'],
-		); 
+		);
 		$data = $seniorhigh->filter_status_by_barangay($data);
 
 		// Initialize arrays for labels and datasets
@@ -463,5 +463,39 @@ class SeniorHigh extends RestController
 	}
 
 
+	public function generate_report_get()
+	{
+		$seniorhigh = new SeniorHighModel;
+		$CryptoHelper = new CryptoHelper;
+		$requestData = $this->input->get();
 
+		$data = array();
+		if (isset($requestData['school']) && !empty($requestData['school'])) {
+			$data['Appschool'] = $requestData['school'];
+		}
+		if (isset($requestData['semester']) && !empty($requestData['semester'])) {
+			$data['AppSem'] = $requestData['semester'];
+		}
+		if (isset($requestData['school_year']) && !empty($requestData['school_year'])) {
+			$data['AppSY'] = $requestData['school_year'];
+		}
+		if (isset($requestData['status']) && !empty($requestData['status'])) {
+			$data['AppStatus'] = $requestData['status'];
+		}
+		if (isset($requestData['availment']) && !empty($requestData['availment'])) {
+			$data['AppAvailment'] = $requestData['availment'];
+		}
+		if (isset($requestData['sex']) && !empty($requestData['sex'])) {
+			$data['AppGender'] = $requestData['sex'];
+		}
+		if (isset($requestData['grade_level']) && !empty($requestData['grade_level'])) {
+			$data['AppYear'] = $requestData['grade_level'];
+		}
+		if (isset($requestData['address']) && !empty($requestData['address'])) {
+			$data['AppAddress'] = $requestData['address'];
+		}
+
+		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->generate_report($data)));
+		$this->response($result, RestController::HTTP_OK);
+	}
 }
