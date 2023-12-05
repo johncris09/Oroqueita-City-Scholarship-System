@@ -8,7 +8,7 @@ import { AppSidebarNav } from './AppSidebarNav'
 import avatar from './../assets/images/logo-sm.png'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
-
+import { jwtDecode } from 'jwt-decode'
 // sidebar nav config
 import navigation from '../_nav'
 
@@ -16,6 +16,7 @@ const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const userInfo = jwtDecode(localStorage.getItem('oroqScholarshipToken'))
 
   return (
     <CSidebar
@@ -34,7 +35,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={navigation(userInfo)} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler
