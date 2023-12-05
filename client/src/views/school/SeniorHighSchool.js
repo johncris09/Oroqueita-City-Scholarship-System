@@ -124,19 +124,8 @@ const SeniorHighSchool = () => {
   })
 
   const handleInputChange = (e) => {
-    const { name, value, type } = e.target
-    if (type === 'text') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      formik.handleChange(e)
-      formik.setFieldValue(name, titleCaseValue)
-    } else {
-      formik.setFieldValue(name, value)
-    }
+    const { name, value } = e.target
+    formik.setFieldValue(name, value)
   }
 
   const csvOptions = {
