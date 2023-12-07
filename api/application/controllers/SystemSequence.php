@@ -86,13 +86,13 @@ class SystemSequence extends RestController
 		if ($update_result > 0) {
 			$this->response([
 				'status' => true,
-				'message' => 'Course Updated.'
+				'message' => 'Successfully Updated.'
 			], RestController::HTTP_OK);
 		} else {
 
 			$this->response([
 				'status' => false,
-				'message' => 'Failed to update Course.'
+				'message' => 'Failed to update.'
 			], RestController::HTTP_BAD_REQUEST);
 
 		}
