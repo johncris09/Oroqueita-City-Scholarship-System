@@ -2,6 +2,7 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
   cibGooglesCholar,
+  cilCloudDownload,
   cilCog,
   cilDescription,
   cilFile,
@@ -66,6 +67,24 @@ const _nav = (userInfo) => {
       ],
     },
     {
+      component: CNavItem,
+      name: 'Import',
+      to: '/import',
+      icon: <CIcon icon={cilCloudDownload} customClassName="nav-icon" />,
+    },
+    {
+      component: CNavItem,
+      name: 'System Sequence',
+      to: '/system_sequence',
+      icon: <CIcon icon={cilCog} customClassName="nav-icon" />,
+    },
+    {
+      component: CNavItem,
+      name: 'Config',
+      to: '/config',
+      icon: <CIcon icon={cilCog} customClassName="nav-icon" />,
+    },
+    {
       component: CNavTitle,
       name: 'Generated Report',
     },
@@ -117,12 +136,6 @@ const _nav = (userInfo) => {
             to: '/manage/course',
           },
         ],
-      },
-      {
-        component: CNavItem,
-        name: 'System Sequence',
-        to: '/system_sequence',
-        icon: <CIcon icon={cilCog} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
