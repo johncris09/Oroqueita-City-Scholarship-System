@@ -27,11 +27,9 @@ import HandleError from 'src/components/HandleError'
 const SystemSequence = () => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(true)
-  const [passwordValidated, setPasswordValidated] = useState(false)
   const [fetchDataLoading, setFetchDataLoading] = useState(true)
   const [operationLoading, setOperationLoading] = useState(false)
   const [modalFormVisible, setModalFormVisible] = useState(false)
-  const [modalChangePasswordFormVisible, setModalChangePasswordFormVisible] = useState(false)
 
   const [isEnableEdit, setIsEnableEdit] = useState(false)
   const [editId, setEditId] = useState('')
@@ -93,41 +91,6 @@ const SystemSequence = () => {
     },
   })
 
-  const updatePasswordForm = useFormik({
-    initialValues: {
-      password: '',
-    },
-    onSubmit: async (values) => {
-      const areAllFieldsFilled = Object.keys(values).every((key) => !!values[key])
-
-      if (areAllFieldsFilled) {
-        setOperationLoading(true)
-        setFetchDataLoading(true)
-        if (isEnableEdit) {
-          // update password
-          await api
-            .put('user/change_password/' + editId, values)
-            .then((response) => {
-              toast.success(response.data.message)
-              fetchData()
-              setPasswordValidated(false)
-              setModalChangePasswordFormVisible(false)
-            })
-            .catch((error) => {
-              toast.error(HandleError(error))
-            })
-            .finally(() => {
-              setOperationLoading(false)
-              setFetchDataLoading(false)
-            })
-        }
-      } else {
-        toast.warning('Please fill in all required fields.')
-        setPasswordValidated(true)
-      }
-    },
-  })
-
   const handleInputChange = (e) => {
     form.handleChange(e)
     const { name, value, type } = e.target
@@ -142,12 +105,6 @@ const SystemSequence = () => {
     } else {
       form.setFieldValue(name, value)
     }
-  }
-
-  const handlePasswordInputChange = (e) => {
-    form.handleChange(e)
-    const { name, value } = e.target
-    updatePasswordForm.setFieldValue(name, value)
   }
 
   const column = [
@@ -195,6 +152,7 @@ const SystemSequence = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             data={data}
             enableRowVirtualization
             enableColumnVirtualization
@@ -320,49 +278,6 @@ const SystemSequence = () => {
             <CCol xs={12}>
               <CButton color="primary" type="submit" className="float-end">
                 {isEnableEdit ? 'Update' : 'Submit form'}
-              </CButton>
-            </CCol>
-          </CForm>
-          {operationLoading && <DefaultLoading />}
-        </CModalBody>
-      </CModal>
-
-      <CModal
-        alignment="center"
-        visible={modalChangePasswordFormVisible}
-        onClose={() => setModalChangePasswordFormVisible(false)}
-        backdrop="static"
-        keyboard={false}
-        size="lg"
-      >
-        <CModalHeader>
-          <CModalTitle>Change Password</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-          <RequiredFieldNote />
-          <CForm
-            className="row g-3 needs-validation mt-4"
-            noValidate
-            validated={passwordValidated}
-            onSubmit={updatePasswordForm.handleSubmit}
-            style={{ position: 'relative' }}
-          >
-            <CCol md={12}>
-              <CFormInput
-                type="password"
-                feedbackInvalid="Password is required."
-                label={RequiredField('Password')}
-                name="password"
-                onChange={handlePasswordInputChange}
-                value={updatePasswordForm.values.password}
-                required
-              />
-            </CCol>
-
-            <hr />
-            <CCol xs={12}>
-              <CButton color="primary" type="submit" className="float-end">
-                Change Password
               </CButton>
             </CCol>
           </CForm>
