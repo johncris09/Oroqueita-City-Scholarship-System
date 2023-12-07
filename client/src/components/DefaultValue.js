@@ -309,7 +309,8 @@ const tvetDefaultColumn = [
     header: 'Availment',
   },
 ]
-
+const commiteeChairperson = 'MARK ANTHONY D. ARTIGAS'
+const cityMayor = 'LEMUEL MEYRICK M. ACOSTA'
 export {
   Address,
   CivilStatus,
@@ -324,4 +325,6 @@ export {
   seniorHighDefaultColumn,
   collegeDefaultColumn,
   tvetDefaultColumn,
+  commiteeChairperson,
+  cityMayor,
 }
