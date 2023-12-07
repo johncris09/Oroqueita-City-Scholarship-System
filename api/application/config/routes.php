@@ -44,6 +44,7 @@ $route['senior_high/generate_report']           = 'SeniorHigh/generate_report';
 
   // College
 $route['college']                           = 'College';
+$route['college/select']                    = 'College/select';
 $route['college/find/(:any)']               = 'College/find/$1';
 $route['college/insert']                    = 'College/insert';
 $route['college/bulk_insert']               = 'College/bulk_insert';
@@ -135,6 +136,15 @@ $route['system_sequence/shs_appno']     = 'SystemSequence/shs_appno';
 $route['system_sequence/college_appno'] = 'SystemSequence/college_appno';
 $route['system_sequence/tvet_appno']    = 'SystemSequence/tvet_appno';
 
+
+  // Config
+  $route['config']               = 'Config/index';
+  $route['config/find/(:any)']   = 'Config/find/$1';
+  $route['config/update/(:any)'] = 'Config/update/$1';
+  $route['config/shs_appno']     = 'Config/shs_appno';
+  $route['config/college_appno'] = 'Config/college_appno';
+  $route['config/tvet_appno']    = 'Config/tvet_appno';
+  
 
   // Test
 $route['test/get_all']       = 'Test/get_all';
