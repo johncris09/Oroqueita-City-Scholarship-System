@@ -244,6 +244,7 @@ const CollegeSchool = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             data={collegeSchool}
             enableRowSelection
             enableSelectAll={true}
@@ -254,6 +255,7 @@ const CollegeSchool = () => {
             enableStickyFooter
             enableRowActions
             selectAllMode="all"
+            enableClickToCopy
             initialState={{ density: 'compact' }}
             renderRowActionMenuItems={({ closeMenu, row }) => [
               <MenuItem

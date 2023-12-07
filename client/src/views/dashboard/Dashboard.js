@@ -466,6 +466,7 @@ const Dashboard = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             enableFullScreenToggle={false}
             enableHiding={false}
             enableTopToolbar={false}

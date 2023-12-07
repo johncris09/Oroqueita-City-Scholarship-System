@@ -5,6 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class CollegeModel extends CI_Model
 {
 
+
 	public $table = 'table_collegeapp';
 	public $default_column = '
 		ID,
@@ -60,6 +61,17 @@ class CollegeModel extends CI_Model
 	{
 		return $this->db->insert($this->table, $data);
 	}
+
+
+    public function bulk_insert($data)
+    {  
+        return $this->db->insert_batch($this->table, $data);
+
+    }
+
+
+
+	
 	public function total()
 	{
 

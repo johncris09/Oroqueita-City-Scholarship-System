@@ -488,6 +488,7 @@ const College = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             enableRowSelection
             enableGrouping
             enableSelectAll={true}
@@ -512,7 +513,6 @@ const College = () => {
                   await api
                     .get('college/find/' + id)
                     .then((response) => {
-                      console.info(response.data)
                       setEditId(id)
                       // setIsEnableEdit(true)
 

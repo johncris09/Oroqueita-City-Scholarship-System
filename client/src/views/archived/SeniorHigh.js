@@ -415,6 +415,7 @@ const SeniorHigh = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             enableRowSelection
             enableGrouping
             enableSelectAll={true}

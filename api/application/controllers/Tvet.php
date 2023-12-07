@@ -184,6 +184,33 @@ class Tvet extends RestController
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
+ 
+	public function bulk_insert_post()
+	{
+
+        $tvet = new TvetModel;
+		$system_sequence = new SystemSequenceModel;
+
+
+		$requestData = json_decode($this->input->raw_input_stream, true);
+
+		$result = $tvet->bulk_insert($requestData);
+
+
+		if ($result > 0) { 
+			$this->response([
+				'status' => true,
+				'message' => 'Successfully Inserted.'
+			], RestController::HTTP_OK);
+		} else {
+
+			$this->response([
+				'status' => false,
+				'message' => 'Failed to create new data.'
+			], RestController::HTTP_BAD_REQUEST);
+		}
+	}
+
 
 
     public function get_by_status_get()

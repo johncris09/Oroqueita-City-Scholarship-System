@@ -237,6 +237,7 @@ const Course = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             data={course}
             enableRowSelection
             enableSelectAll={true}

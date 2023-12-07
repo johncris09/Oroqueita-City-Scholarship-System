@@ -245,6 +245,7 @@ const SeniorHighSchool = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             data={seniorHighSchool}
             enableRowSelection
             enableSelectAll={true}

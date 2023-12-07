@@ -242,6 +242,7 @@ const User = () => {
               animation: 'pulse',
               height: 28,
             }}
+            enableColumnResizing
             data={data}
             enableRowVirtualization
             enableColumnVirtualization
@@ -467,7 +468,7 @@ const User = () => {
               >
                 <option value="">Select</option>
                 <option value="Administrator">Administrator</option>
-                <option value="Encorder">Encorder</option>
+                <option value="Encoder">Encoder</option>
               </CFormSelect>
             </CCol>
 
