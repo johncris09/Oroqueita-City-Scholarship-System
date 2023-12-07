@@ -148,7 +148,7 @@ const UserProfile = () => {
           >
             <option value="">Select</option>
             <option value="Administrator">Administrator</option>
-            <option value="Encorder">Encorder</option>
+            <option value="Encoder">Encoder</option>
           </CFormSelect>
         </CCol>
 
