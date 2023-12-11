@@ -286,7 +286,7 @@ const Tvet = () => {
     pageNumber: {
       position: 'absolute',
       fontSize: '8pt',
-      bottom: 20,
+      bottom: 10,
       left: 0,
       right: 0,
       textAlign: 'center',
@@ -307,8 +307,9 @@ const Tvet = () => {
     },
 
     footer: {
+      color: 'grey',
       position: 'absolute',
-      bottom: 20,
+      bottom: 10,
       left: 10,
       right: 20,
       textAlign: 'center',
@@ -325,8 +326,6 @@ const Tvet = () => {
   for (let i = 0; i < data.length; i += ROWS_PER_PAGE) {
     chunks.push(data.slice(i, i + ROWS_PER_PAGE))
   }
-
-  const totalChunks = chunks.length
 
   const maxWidths = {
     counter: 0,
@@ -575,135 +574,132 @@ const Tvet = () => {
         onClose={() => setPrintPreviewModalVisible(false)}
       >
         <PDFViewer width="100%" height="800px%">
-          <Document size="A4">
-            {chunks.map((chunk, index) => (
-              <Page key={index} style={styles.page}>
-                <View style={styles.header}>
-                  <Image src={logo} style={styles.logo} alt="logo" />
-                  <Text style={styles.country}>Republic of the Philippines</Text>
-                  <Text style={styles.office}>Office of the City Mayor</Text>
-                  <Text style={styles.city}>Oroqueita City</Text>
-                  <Text style={styles.citytag}>City of Goodlife</Text>
+          <Document
+            size="A4"
+            author={process.env.REACT_APP_DEVELOPER}
+            title="TVET Applicants"
+            keywords="document, pdf"
+            subject={title}
+            creator={process.env.REACT_APP_DEVELOPER}
+            producer={process.env.REACT_APP_DEVELOPER}
+            pdfVersion="1.3"
+          >
+            <Page style={styles.page}>
+              <View style={styles.header} fixed>
+                <Image src={logo} style={styles.logo} alt="logo" />
+                <Text style={styles.country}>Republic of the Philippines</Text>
+                <Text style={styles.office}>Office of the City Mayor</Text>
+                <Text style={styles.city}>Oroqueita City</Text>
+                <Text style={styles.citytag}>City of Goodlife</Text>
+              </View>
+              <View style={styles.description} fixed>
+                <Text>{title}</Text>
+              </View>
+
+              <View style={styles.table}>
+                <View style={styles.tableRow} fixed>
+                  <Text
+                    style={{
+                      ...styles.tableHeader,
+                      width: `${maxWidths.counter}ch`,
+                      borderLeft: 0.5,
+                      borderLeftColor: '#bfbfbf',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    #
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.name}ch` }}>Name</Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.address}ch` }}>
+                    Address
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.course}ch` }}>
+                    Course
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.year_level}ch` }}>
+                    Year Level
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.school}ch` }}>
+                    School
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.contact}ch` }}>
+                    Contact #
+                  </Text>
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.availment}ch` }}>
+                    Availment
+                  </Text>
                 </View>
-                <View style={styles.description}>
-                  <Text>{title}</Text>
-                </View>
-                <View></View>
-                <View style={styles.table}>
-                  <View style={styles.tableRow}>
+                {data.map((row, rowIndex) => (
+                  <View style={styles.tableRow} key={rowIndex}>
                     <Text
                       style={{
-                        ...styles.tableHeader,
+                        ...styles.tableCell,
                         width: `${maxWidths.counter}ch`,
                         borderLeft: 0.5,
                         borderLeftColor: '#bfbfbf',
-                        fontWeight: 'bold',
                       }}
                     >
-                      #
+                      {rowIndex + 1}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.name}ch` }}>
-                      Name
+                    <Text
+                      style={{
+                        ...styles.tableCell,
+                        width: `${maxWidths.name}ch`,
+                        textAlign: 'left',
+                      }}
+                    >
+                      {`${row.colLastName}, ${row.colFirstName} ${row.colMI} ${row.colSuffix}`}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.address}ch` }}>
-                      Address
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.address}ch` }}>
+                      {row.colAddress}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.course}ch` }}>
-                      Course
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.course}ch` }}>
+                      {row.colCourse}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.year_level}ch` }}>
-                      Year Level
+
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.year_level}ch` }}>
+                      {row.colYearLevel}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.school}ch` }}>
-                      School
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.school}ch` }}>
+                      {row.colSchool}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.contact}ch` }}>
-                      Contact #
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.contact}ch` }}>
+                      {row.colContactNo}
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.availment}ch` }}>
-                      Availment
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.availment}ch` }}>
+                      {row.colAvailment}
                     </Text>
                   </View>
-                  {chunk.map((row, rowIndex) => (
-                    <View style={styles.tableRow} key={rowIndex}>
-                      <Text
-                        style={{
-                          ...styles.tableCell,
-                          width: `${maxWidths.counter}ch`,
-                          borderLeft: 0.5,
-                          borderLeftColor: '#bfbfbf',
-                        }}
-                      >
-                        {index * ROWS_PER_PAGE + rowIndex + 1}
-                      </Text>
-                      <Text
-                        style={{
-                          ...styles.tableCell,
-                          width: `${maxWidths.name}ch`,
-                          textAlign: 'left',
-                        }}
-                      >
-                        {`${row.colLastName}, ${row.colFirstName} ${row.colMI} ${row.colSuffix}`}
-                      </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.address}ch` }}>
-                        {row.colAddress}
-                      </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.course}ch` }}>
-                        {row.colCourse}
-                      </Text>
+                ))}
+              </View>
 
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.year_level}ch` }}>
-                        {row.colYearLevel}
-                      </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.school}ch` }}>
-                        {row.colSchool}
-                      </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.contact}ch` }}>
-                        {row.colContactNo}
-                      </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.availment}ch` }}>
-                        {row.colAvailment}
-                      </Text>
-                    </View>
-                  ))}
+              <View style={styles.recommended}>
+                <Text>Recommended for Approval:</Text>
+                <Text style={{ marginRight: 180 }}>Approved:</Text>
+              </View>
+              <View style={styles.inBehalf}>
+                <Text>In behalf of the City Scholarship Screening Committee</Text>
+                <View style={styles.cityMayor}>
+                  <Text>{cityMayor}</Text>
+                  <Text style={{ textAlign: 'center', fontSize: 10 }}>City Mayor</Text>
                 </View>
+              </View>
+              <View style={styles.chairpersion}>
+                <Text>{commiteeChairperson}</Text>
+                <Text style={{ fontSize: 10 }}>Commitee Chairperson</Text>
+              </View>
 
-                <View>
-                  {index === totalChunks - 1 && (
-                    <>
-                      <View style={styles.recommended}>
-                        <Text>Recommended for Approval:</Text>
-                        <Text style={{ marginRight: 180 }}>Approved:</Text>
-                      </View>
-                      <View style={styles.inBehalf}>
-                        <Text>In behalf of the City Scholarship Screening Committee</Text>
-                        <View style={styles.cityMayor}>
-                          <Text>{cityMayor}</Text>
-                          <Text style={{ textAlign: 'center', fontSize: 10 }}>City Mayor</Text>
-                        </View>
-                      </View>
-                      <View style={styles.chairpersion}>
-                        <Text>{commiteeChairperson}</Text>
-                        <Text style={{ fontSize: 10 }}>Commitee Chairperson</Text>
-                      </View>
-                    </>
-                  )}
-                </View>
+              <Text
+                style={styles.pageNumber}
+                render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+                fixed
+              />
+              <View style={styles.footer} fixed>
+                <Text>Printed by: {`${user.firstname}  ${user.middlename}. ${user.lastname}`}</Text>
 
-                <Text
-                  style={styles.pageNumber}
-                  render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
-                  fixed
-                />
-                <View style={styles.footer}>
-                  <Text>
-                    Printed by: {`${user.firstname}  ${user.middlename}. ${user.lastname}`}
-                  </Text>
-
-                  <Text>Printed on: {new Date().toLocaleString()}</Text>
-                </View>
-              </Page>
-            ))}
+                <Text>Printed on: {new Date().toLocaleString()}</Text>
+              </View>
+            </Page>
           </Document>
         </PDFViewer>
       </CModal>

@@ -4,16 +4,7 @@ import { ExportToCsv } from 'export-to-csv'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import {
-  CButton,
-  CCol,
-  CForm,
-  CFormInput,
-  CFormSelect,
-  CModal,
-  CModalBody,
-  CRow,
-} from '@coreui/react'
+import { CButton, CCol, CForm, CFormInput, CFormSelect, CModal, CRow } from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box } from '@mui/material'
@@ -63,7 +54,6 @@ const SeniorHigh = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target
     form.setFieldValue(name, value)
-    console.info(user)
   }
 
   const form = useFormik({
@@ -316,6 +306,7 @@ const SeniorHigh = () => {
     },
 
     footer: {
+      color: 'grey',
       position: 'absolute',
       bottom: 20,
       left: 10,
@@ -582,7 +573,16 @@ const SeniorHigh = () => {
         onClose={() => setPrintPreviewModalVisible(false)}
       >
         <PDFViewer width="100%" height="800px%">
-          <Document size="A4">
+          <Document
+            size="A4"
+            author={process.env.REACT_APP_DEVELOPER}
+            title="Senior High Applicants"
+            keywords="document, pdf"
+            subject={title}
+            creator={process.env.REACT_APP_DEVELOPER}
+            producer={process.env.REACT_APP_DEVELOPER}
+            pdfVersion="1.3"
+          >
             {chunks.map((chunk, index) => (
               <Page key={index} style={styles.page}>
                 <View style={styles.header}>
