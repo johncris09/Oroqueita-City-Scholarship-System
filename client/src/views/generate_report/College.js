@@ -25,6 +25,7 @@ import HandleError from 'src/components/HandleError'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, Font, Image } from '@react-pdf/renderer'
 import logo from './../../assets/images/logo-sm.png'
 import { jwtDecode } from 'jwt-decode'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const College = () => {
   const [data, setData] = useState([])
@@ -110,11 +111,15 @@ const College = () => {
     {
       accessorKey: 'colAppNoID',
       header: 'Name',
-      accessorFn: (row) => `${row.colLastName}, ${row.colFirstName} ${row.colMI}`,
+      accessorFn: (row) =>
+        `${toSentenceCase(row.colLastName)}, ${toSentenceCase(row.colFirstName)} ${toSentenceCase(
+          row.colMI,
+        )}`,
     },
     {
       accessorKey: 'colAddress',
       header: 'Address',
+      accessorFn: (row) => `${toSentenceCase(row.colAddress)}`,
     },
     {
       accessorKey: 'colCourse',
@@ -151,8 +156,10 @@ const College = () => {
   const handleExportData = () => {
     const exportedData = data.map((item) => {
       return {
-        Name: `${item.colLastName}, ${item.colFirstName} ${item.colMI}`,
-        Address: item.colAddress,
+        Name: `${toSentenceCase(item.colLastName)}, ${toSentenceCase(
+          item.colFirstName,
+        )} ${toSentenceCase(item.colMI)}`,
+        Address: `${toSentenceCase(item.colAddress)}`,
         Strand: item.colCourse,
         'Year Level': item.colYearLevel,
         School: item.colSchool,
@@ -647,10 +654,12 @@ const College = () => {
                         textAlign: 'left',
                       }}
                     >
-                      {`${row.colLastName}, ${row.colFirstName} ${row.colMI} ${row.colSuffix}`}
+                      {`${toSentenceCase(row.colLastName)}, ${toSentenceCase(
+                        row.colFirstName,
+                      )} ${toSentenceCase(row.colMI)}`}
                     </Text>
                     <Text style={{ ...styles.tableCell, width: `${maxWidths.address}ch` }}>
-                      {row.colAddress}
+                      {toSentenceCase(row.colAddress)}
                     </Text>
                     <Text style={{ ...styles.tableCell, width: `${maxWidths.course}ch` }}>
                       {row.colCourse}

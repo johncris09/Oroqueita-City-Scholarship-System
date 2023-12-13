@@ -25,6 +25,7 @@ import HandleError from 'src/components/HandleError'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, Font, Image } from '@react-pdf/renderer'
 import logo from './../../assets/images/logo-sm.png'
 import { jwtDecode } from 'jwt-decode'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -110,11 +111,15 @@ const Tvet = () => {
     {
       accessorKey: 'colAppNoID',
       header: 'Name',
-      accessorFn: (row) => `${row.colLastName}, ${row.colFirstName} ${row.colMI}`,
+      accessorFn: (row) =>
+        `${toSentenceCase(row.colLastName)}, ${toSentenceCase(row.colFirstName)} ${toSentenceCase(
+          row.colMI,
+        )}`,
     },
     {
       accessorKey: 'colAddress',
       header: 'Address',
+      accessorFn: (row) => `${toSentenceCase(row.colAddress)}`,
     },
     {
       accessorKey: 'colCourse',

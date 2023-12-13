@@ -25,6 +25,7 @@ import HandleError from 'src/components/HandleError'
 import { Page, Text, View, Document, StyleSheet, PDFViewer, Font, Image } from '@react-pdf/renderer'
 import logo from './../../assets/images/logo-sm.png'
 import { jwtDecode } from 'jwt-decode'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -109,11 +110,15 @@ const SeniorHigh = () => {
     {
       accessorKey: 'AppNoID',
       header: 'Name',
-      accessorFn: (row) => `${row.AppLastName}, ${row.AppFirstName} ${row.AppMidIn}`,
+      accessorFn: (row) =>
+        `${toSentenceCase(row.AppLastName)}, ${toSentenceCase(row.AppFirstName)} ${toSentenceCase(
+          row.AppMidIn,
+        )}`,
     },
     {
       accessorKey: 'AppAddress',
       header: 'Address',
+      accessorFn: (row) => `${toSentenceCase(row.AppAddress)}`,
     },
     {
       accessorKey: 'AppCourse',
