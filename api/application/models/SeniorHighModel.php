@@ -76,9 +76,7 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
             ->get($this->table);
-
         $result = $query->row();
         return $result->total;
 
@@ -89,9 +87,7 @@ class SeniorHighModel extends CI_Model
     {
         $query = $this->db->select('count(*) as total')
             ->where($data)
-            ->where('AppManager', 'Active')
             ->get($this->table);
-
         $result = $query->row();
         return $result->total;
     }
@@ -100,9 +96,7 @@ class SeniorHighModel extends CI_Model
     public function all_total()
     {
         $query = $this->db->select('count(*) as total')
-            ->where('AppManager', 'Active')
             ->get($this->table);
-
         $result = $query->row();
         return $result->total;
     }
@@ -169,7 +163,7 @@ class SeniorHighModel extends CI_Model
             ->where('AppStatus', 'pending')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
+
             ->get($this->table);
 
         return $query->result()[0];
@@ -184,7 +178,7 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total_pending')
             ->where('AppStatus', 'pending')
             ->where($data)
-            ->where('AppManager', 'Active')
+
             ->get($this->table);
         return $query->result()[0];
     }
@@ -195,7 +189,7 @@ class SeniorHighModel extends CI_Model
     {
         $query = $this->db->select('count(*) as total_pending')
             ->where('AppStatus', 'pending')
-            ->where('AppManager', 'Active')
+
             ->get($this->table);
         return $query->result()[0];
     }
@@ -214,7 +208,6 @@ class SeniorHighModel extends CI_Model
             ->where('AppStatus !=', 'disapproved')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -230,7 +223,6 @@ class SeniorHighModel extends CI_Model
             ->like('AppStatus', 'approved', 'both')
             ->where('AppStatus !=', 'disapproved')
             ->where($data)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -245,7 +237,6 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total_approved')
             ->like('AppStatus', 'approved', 'both')
             ->where('AppStatus !=', 'disapproved')
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -263,7 +254,6 @@ class SeniorHighModel extends CI_Model
             ->where('AppStatus ', 'disapproved')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -283,7 +273,6 @@ class SeniorHighModel extends CI_Model
             ->where('AppStatus ', 'archived')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -300,7 +289,6 @@ class SeniorHighModel extends CI_Model
             ->where('AppStatus ', 'void')
             ->where('AppSem', $query_sem->current_semester)
             ->where('AppSY', $query_sy->current_sy)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -314,7 +302,6 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total_disapproved')
             ->where('AppStatus ', 'disapproved')
             ->where($data)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -326,7 +313,6 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total_archived')
             ->where('AppStatus ', 'archived')
             ->where($data)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -337,7 +323,6 @@ class SeniorHighModel extends CI_Model
         $query = $this->db->select('count(*) as total_void')
             ->where('AppStatus ', 'void')
             ->where($data)
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -348,7 +333,6 @@ class SeniorHighModel extends CI_Model
 
         $query = $this->db->select('count(*) as total_disapproved')
             ->where('AppStatus ', 'disapproved')
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -360,7 +344,6 @@ class SeniorHighModel extends CI_Model
 
         $query = $this->db->select('count(*) as total_archived')
             ->where('AppStatus ', 'archived')
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -371,7 +354,6 @@ class SeniorHighModel extends CI_Model
 
         $query = $this->db->select('count(*) as total_void')
             ->where('AppStatus ', 'void')
-            ->where('AppManager', 'Active')
             ->get($this->table);
 
         return $query->result()[0];
@@ -481,7 +463,7 @@ class SeniorHighModel extends CI_Model
             ->where($data)
             ->order_by('AppLastName', 'asc')
             ->get($this->table);
-        return $query->result_array(); 
+        return $query->result_array();
     }
 
 

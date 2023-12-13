@@ -70,7 +70,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		$result = $query->row();
@@ -83,7 +82,6 @@ class TvetModel extends CI_Model
 
 		$query = $this->db->select('count(*) as total')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		$result = $query->row();
@@ -96,7 +94,6 @@ class TvetModel extends CI_Model
 	{
 
 		$query = $this->db->select('count(*) as total')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		$result = $query->row();
@@ -107,6 +104,7 @@ class TvetModel extends CI_Model
 	public function get_student()
 	{
 		$query = $this->db->select($this->default_column)
+			->where('colManager', 'Active')
 			->order_by('ID', 'desc')
 			->get($this->table, 100);
 		return $query->result();
@@ -177,7 +175,6 @@ class TvetModel extends CI_Model
 			->where('colAppStat', 'pending')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -188,7 +185,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total_pending')
 			->where('colAppStat', 'pending')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -198,7 +194,6 @@ class TvetModel extends CI_Model
 	{
 		$query = $this->db->select('count(*) as total_pending')
 			->where('colAppStat', 'pending')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -214,7 +209,6 @@ class TvetModel extends CI_Model
 			->where('colAppStat !=', 'disapproved')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -225,7 +219,6 @@ class TvetModel extends CI_Model
 			->like('colAppStat', 'approved', 'both')
 			->where('colAppStat !=', 'disapproved')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -235,7 +228,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total_approved')
 			->like('colAppStat', 'approved', 'both')
 			->where('colAppStat !=', 'disapproved')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -251,7 +243,6 @@ class TvetModel extends CI_Model
 			->where('colAppStat  ', 'disapproved')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -267,7 +258,6 @@ class TvetModel extends CI_Model
 			->where('colAppStat  ', 'archived')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -282,7 +272,6 @@ class TvetModel extends CI_Model
 			->where('colAppStat  ', 'void')
 			->where('colSem', $query_sem->current_semester)
 			->where('colSY', $query_sy->current_sy)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -293,7 +282,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total_disapproved')
 			->where('colAppStat  ', 'disapproved')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -304,7 +292,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total_archived')
 			->where('colAppStat  ', 'archived')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -315,7 +302,6 @@ class TvetModel extends CI_Model
 		$query = $this->db->select('count(*) as total_void')
 			->where('colAppStat  ', 'void')
 			->where($data)
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -325,7 +311,6 @@ class TvetModel extends CI_Model
 
 		$query = $this->db->select('count(*) as total_disapproved')
 			->where('colAppStat  ', 'disapproved')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -336,7 +321,6 @@ class TvetModel extends CI_Model
 
 		$query = $this->db->select('count(*) as total_archived')
 			->where('colAppStat  ', 'archived')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
@@ -347,7 +331,6 @@ class TvetModel extends CI_Model
 
 		$query = $this->db->select('count(*) as total_void')
 			->where('colAppStat  ', 'void')
-			->where('colManager', 'Active')
 			->get($this->table);
 
 		return $query->result()[0];
