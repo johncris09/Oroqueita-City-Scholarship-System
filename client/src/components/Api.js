@@ -1,9 +1,9 @@
 import axios from 'axios'
-const isDevelopment = true
+const isProduction = false
 const api = axios.create({
-  baseURL: isDevelopment
-    ? process.env.REACT_APP_BASEURL_DEVELOPMENT
-    : process.env.REACT_APP_BASEURL_PRODUCTION,
+  baseURL: isProduction
+    ? process.env.REACT_APP_BASEURL_PRODUCTION
+    : process.env.REACT_APP_BASEURL_DEVELOPMENT,
 
   auth: {
     username: process.env.REACT_APP_USERNAME,
