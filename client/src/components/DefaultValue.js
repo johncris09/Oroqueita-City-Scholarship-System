@@ -1,5 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
+import { toSentenceCase } from './FormatCase'
+import { ExportToCsv } from 'export-to-csv'
 
 const currentYear = new Date().getFullYear()
 const lastYear = 2017
@@ -119,14 +121,17 @@ const seniorHighDefaultColumn = [
   {
     accessorKey: 'AppLastName',
     header: 'Last Name',
+    accessorFn: (row) => `${toSentenceCase(row.AppLastName)}`,
   },
   {
     accessorKey: 'AppFirstName',
     header: 'First Name',
+    accessorFn: (row) => `${toSentenceCase(row.AppFirstName)}`,
   },
   {
     accessorKey: 'AppMidIn',
     header: 'Middle Name',
+    accessorFn: (row) => `${toSentenceCase(row.AppMidIn)}`,
   },
   {
     accessorKey: 'AppContact',
@@ -135,6 +140,7 @@ const seniorHighDefaultColumn = [
   {
     accessorKey: 'AppAddress',
     header: 'Address',
+    accessorFn: (row) => `${toSentenceCase(row.AppAddress)}`,
   },
   {
     accessorKey: 'AppGender',
@@ -191,14 +197,17 @@ const collegeDefaultColumn = [
   {
     accessorKey: 'colLastName',
     header: 'Last Name',
+    accessorFn: (row) => `${toSentenceCase(row.colLastName)}`,
   },
   {
     accessorKey: 'colFirstName',
     header: 'First Name',
+    accessorFn: (row) => `${toSentenceCase(row.colFirstName)}`,
   },
   {
     accessorKey: 'colMI',
     header: 'Middle Name',
+    accessorFn: (row) => `${toSentenceCase(row.colMI)}`,
   },
   {
     accessorKey: 'colContactNo',
@@ -207,6 +216,7 @@ const collegeDefaultColumn = [
   {
     accessorKey: 'colAddress',
     header: 'Address',
+    accessorFn: (row) => `${toSentenceCase(row.colAddress)}`,
   },
   {
     accessorKey: 'colGender',
@@ -290,7 +300,7 @@ const tvetDefaultColumn = [
   },
   {
     accessorKey: 'colCourse',
-    header: 'Strand',
+    header: 'Course',
   },
   {
     accessorKey: 'colSY',
@@ -311,7 +321,178 @@ const tvetDefaultColumn = [
 ]
 const commiteeChairperson = 'MARK ANTHONY D. ARTIGAS'
 const cityMayor = 'LEMUEL MEYRICK M. ACOSTA'
+
+const csvOptions = (column) => {
+  return {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalSeparator: '.',
+    showLabels: true,
+    useBom: true,
+    useKeysAsHeaders: false,
+    headers: column.map((c) => c.header),
+  }
+}
+
+const handleExportSeniorHighRows = (rows) => {
+  const csvExporter = new ExportToCsv(csvOptions(seniorHighDefaultColumn))
+
+  const exportedData = rows
+    .map((row) => row.original)
+    .map((item) => {
+      return {
+        'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
+        'First Name': item.AppFirstName,
+        'Last Name': item.AppLastName,
+        'Middle Name': item.AppMidIn,
+        Address: item.AppAddress,
+        'Contact #': item.AppContact,
+        Gender: item.AppGender,
+        School: item.AppSchool,
+        Strand: item.AppCourse,
+        'School Year': item.AppSY,
+        Semester: item.AppSem,
+        'Application Status': item.AppStatus,
+        Availment: item.AppAvailment,
+      }
+    })
+
+  csvExporter.generateCsv(exportedData)
+}
+
+const handleExportSeniorHighData = (data) => {
+  const csvExporter = new ExportToCsv(csvOptions(seniorHighDefaultColumn))
+
+  const exportedData = data.map((item) => {
+    return {
+      'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
+      'First Name': item.AppFirstName,
+      'Last Name': item.AppLastName,
+      'Middle Name': item.AppMidIn,
+      Address: item.AppAddress,
+      'Contact #': item.AppContact,
+      Gender: item.AppGender,
+      School: item.AppSchool,
+      Strand: item.AppCourse,
+      'School Year': item.AppSY,
+      Semester: item.AppSem,
+      'Application Status': item.AppStatus,
+      Availment: item.AppAvailment,
+    }
+  })
+
+  csvExporter.generateCsv(exportedData)
+}
+
+const handleExportCollegeRows = (rows) => {
+  const csvExporter = new ExportToCsv(csvOptions(collegeDefaultColumn))
+
+  const exportedData = rows
+    .map((row) => row.original)
+    .map((item) => {
+      return {
+        'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+        'First Name': item.colFirstName,
+        'Last Name': item.colLastName,
+        'Middle Name': item.colMI,
+        Address: item.colAddress,
+        'Contact #': item.colContactNo,
+        Gender: item.colGender,
+        School: item.colSchool,
+        Course: item.colCourse,
+        'School Year': item.colSY,
+        Semester: item.colSem,
+        'Application Status': item.colAppStat,
+        Availment: item.colAvailment,
+      }
+    })
+
+  csvExporter.generateCsv(exportedData)
+}
+
+const handleExportCollegeData = (data) => {
+  const csvExporter = new ExportToCsv(csvOptions(collegeDefaultColumn))
+
+  const exportedData = data.map((item) => {
+    return {
+      'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+      'First Name': item.colFirstName,
+      'Last Name': item.colLastName,
+      'Middle Name': item.colMI,
+      Address: item.colAddress,
+      'Contact #': item.colContactNo,
+      Gender: item.colGender,
+      School: item.colSchool,
+      Course: item.colCourse,
+      'School Year': item.colSY,
+      Semester: item.colSem,
+      'Application Status': item.colAppStat,
+      Availment: item.colAvailment,
+    }
+  })
+
+  csvExporter.generateCsv(exportedData)
+}
+//
+
+const handleExportTvetRows = (rows) => {
+  const csvExporter = new ExportToCsv(csvOptions(tvetDefaultColumn))
+
+  const exportedData = rows
+    .map((row) => row.original)
+    .map((item) => {
+      return {
+        'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+        'First Name': item.colFirstName,
+        'Last Name': item.colLastName,
+        'Middle Name': item.colMI,
+        Address: item.colAddress,
+        'Contact #': item.colContactNo,
+        Gender: item.colGender,
+        School: item.colSchool,
+        Strand: item.colCourse,
+        'School Year': item.colSY,
+        Semester: item.colSem,
+        'Application Status': item.colAppStat,
+        Availment: item.colAvailment,
+      }
+    })
+
+  csvExporter.generateCsv(exportedData)
+}
+
+const handleExportTvetData = (data) => {
+  const csvExporter = new ExportToCsv(csvOptions(tvetDefaultColumn))
+
+  const exportedData = data.map((item) => {
+    return {
+      'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
+      'First Name': item.colFirstName,
+      'Last Name': item.colLastName,
+      'Middle Name': item.colMI,
+      Address: item.colAddress,
+      'Contact #': item.colContactNo,
+      Gender: item.colGender,
+      School: item.colSchool,
+      Strand: item.colCourse,
+      'School Year': item.colSY,
+      Semester: item.colSem,
+      'Application Status': item.colAppStat,
+      Availment: item.colAvailment,
+    }
+  })
+
+  csvExporter.generateCsv(exportedData)
+}
+
+//
 export {
+  handleExportSeniorHighData,
+  handleExportSeniorHighRows,
+  handleExportCollegeData,
+  handleExportCollegeRows,
+  handleExportTvetData,
+  handleExportTvetRows,
   Address,
   CivilStatus,
   Sex,
