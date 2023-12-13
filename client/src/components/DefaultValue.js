@@ -218,7 +218,7 @@ const collegeDefaultColumn = [
   },
   {
     accessorKey: 'colCourse',
-    header: 'Strand',
+    header: 'Course',
   },
   {
     accessorKey: 'colSY',
