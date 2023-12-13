@@ -125,7 +125,6 @@ const College = () => {
         await api
           .post('college/insert', values)
           .then((response) => {
-            // console.info(response.data)
             toast.success(response.data.message)
             formik.resetForm()
             setValidated(false)

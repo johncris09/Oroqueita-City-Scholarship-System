@@ -178,7 +178,7 @@ const SystemSequence = () => {
                     .get('system_sequence/find/' + id)
                     .then((response) => {
                       const res = decrypted(response.data)
-                      console.info(res)
+
                       form.setValues({
                         seq_appno: res.seq_appno,
                         seq_name: res.seq_name,

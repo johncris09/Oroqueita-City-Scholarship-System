@@ -13,6 +13,7 @@ import {
 import SeniorHigh from './SeniorHigh'
 import College from './College'
 import Tvet from './Tvet'
+import { toast } from 'react-toastify'
 
 const Approved = () => {
   const [activeKey, setActiveKey] = useState(1)
@@ -29,7 +30,10 @@ const Approved = () => {
                 role="tab"
                 aria-controls="senior-high-tab-pane"
                 aria-selected={activeKey === 1}
-                onClick={() => setActiveKey(1)}
+                onClick={() => {
+                  setActiveKey(1)
+                  toast.dismiss()
+                }}
               >
                 Senior High
               </CNavLink>
@@ -41,7 +45,10 @@ const Approved = () => {
                 role="tab"
                 aria-controls="college-tab-pane"
                 aria-selected={activeKey === 2}
-                onClick={() => setActiveKey(2)}
+                onClick={() => {
+                  setActiveKey(2)
+                  toast.dismiss()
+                }}
               >
                 College
               </CNavLink>
@@ -53,7 +60,10 @@ const Approved = () => {
                 role="tab"
                 aria-controls="tvet-tab-pane"
                 aria-selected={activeKey === 3}
-                onClick={() => setActiveKey(3)}
+                onClick={() => {
+                  setActiveKey(3)
+                  toast.dismiss()
+                }}
               >
                 Tvet
               </CNavLink>

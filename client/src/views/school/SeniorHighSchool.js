@@ -177,7 +177,6 @@ const SeniorHighSchool = () => {
         api
           .delete('senior_high_school/bulk_delete', { data: selectedRows })
           .then((response) => {
-            console.info(response.data)
             fetchSeniorHighSchool()
 
             toast.success(response.data.message)

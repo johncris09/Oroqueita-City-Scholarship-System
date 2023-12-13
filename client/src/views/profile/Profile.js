@@ -12,6 +12,7 @@ import {
 } from '@coreui/react'
 import UserProfile from './UserProfile'
 import ChangePassword from './ChangePassword'
+import { toast } from 'react-toastify'
 
 const User = () => {
   const [activeKey, setActiveKey] = useState(2)
@@ -29,7 +30,10 @@ const User = () => {
                 role="tab"
                 aria-controls="profile-tab"
                 aria-selected={activeKey === 1}
-                onClick={() => setActiveKey(1)}
+                onClick={() => {
+                  setActiveKey(1)
+                  toast.dismiss()
+                }}
               >
                 User Profile
               </CNavLink>
@@ -41,7 +45,10 @@ const User = () => {
                 role="tab"
                 aria-controls="change-password"
                 aria-selected={activeKey === 2}
-                onClick={() => setActiveKey(2)}
+                onClick={() => {
+                  setActiveKey(2)
+                  toast.dismiss()
+                }}
               >
                 Change Password
               </CNavLink>

@@ -268,7 +268,7 @@ const User = () => {
                     .get('user/find/' + id)
                     .then((response) => {
                       const res = decrypted(response.data)
-                      console.info(res)
+
                       form.setValues({
                         first_name: res.FirstName,
                         middle_initial: res.MidIn,
