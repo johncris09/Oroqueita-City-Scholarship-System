@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { DefaultLoading } from 'src/components/Loading'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const ChangePassword = () => {
   const navigate = useNavigate()
@@ -56,13 +57,7 @@ const ChangePassword = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text' && name !== 'password') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }

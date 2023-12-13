@@ -31,6 +31,7 @@ import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const Strand = () => {
   const [strand, setStrand] = useState([])
@@ -160,29 +161,31 @@ const Strand = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setFetchStrandLoading(true)
-        const selectedRows = rows
-          .map((row) => row.original)
-          .map((item) => {
-            return {
-              ID: item.ID,
-            }
-          })
-        api
-          .delete('strand/bulk_delete', { data: selectedRows })
-          .then((response) => {
-            fetchStrand()
+        validationPrompt(() => {
+          setFetchStrandLoading(true)
+          const selectedRows = rows
+            .map((row) => row.original)
+            .map((item) => {
+              return {
+                ID: item.ID,
+              }
+            })
+          api
+            .delete('strand/bulk_delete', { data: selectedRows })
+            .then((response) => {
+              fetchStrand()
 
-            toast.success(response.data.message)
-          })
-          .catch((error) => {
-            toast.error(HandleError(error))
-          })
-          .finally(() => {
-            setFetchStrandLoading(false)
+              toast.success(response.data.message)
+            })
+            .catch((error) => {
+              toast.error(HandleError(error))
+            })
+            .finally(() => {
+              setFetchStrandLoading(false)
 
-            table.resetRowSelection()
-          })
+              table.resetRowSelection()
+            })
+        })
       }
     })
   }
@@ -288,23 +291,25 @@ const Strand = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      let id = row.original.ID
+                      validationPrompt(() => {
+                        let id = row.original.ID
 
-                      setFetchStrandLoading(true)
+                        setFetchStrandLoading(true)
 
-                      api
-                        .delete('strand/delete/' + id)
-                        .then((response) => {
-                          fetchStrand()
+                        api
+                          .delete('strand/delete/' + id)
+                          .then((response) => {
+                            fetchStrand()
 
-                          toast.success(response.data.message)
-                        })
-                        .catch((error) => {
-                          toast.error(HandleError(error))
-                        })
-                        .finally(() => {
-                          setFetchStrandLoading(false)
-                        })
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setFetchStrandLoading(false)
+                          })
+                      })
                     }
                   })
                 }}

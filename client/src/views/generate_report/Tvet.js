@@ -339,7 +339,7 @@ const Tvet = () => {
     course: 0,
     year_level: 0,
     school: 0,
-    contact: 0,
+    ctc_number: 0,
     availment: 0,
   }
 
@@ -353,7 +353,7 @@ const Tvet = () => {
     maxWidths.course = Math.max(maxWidths.course, row.colCourse.length)
     maxWidths.year_level = Math.max(maxWidths.year_level, row.colYearLevel.length + 10)
     maxWidths.school = Math.max(maxWidths.school, row.colSchool.length)
-    maxWidths.contact = Math.max(maxWidths.contact, row.colContactNo.length)
+    maxWidths.ctc_number = Math.max(maxWidths.ctc_number, row.colCTC.length)
     maxWidths.availment = Math.max(maxWidths.availment, row.colAvailment.length + 10)
   })
 
@@ -627,8 +627,8 @@ const Tvet = () => {
                   <Text style={{ ...styles.tableHeader, width: `${maxWidths.school}ch` }}>
                     School
                   </Text>
-                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.contact}ch` }}>
-                    Contact #
+                  <Text style={{ ...styles.tableHeader, width: `${maxWidths.ctc_number}ch` }}>
+                    CTC No.
                   </Text>
                   <Text style={{ ...styles.tableHeader, width: `${maxWidths.availment}ch` }}>
                     Availment
@@ -668,8 +668,8 @@ const Tvet = () => {
                     <Text style={{ ...styles.tableCell, width: `${maxWidths.school}ch` }}>
                       {row.colSchool}
                     </Text>
-                    <Text style={{ ...styles.tableCell, width: `${maxWidths.contact}ch` }}>
-                      {row.colContactNo}
+                    <Text style={{ ...styles.tableCell, width: `${maxWidths.ctc_number}ch` }}>
+                      {row.colCTC}
                     </Text>
                     <Text style={{ ...styles.tableCell, width: `${maxWidths.availment}ch` }}>
                       {row.colAvailment}

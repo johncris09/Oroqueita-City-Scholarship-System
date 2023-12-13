@@ -34,12 +34,18 @@ import {
   Sex,
   StatusType,
   YearLevel,
+  collegeDefaultColumn,
+  handleExportCollegeData,
+  handleExportCollegeRows,
 } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import { toSentenceCase } from 'src/components/FormatCase'
+import { calculateAge } from 'src/components/GetAge'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const College = () => {
   const [data, setData] = useState([])
@@ -98,77 +104,6 @@ const College = () => {
       })
   }
 
-  const column = [
-    {
-      accessorKey: 'colAppNoID',
-      header: 'Application #',
-      accessorFn: (row) => `${row.colAppNoYear}-${row.colAppNoSem}-${row.colAppNoID}`,
-      Cell: ({ cell }) => (
-        <Box
-          fontSize={12}
-          component="span"
-          sx={(theme) => ({
-            backgroundColor: '#757575',
-            borderRadius: '0.25rem',
-            color: '#fff',
-            maxWidth: '20ch',
-            p: '0.05rem',
-          })}
-        >
-          {cell.getValue()}
-        </Box>
-      ),
-    },
-    {
-      accessorKey: 'colFirstName',
-      header: 'First Name',
-    },
-    {
-      accessorKey: 'colLastName',
-      header: 'Last Name',
-    },
-    {
-      accessorKey: 'colMI',
-      header: 'Middle Name',
-    },
-    {
-      accessorKey: 'colContactNo',
-      header: 'Contact #',
-    },
-    {
-      accessorKey: 'colAddress',
-      header: 'Address',
-    },
-    {
-      accessorKey: 'colGender',
-      header: 'Gender',
-    },
-    {
-      accessorKey: 'colSchool',
-      header: 'School',
-    },
-    {
-      accessorKey: 'colCourse',
-      header: 'Strand',
-    },
-    {
-      accessorKey: 'colSY',
-      header: 'School Year',
-    },
-    {
-      accessorKey: 'colSem',
-      header: 'Semester',
-    },
-    {
-      accessorKey: 'colAppStat',
-      header: 'Application Status',
-    },
-    {
-      accessorKey: 'colAvailment',
-      header: 'Availment',
-    },
-  ]
-
   const handleInputChange = (e) => {
     const { name, value } = e.target
     filterForm.setFieldValue(name, value)
@@ -178,82 +113,14 @@ const College = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }
 
     if (type === 'date') {
-      const birthDate = new Date(value)
-      const currentDate = new Date()
-
-      const ageInMilliseconds = currentDate - birthDate
-      const ageInYears = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000))
-
-      form.setFieldValue('age', ageInYears)
+      form.setFieldValue('age', calculateAge(value))
     }
-  }
-
-  const csvOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalSeparator: '.',
-    showLabels: true,
-    useBom: true,
-    useKeysAsHeaders: false,
-    headers: column.map((c) => c.header),
-  }
-
-  const csvExporter = new ExportToCsv(csvOptions)
-  const handleExportRows = (rows) => {
-    const exportedData = rows
-      .map((row) => row.original)
-      .map((item) => {
-        return {
-          'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
-          'First Name': item.colFirstName,
-          'Last Name': item.colLastName,
-          'Middle Name': item.colMI,
-          Address: item.colAddress,
-          'Contact #': item.colContactNo,
-          Gender: item.colGender,
-          School: item.colSchool,
-          Strand: item.colCourse,
-          'School Year': item.colSY,
-          Semester: item.colSem,
-          'Application Status': item.colAppStat,
-          Availment: item.colAvailment,
-        }
-      })
-
-    csvExporter.generateCsv(exportedData)
-  }
-
-  const handleExportData = () => {
-    const exportedData = data.map((item) => {
-      return {
-        'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
-        'First Name': item.colFirstName,
-        'Last Name': item.colLastName,
-        'Middle Name': item.colMI,
-        Address: item.colAddress,
-        'Contact #': item.colContactNo,
-        Gender: item.colGender,
-        School: item.colSchool,
-        Strand: item.colCourse,
-        'School Year': item.colSY,
-        Semester: item.colSem,
-        'Application Status': item.colAppStat,
-        Availment: item.colAvailment,
-      }
-    })
-    csvExporter.generateCsv(exportedData)
   }
 
   const handleViewAllData = () => {
@@ -468,7 +335,7 @@ const College = () => {
       <CRow>
         <CCol>
           <MaterialReactTable
-            columns={column}
+            columns={collegeDefaultColumn}
             data={data}
             enableRowVirtualization
             enableColumnVirtualization
@@ -580,45 +447,20 @@ const College = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      Swal.fire({
-                        title: 'Please enter the secret key to proceed.',
-                        input: 'password',
-                        icon: 'info',
-                        customClass: {
-                          validationMessage: 'my-validation-message',
-                          alignment: 'text-center',
-                        },
-                        preConfirm: (value) => {
-                          if (!value) {
-                            Swal.showValidationMessage('This field is required')
-                          }
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: 'Ok',
-                      }).then(async function (result) {
-                        if (result.isConfirmed) {
-                          if (result.value === process.env.REACT_APP_STATUS_APPROVED_KEY) {
-                            setLoading(true)
-                            api
-                              .put('college/update_status/' + id, { status: 'Archived' })
-                              .then((response) => {
-                                fetchData()
-                                toast.success(response.data.message)
-                              })
-                              .catch((error) => {
-                                toast.error(HandleError(error))
-                              })
-                              .finally(() => {
-                                setLoading(false)
-                              })
-                          } else {
-                            Swal.fire({
-                              title: 'Error!',
-                              html: 'Invalid Secrey Key',
-                              icon: 'error',
-                            })
-                          }
-                        }
+                      validationPrompt(() => {
+                        setLoading(true)
+                        api
+                          .put('college/update_status/' + id, { status: 'Archived' })
+                          .then((response) => {
+                            fetchData()
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setLoading(false)
+                          })
                       })
                     }
                   })
@@ -628,7 +470,7 @@ const College = () => {
                 <ListItemIcon>
                   <DeleteOutline />
                 </ListItemIcon>
-                Delete (Archived)
+                Delete
               </MenuItem>,
             ]}
             renderTopToolbarCustomActions={({ table }) => (
@@ -642,13 +484,17 @@ const College = () => {
                     flexWrap: 'wrap',
                   }}
                 >
-                  <CButton className="btn-info text-white" onClick={handleExportData} size="sm">
+                  <CButton
+                    className="btn-info text-white"
+                    onClick={() => handleExportCollegeData(data)}
+                    size="sm"
+                  >
                     <FontAwesomeIcon icon={faFileExcel} /> Export to Excel
                   </CButton>
                   <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
-                    onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+                    onClick={() => handleExportCollegeRows(table.getSelectedRowModel().rows)}
                     variant="outline"
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows

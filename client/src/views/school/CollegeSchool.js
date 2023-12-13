@@ -31,6 +31,7 @@ import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const CollegeSchool = () => {
   const [collegeSchool, setCollegeSchool] = useState([])
@@ -166,29 +167,31 @@ const CollegeSchool = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setFetchCollegeSchoolLoading(true)
-        const selectedRows = rows
-          .map((row) => row.original)
-          .map((item) => {
-            return {
-              ID: item.ID,
-            }
-          })
-        api
-          .delete('college_school/bulk_delete', { data: selectedRows })
-          .then((response) => {
-            fetchCollegeSchool()
+        validationPrompt(() => {
+          setFetchCollegeSchoolLoading(true)
+          const selectedRows = rows
+            .map((row) => row.original)
+            .map((item) => {
+              return {
+                ID: item.ID,
+              }
+            })
+          api
+            .delete('college_school/bulk_delete', { data: selectedRows })
+            .then((response) => {
+              fetchCollegeSchool()
 
-            toast.success(response.data.message)
-          })
-          .catch((error) => {
-            toast.error(HandleError(error))
-          })
-          .finally(() => {
-            setFetchCollegeSchoolLoading(false)
+              toast.success(response.data.message)
+            })
+            .catch((error) => {
+              toast.error(HandleError(error))
+            })
+            .finally(() => {
+              setFetchCollegeSchoolLoading(false)
 
-            table.resetRowSelection()
-          })
+              table.resetRowSelection()
+            })
+        })
       }
     })
   }
@@ -295,23 +298,25 @@ const CollegeSchool = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      let id = row.original.ID
+                      validationPrompt(() => {
+                        let id = row.original.ID
 
-                      setFetchCollegeSchoolLoading(true)
+                        setFetchCollegeSchoolLoading(true)
 
-                      api
-                        .delete('college_school/delete/' + id)
-                        .then((response) => {
-                          fetchCollegeSchool()
+                        api
+                          .delete('college_school/delete/' + id)
+                          .then((response) => {
+                            fetchCollegeSchool()
 
-                          toast.success(response.data.message)
-                        })
-                        .catch((error) => {
-                          toast.error(HandleError(error))
-                        })
-                        .finally(() => {
-                          setFetchCollegeSchoolLoading(false)
-                        })
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setFetchCollegeSchoolLoading(false)
+                          })
+                      })
                     }
                   })
                 }}

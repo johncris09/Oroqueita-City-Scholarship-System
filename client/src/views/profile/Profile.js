@@ -15,7 +15,7 @@ import ChangePassword from './ChangePassword'
 import { toast } from 'react-toastify'
 
 const User = () => {
-  const [activeKey, setActiveKey] = useState(2)
+  const [activeKey, setActiveKey] = useState(1)
 
   return (
     <>

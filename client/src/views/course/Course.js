@@ -31,6 +31,7 @@ import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const Course = () => {
   const [course, setCourse] = useState([])
@@ -160,29 +161,31 @@ const Course = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setFetchCourseLoading(true)
-        const selectedRows = rows
-          .map((row) => row.original)
-          .map((item) => {
-            return {
-              ID: item.ID,
-            }
-          })
-        api
-          .delete('course/bulk_delete', { data: selectedRows })
-          .then((response) => {
-            fetchCourse()
+        validationPrompt(() => {
+          setFetchCourseLoading(true)
+          const selectedRows = rows
+            .map((row) => row.original)
+            .map((item) => {
+              return {
+                ID: item.ID,
+              }
+            })
+          api
+            .delete('course/bulk_delete', { data: selectedRows })
+            .then((response) => {
+              fetchCourse()
 
-            toast.success(response.data.message)
-          })
-          .catch((error) => {
-            toast.error(HandleError(error))
-          })
-          .finally(() => {
-            setFetchCourseLoading(false)
+              toast.success(response.data.message)
+            })
+            .catch((error) => {
+              toast.error(HandleError(error))
+            })
+            .finally(() => {
+              setFetchCourseLoading(false)
 
-            table.resetRowSelection()
-          })
+              table.resetRowSelection()
+            })
+        })
       }
     })
   }
@@ -288,23 +291,25 @@ const Course = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      let id = row.original.ID
+                      validationPrompt(() => {
+                        let id = row.original.ID
 
-                      setFetchCourseLoading(true)
+                        setFetchCourseLoading(true)
 
-                      api
-                        .delete('course/delete/' + id)
-                        .then((response) => {
-                          fetchCourse()
+                        api
+                          .delete('course/delete/' + id)
+                          .then((response) => {
+                            fetchCourse()
 
-                          toast.success(response.data.message)
-                        })
-                        .catch((error) => {
-                          toast.error(HandleError(error))
-                        })
-                        .finally(() => {
-                          setFetchCourseLoading(false)
-                        })
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setFetchCourseLoading(false)
+                          })
+                      })
                     }
                   })
                 }}

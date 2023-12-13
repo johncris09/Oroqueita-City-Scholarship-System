@@ -34,12 +34,16 @@ import {
   Semester,
   Sex,
   StatusType,
+  handleExportSeniorHighData,
+  handleExportSeniorHighRows,
   seniorHighDefaultColumn,
 } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import moment from 'moment'
+import { toSentenceCase } from 'src/components/FormatCase'
+import { calculateAge } from 'src/components/GetAge'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -107,82 +111,14 @@ const SeniorHigh = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }
 
     if (type === 'date') {
-      const birthDate = new Date(value)
-      const currentDate = new Date()
-
-      const ageInMilliseconds = currentDate - birthDate
-      const ageInYears = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000))
-
-      form.setFieldValue('age', ageInYears)
+      form.setFieldValue('age', calculateAge(value))
     }
-  }
-
-  const csvOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalSeparator: '.',
-    showLabels: true,
-    useBom: true,
-    useKeysAsHeaders: false,
-    headers: seniorHighDefaultColumn.map((c) => c.header),
-  }
-
-  const csvExporter = new ExportToCsv(csvOptions)
-  const handleExportRows = (rows) => {
-    const exportedData = rows
-      .map((row) => row.original)
-      .map((item) => {
-        return {
-          'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
-          'First Name': item.AppFirstName,
-          'Last Name': item.AppLastName,
-          'Middle Name': item.AppMidIn,
-          Address: item.AppAddress,
-          'Contact #': item.AppContact,
-          Gender: item.AppGender,
-          School: item.AppSchool,
-          Strand: item.AppCourse,
-          'School Year': item.AppSY,
-          Semester: item.AppSem,
-          'Application Status': item.AppStatus,
-          Availment: item.AppAvailment,
-        }
-      })
-
-    csvExporter.generateCsv(exportedData)
-  }
-
-  const handleExportData = () => {
-    const exportedData = data.map((item) => {
-      return {
-        'Application #': `${item.AppNoYear}-${item.AppNoSem}-${item.AppNoID}`,
-        'First Name': item.AppFirstName,
-        'Last Name': item.AppLastName,
-        'Middle Name': item.AppMidIn,
-        Address: item.AppAddress,
-        'Contact #': item.AppContact,
-        Gender: item.AppGender,
-        School: item.AppSchool,
-        Strand: item.AppCourse,
-        'School Year': item.AppSY,
-        Semester: item.AppSem,
-        'Application Status': item.AppStatus,
-        Availment: item.AppAvailment,
-      }
-    })
-    csvExporter.generateCsv(exportedData)
   }
 
   const handleViewAllData = () => {
@@ -498,13 +434,17 @@ const SeniorHigh = () => {
                     flexWrap: 'wrap',
                   }}
                 >
-                  <CButton className="btn-info text-white" onClick={handleExportData} size="sm">
+                  <CButton
+                    className="btn-info text-white"
+                    onClick={() => handleExportSeniorHighData(data)}
+                    size="sm"
+                  >
                     <FontAwesomeIcon icon={faFileExcel} /> Export to Excel
                   </CButton>
                   <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
-                    onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+                    onClick={() => handleExportSeniorHighRows(table.getSelectedRowModel().rows)}
                     variant="outline"
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows

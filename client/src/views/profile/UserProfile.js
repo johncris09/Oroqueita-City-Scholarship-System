@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { decrypted } from 'src/components/Encrypt'
 import { jwtDecode } from 'jwt-decode'
 import { DefaultLoading } from 'src/components/Loading'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const UserProfile = () => {
   const [validated, setValidated] = useState(true)
@@ -75,13 +76,7 @@ const UserProfile = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text' && name !== 'username') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }

@@ -31,6 +31,7 @@ import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const SeniorHighSchool = () => {
   const [seniorHighSchool, setSeniorHighSchool] = useState([])
@@ -166,29 +167,31 @@ const SeniorHighSchool = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        setFetchSeniorHighSchoolLoading(true)
-        const selectedRows = rows
-          .map((row) => row.original)
-          .map((item) => {
-            return {
-              ID: item.ID,
-            }
-          })
-        api
-          .delete('senior_high_school/bulk_delete', { data: selectedRows })
-          .then((response) => {
-            fetchSeniorHighSchool()
+        validationPrompt(() => {
+          setFetchSeniorHighSchoolLoading(true)
+          const selectedRows = rows
+            .map((row) => row.original)
+            .map((item) => {
+              return {
+                ID: item.ID,
+              }
+            })
+          api
+            .delete('senior_high_school/bulk_delete', { data: selectedRows })
+            .then((response) => {
+              fetchSeniorHighSchool()
 
-            toast.success(response.data.message)
-          })
-          .catch((error) => {
-            toast.error(HandleError(error))
-          })
-          .finally(() => {
-            setFetchSeniorHighSchoolLoading(false)
+              toast.success(response.data.message)
+            })
+            .catch((error) => {
+              toast.error(HandleError(error))
+            })
+            .finally(() => {
+              setFetchSeniorHighSchoolLoading(false)
 
-            table.resetRowSelection()
-          })
+              table.resetRowSelection()
+            })
+        })
       }
     })
   }
@@ -294,23 +297,25 @@ const SeniorHighSchool = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      let id = row.original.ID
+                      validationPrompt(() => {
+                        let id = row.original.ID
 
-                      setFetchSeniorHighSchoolLoading(true)
+                        setFetchSeniorHighSchoolLoading(true)
 
-                      api
-                        .delete('senior_high_school/delete/' + id)
-                        .then((response) => {
-                          fetchSeniorHighSchool()
+                        api
+                          .delete('senior_high_school/delete/' + id)
+                          .then((response) => {
+                            fetchSeniorHighSchool()
 
-                          toast.success(response.data.message)
-                        })
-                        .catch((error) => {
-                          toast.error(HandleError(error))
-                        })
-                        .finally(() => {
-                          setFetchSeniorHighSchoolLoading(false)
-                        })
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setFetchSeniorHighSchoolLoading(false)
+                          })
+                      })
                     }
                   })
                 }}

@@ -23,6 +23,7 @@ import { EditSharp } from '@mui/icons-material'
 import { DefaultLoading } from 'src/components/Loading'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { toSentenceCase } from 'src/components/FormatCase'
 
 const SystemSequence = () => {
   const [data, setData] = useState([])
@@ -95,13 +96,7 @@ const SystemSequence = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text' && name !== 'username') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }

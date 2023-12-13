@@ -27,6 +27,8 @@ import { DeleteOutline, EditSharp, Key } from '@mui/icons-material'
 import { DefaultLoading } from 'src/components/Loading'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import { toSentenceCase } from 'src/components/FormatCase'
+import { validationPrompt } from 'src/components/ValidationPromt'
 
 const User = () => {
   const [data, setData] = useState([])
@@ -160,13 +162,7 @@ const User = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text' && name !== 'username') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }
@@ -297,6 +293,7 @@ const User = () => {
                 key={1}
                 onClick={() => {
                   closeMenu()
+
                   Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -307,46 +304,21 @@ const User = () => {
                     confirmButtonText: 'Yes, delete it!',
                   }).then(async (result) => {
                     if (result.isConfirmed) {
-                      Swal.fire({
-                        title: 'Please enter the secret key to proceed.',
-                        input: 'password',
-                        icon: 'info',
-                        customClass: {
-                          validationMessage: 'my-validation-message',
-                          alignment: 'text-center',
-                        },
-                        preConfirm: (value) => {
-                          if (!value) {
-                            Swal.showValidationMessage('This field is required')
-                          }
-                        },
-                        showCancelButton: true,
-                        confirmButtonText: 'OK',
-                      }).then(async function (result) {
-                        if (result.isConfirmed) {
-                          if (result.value === process.env.REACT_APP_STATUS_APPROVED_KEY) {
-                            let id = row.original.ID
-                            setFetchDataLoading(true)
-                            api
-                              .delete('user/delete/' + id)
-                              .then((response) => {
-                                fetchData()
-                                toast.success(response.data.message)
-                              })
-                              .catch((error) => {
-                                toast.error(HandleError(error))
-                              })
-                              .finally(() => {
-                                setFetchDataLoading(false)
-                              })
-                          } else {
-                            Swal.fire({
-                              title: 'Error!',
-                              html: 'Invalid Secrey Key',
-                              icon: 'error',
-                            })
-                          }
-                        }
+                      validationPrompt(() => {
+                        let id = row.original.ID
+                        setFetchDataLoading(true)
+                        api
+                          .delete('user/delete/' + id)
+                          .then((response) => {
+                            fetchData()
+                            toast.success(response.data.message)
+                          })
+                          .catch((error) => {
+                            toast.error(HandleError(error))
+                          })
+                          .finally(() => {
+                            setFetchDataLoading(false)
+                          })
                       })
                     }
                   })

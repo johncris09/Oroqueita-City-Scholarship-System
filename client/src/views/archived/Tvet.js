@@ -34,12 +34,16 @@ import {
   Sex,
   StatusType,
   YearLevel,
+  handleExportTvetData,
+  handleExportTvetRows,
   tvetDefaultColumn,
 } from 'src/components/DefaultValue'
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import moment from 'moment'
+import { toSentenceCase } from 'src/components/FormatCase'
+import { calculateAge } from 'src/components/GetAge'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -107,82 +111,14 @@ const Tvet = () => {
     form.handleChange(e)
     const { name, value, type } = e.target
     if (type === 'text') {
-      const titleCaseValue = value
-        .toLowerCase()
-        .split(' ')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ')
-
-      form.setFieldValue(name, titleCaseValue)
+      form.setFieldValue(name, toSentenceCase(value))
     } else {
       form.setFieldValue(name, value)
     }
 
     if (type === 'date') {
-      const birthDate = new Date(value)
-      const currentDate = new Date()
-
-      const ageInMilliseconds = currentDate - birthDate
-      const ageInYears = Math.floor(ageInMilliseconds / (365.25 * 24 * 60 * 60 * 1000))
-
-      form.setFieldValue('age', ageInYears)
+      form.setFieldValue('age', calculateAge(value))
     }
-  }
-
-  const csvOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalSeparator: '.',
-    showLabels: true,
-    useBom: true,
-    useKeysAsHeaders: false,
-    headers: tvetDefaultColumn.map((c) => c.header),
-  }
-
-  const csvExporter = new ExportToCsv(csvOptions)
-  const handleExportRows = (rows) => {
-    const exportedData = rows
-      .map((row) => row.original)
-      .map((item) => {
-        return {
-          'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
-          'First Name': item.colFirstName,
-          'Last Name': item.colLastName,
-          'Middle Name': item.colMI,
-          Address: item.colAddress,
-          'Contact #': item.colContactNo,
-          Gender: item.colGender,
-          School: item.colSchool,
-          Strand: item.colCourse,
-          'School Year': item.colSY,
-          Semester: item.colSem,
-          'Application Status': item.colAppStat,
-          Availment: item.colAvailment,
-        }
-      })
-
-    csvExporter.generateCsv(exportedData)
-  }
-
-  const handleExportData = () => {
-    const exportedData = data.map((item) => {
-      return {
-        'Application #': `${item.colAppNoYear}-${item.colAppNoSem}-${item.colAppNoID}`,
-        'First Name': item.colFirstName,
-        'Last Name': item.colLastName,
-        'Middle Name': item.colMI,
-        Address: item.colAddress,
-        'Contact #': item.colContactNo,
-        Gender: item.colGender,
-        School: item.colSchool,
-        Strand: item.colCourse,
-        'School Year': item.colSY,
-        Semester: item.colSem,
-        'Application Status': item.colAppStat,
-        Availment: item.colAvailment,
-      }
-    })
-    csvExporter.generateCsv(exportedData)
   }
 
   const handleViewAllData = () => {
@@ -503,13 +439,17 @@ const Tvet = () => {
                     flexWrap: 'wrap',
                   }}
                 >
-                  <CButton className="btn-info text-white" onClick={handleExportData} size="sm">
+                  <CButton
+                    className="btn-info text-white"
+                    onClick={() => handleExportTvetData(data)}
+                    size="sm"
+                  >
                     <FontAwesomeIcon icon={faFileExcel} /> Export to Excel
                   </CButton>
                   <CButton
                     disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
                     size="sm"
-                    onClick={() => handleExportRows(table.getSelectedRowModel().rows)}
+                    onClick={() => handleExportTvetRows(table.getSelectedRowModel().rows)}
                     variant="outline"
                   >
                     <FontAwesomeIcon icon={faFileExcel} /> Export Selected Rows

@@ -340,7 +340,7 @@ const SeniorHigh = () => {
     course: 0,
     grade_level: 0,
     school: 0,
-    contact: 0,
+    ctc_number: 0,
     availment: 0,
   }
 
@@ -354,7 +354,7 @@ const SeniorHigh = () => {
     maxWidths.course = Math.max(maxWidths.course, row.AppCourse.length)
     maxWidths.grade_level = Math.max(maxWidths.grade_level, row.AppYear.length)
     maxWidths.school = Math.max(maxWidths.school, row.AppSchool.length)
-    maxWidths.contact = Math.max(maxWidths.contact, row.AppContact.length)
+    maxWidths.ctc_number = Math.max(maxWidths.ctc_number, row.AppCTC.length)
     maxWidths.availment = Math.max(maxWidths.availment, row.AppAvailment.length)
   })
 
@@ -612,7 +612,7 @@ const SeniorHigh = () => {
                         fontWeight: 'bold',
                       }}
                     >
-                      #
+                      No.
                     </Text>
                     <Text style={{ ...styles.tableHeader, width: `${maxWidths.name}ch` }}>
                       Name
@@ -629,8 +629,8 @@ const SeniorHigh = () => {
                     <Text style={{ ...styles.tableHeader, width: `${maxWidths.school}ch` }}>
                       School
                     </Text>
-                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.contact}ch` }}>
-                      Contact #
+                    <Text style={{ ...styles.tableHeader, width: `${maxWidths.ctc_number}ch` }}>
+                      CTC No.
                     </Text>
                     <Text style={{ ...styles.tableHeader, width: `${maxWidths.availment}ch` }}>
                       Availment
@@ -670,8 +670,8 @@ const SeniorHigh = () => {
                       <Text style={{ ...styles.tableCell, width: `${maxWidths.school}ch` }}>
                         {row.AppSchool}
                       </Text>
-                      <Text style={{ ...styles.tableCell, width: `${maxWidths.contact}ch` }}>
-                        {row.AppContact}
+                      <Text style={{ ...styles.tableCell, width: `${maxWidths.ctc_number}ch` }}>
+                        {row.AppCTC}
                       </Text>
                       <Text style={{ ...styles.tableCell, width: `${maxWidths.availment}ch` }}>
                         {row.AppAvailment}

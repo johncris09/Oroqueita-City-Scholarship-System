@@ -31,6 +31,7 @@ import HandleError from 'src/components/HandleError'
 import { ToastContainer, toast } from 'react-toastify'
 import { CChart } from '@coreui/react-chartjs'
 import { jwtDecode } from 'jwt-decode'
+
 const Dashboard = () => {
   const [loadingTotal, setLoadingTotal] = useState(true)
   const [loading, setLoading] = useState(false)
@@ -506,7 +507,10 @@ const Dashboard = () => {
                     role="tab"
                     aria-controls="senior-high-tab-pane"
                     aria-selected={activeKey === 1}
-                    onClick={() => setActiveKey(1)}
+                    onClick={() => {
+                      setActiveKey(1)
+                      toast.dismiss()
+                    }}
                   >
                     Senior High
                   </CNavLink>
@@ -518,7 +522,10 @@ const Dashboard = () => {
                     role="tab"
                     aria-controls="college-tab-pane"
                     aria-selected={activeKey === 2}
-                    onClick={() => setActiveKey(2)}
+                    onClick={() => {
+                      setActiveKey(2)
+                      toast.dismiss()
+                    }}
                   >
                     College
                   </CNavLink>
@@ -530,7 +537,10 @@ const Dashboard = () => {
                     role="tab"
                     aria-controls="tvet-tab-pane"
                     aria-selected={activeKey === 3}
-                    onClick={() => setActiveKey(3)}
+                    onClick={() => {
+                      setActiveKey(3)
+                      toast.dismiss()
+                    }}
                   >
                     Tvet
                   </CNavLink>
