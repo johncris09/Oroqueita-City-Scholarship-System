@@ -49,6 +49,7 @@ import {
 import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
+import moment from 'moment'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -225,7 +226,6 @@ const SeniorHigh = () => {
                 })
 
                 .then((response) => {
-                  console.info(response.data)
                   toast.success(response.data.message)
                   fetchData()
                   table.resetRowSelection()
@@ -286,7 +286,6 @@ const SeniorHigh = () => {
             })
 
             .then((response) => {
-              console.info(response.data)
               toast.success(response.data.message)
               fetchData()
               table.resetRowSelection()
@@ -340,7 +339,6 @@ const SeniorHigh = () => {
                   status: values.status,
                 })
                 .then((response) => {
-                  console.info(response.data)
                   toast.success(response.data.message)
                   fetchData()
                   approvedForm.resetForm()
@@ -664,7 +662,6 @@ const SeniorHigh = () => {
                   await api
                     .get('senior_high/find/' + id)
                     .then((response) => {
-                      console.info(response.data)
                       setEditId(id)
 
                       setEditModalVisible(true)
@@ -678,7 +675,7 @@ const SeniorHigh = () => {
                         middle_initial: response.data.AppMidIn,
                         suffix: response.data.AppSuffix,
                         address: response.data.AppAddress,
-                        birthdate: response.data.AppDOB,
+                        birthdate: moment(response.data.AppDOB).format('YYYY-MM-DD'),
                         age: response.data.AppAge,
                         civil_status: response.data.AppCivilStat,
                         sex: response.data.AppGender,

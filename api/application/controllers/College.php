@@ -54,7 +54,7 @@ class College extends RestController
             'colMI' => $requestData['middle_initial'],
             'colSuffix' => $requestData['suffix'],
             'colAddress' => $requestData['address'],
-            'colDOB' => $requestData['birthdate'],
+            'colDOB' => date("m/d/Y", strtotime($requestData['birthdate'])),
             'colAge' => $requestData['age'],
             'colCivilStat' => $requestData['civil_status'],
             'colGender' => $requestData['sex'],
@@ -140,7 +140,7 @@ class College extends RestController
             'colMI' => $requestData['middle_initial'],
             'colSuffix' => $requestData['suffix'],
             'colAddress' => $requestData['address'],
-            'colDOB' => $requestData['birthdate'],
+            'colDOB' => date("m/d/Y", strtotime($requestData['birthdate'])),
             'colAge' => $requestData['age'],
             'colCivilStat' => $requestData['civil_status'],
             'colGender' => $requestData['sex'],
@@ -186,31 +186,31 @@ class College extends RestController
     }
 
 
-	public function bulk_insert_post()
-	{
+    public function bulk_insert_post()
+    {
 
         $college = new CollegeModel;
-		$system_sequence = new SystemSequenceModel;
+        $system_sequence = new SystemSequenceModel;
 
 
-		$requestData = json_decode($this->input->raw_input_stream, true);
+        $requestData = json_decode($this->input->raw_input_stream, true);
 
-		$result = $college->bulk_insert($requestData);
+        $result = $college->bulk_insert($requestData);
 
 
-		if ($result > 0) { 
-			$this->response([
-				'status' => true,
-				'message' => 'Successfully Inserted.'
-			], RestController::HTTP_OK);
-		} else {
+        if ($result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Successfully Inserted.'
+            ], RestController::HTTP_OK);
+        } else {
 
-			$this->response([
-				'status' => false,
-				'message' => 'Failed to create new data.'
-			], RestController::HTTP_BAD_REQUEST);
-		}
-	}
+            $this->response([
+                'status' => false,
+                'message' => 'Failed to create new data.'
+            ], RestController::HTTP_BAD_REQUEST);
+        }
+    }
 
 
 
@@ -488,7 +488,6 @@ class College extends RestController
         $CryptoHelper = new CryptoHelper;
         $requestData = $this->input->get();
 
-        $data = array();
         if (isset($requestData['school']) && !empty($requestData['school'])) {
             $data['colSchool'] = $requestData['school'];
         }
@@ -516,6 +515,7 @@ class College extends RestController
 
 
         $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->generate_report($data)));
+
         $this->response($result, RestController::HTTP_OK);
     }
 

@@ -40,6 +40,7 @@ import {
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 const College = () => {
   const [data, setData] = useState([])
@@ -154,7 +155,7 @@ const College = () => {
           'Contact #': item.colContactNo,
           Gender: item.colGender,
           School: item.colSchool,
-          Strand: item.colCourse,
+          Course: item.colCourse,
           'School Year': item.colSY,
           Semester: item.colSem,
           'Application Status': item.colAppStat,
@@ -212,7 +213,6 @@ const College = () => {
                 })
 
                 .then((response) => {
-                  console.info(response.data)
                   toast.success(response.data.message)
                   fetchData()
                   table.resetRowSelection()
@@ -247,7 +247,7 @@ const College = () => {
         'Contact #': item.colContactNo,
         Gender: item.colGender,
         School: item.colSchool,
-        Strand: item.colCourse,
+        Course: item.colCourse,
         'School Year': item.colSY,
         Semester: item.colSem,
         'Application Status': item.colAppStat,
@@ -527,7 +527,7 @@ const College = () => {
                         middle_initial: response.data.colMI,
                         suffix: response.data.colSuffix,
                         address: response.data.colAddress,
-                        birthdate: response.data.colDOB,
+                        birthdate: moment(response.data.colDOB).format('YYYY-MM-DD'),
                         age: response.data.colAge,
                         civil_status: response.data.colCivilStat,
                         sex: response.data.colGender,

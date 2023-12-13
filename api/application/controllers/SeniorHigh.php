@@ -58,7 +58,7 @@ class SeniorHigh extends RestController
 			'AppMidIn' => $requestData['middle_initial'],
 			'AppSuffix' => $requestData['suffix'],
 			'AppAddress' => $requestData['address'],
-			'AppDOB' => $requestData['birthdate'],
+			'AppDOB' => date("m/d/Y", strtotime($requestData['birthdate'])),
 			'AppAge' => $requestData['age'],
 			'AppCivilStat' => $requestData['civil_status'],
 			'AppGender' => $requestData['sex'],
@@ -78,7 +78,6 @@ class SeniorHigh extends RestController
 			'AppMotherOccu' => $requestData['mother_occupation'],
 			// 'AppManager' => $requestData['manager'],
 		);
-
 
 
 		$update_result = $seniorhigh->update($id, $data);
@@ -146,7 +145,7 @@ class SeniorHigh extends RestController
 			'AppMidIn' => $requestData['middle_initial'],
 			'AppSuffix' => $requestData['suffix'],
 			'AppAddress' => $requestData['address'],
-			'AppDOB' => $requestData['birthdate'],
+			'AppDOB' => date("m/d/Y", strtotime($requestData['birthdate'])),
 			'AppAge' => $requestData['age'],
 			'AppCivilStat' => $requestData['civil_status'],
 			'AppGender' => $requestData['sex'],
@@ -206,7 +205,7 @@ class SeniorHigh extends RestController
 		$result = $seniorhigh->bulk_insert($requestData);
 
 
-		if ($result > 0) { 
+		if ($result > 0) {
 			$this->response([
 				'status' => true,
 				'message' => 'Successfully Inserted.'
@@ -524,6 +523,7 @@ class SeniorHigh extends RestController
 		}
 
 		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->generate_report($data)));
+		 
 		$this->response($result, RestController::HTTP_OK);
 	}
 }

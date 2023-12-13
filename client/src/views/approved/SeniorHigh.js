@@ -41,6 +41,7 @@ import { useFormik } from 'formik'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -225,7 +226,6 @@ const SeniorHigh = () => {
             },
           })
           .then((response) => {
-            console.info(response.data)
             setData(decrypted(response.data))
             setValidated(false)
           })
@@ -440,9 +440,7 @@ const SeniorHigh = () => {
                   await api
                     .get('senior_high/find/' + id)
                     .then((response) => {
-                      console.info(response.data)
                       setEditId(id)
-
                       setEditModalVisible(true)
                       form.setValues({
                         status: response.data.AppStatus,
@@ -454,7 +452,7 @@ const SeniorHigh = () => {
                         middle_initial: response.data.AppMidIn,
                         suffix: response.data.AppSuffix,
                         address: response.data.AppAddress,
-                        birthdate: response.data.AppDOB,
+                        birthdate: moment(response.data.AppDOB).format('YYYY-MM-DD'),
                         age: response.data.AppAge,
                         civil_status: response.data.AppCivilStat,
                         sex: response.data.AppGender,

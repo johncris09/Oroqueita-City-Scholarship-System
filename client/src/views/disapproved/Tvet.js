@@ -40,6 +40,7 @@ import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { decrypted } from 'src/components/Encrypt'
 import HandleError from 'src/components/HandleError'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -443,7 +444,6 @@ const Tvet = () => {
                   await api
                     .get('tvet/find/' + id)
                     .then((response) => {
-                      console.info(response.data)
                       setEditId(id)
                       // setIsEnableEdit(true)
 
@@ -458,7 +458,7 @@ const Tvet = () => {
                         middle_initial: response.data.colMI,
                         suffix: response.data.colSuffix,
                         address: response.data.colAddress,
-                        birthdate: response.data.colDOB,
+                        birthdate: moment(response.data.colDOB).format('YYYY-MM-DD'),
                         age: response.data.colAge,
                         civil_status: response.data.colCivilStat,
                         sex: response.data.colGender,
