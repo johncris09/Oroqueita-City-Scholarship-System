@@ -57,11 +57,11 @@ class TvetModel extends CI_Model
 	{
 		return $this->db->insert($this->table, $data);
 	}
-    public function bulk_insert($data)
-    {  
-        return $this->db->insert_batch($this->table, $data);
+	public function bulk_insert($data)
+	{
+		return $this->db->insert_batch($this->table, $data);
 
-    }
+	}
 	public function total()
 	{
 		$query_sem = $this->db->query('SELECT current_semester FROM  config where id = 1')->result()[0];
@@ -448,10 +448,13 @@ class TvetModel extends CI_Model
 
 	public function generate_report($data)
 	{
-		$query = $this->db->where($data)
+		$query = $this->db
+			->select($this->default_column)
+			->where($data)
 			->order_by('colLastName', 'asc')
 			->get($this->table);
-		return $query->result();
+		return $query->result_array();
+
 
 	}
 

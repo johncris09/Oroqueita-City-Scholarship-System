@@ -46,7 +46,7 @@ class SeniorHighModel extends CI_Model
     }
 
     public function bulk_insert($data)
-    {  
+    {
         return $this->db->insert_batch($this->table, $data);
 
     }
@@ -475,12 +475,18 @@ class SeniorHighModel extends CI_Model
 
     public function generate_report($data)
     {
-        $query = $this->db->where($data)
+
+        $query = $this->db
+            ->select($this->default_column)
+            ->where($data)
             ->order_by('AppLastName', 'asc')
             ->get($this->table);
-        return $query->result();
-
+        return $query->result_array(); 
     }
+
+
+
+
 
 
 }
