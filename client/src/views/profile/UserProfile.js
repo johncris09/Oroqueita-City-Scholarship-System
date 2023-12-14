@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import './../../assets/css/react-paginate.css'
 import { CButton, CCol, CForm, CFormInput, CFormSelect } from '@coreui/react'
-import api from 'src/components/Api'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { ToastContainer, toast } from 'react-toastify'
-import { decrypted } from 'src/components/Encrypt'
 import { jwtDecode } from 'jwt-decode'
-import { DefaultLoading } from 'src/components/Loading'
-import { toSentenceCase } from 'src/components/FormatCase'
+import {
+  DefaultLoading,
+  api,
+  decrypted,
+  requiredField,
+  toSentenceCase,
+} from 'src/components/Oroqscholarship'
 
 const UserProfile = () => {
   const [validated, setValidated] = useState(true)
@@ -40,7 +42,7 @@ const UserProfile = () => {
           })
           .catch((error) => {
             console.info(error)
-            // toast.error(HandleError(error))
+            // toast.error(handleError(error))
           })
           .finally(() => {
             setOperationLoading(false)
@@ -85,7 +87,7 @@ const UserProfile = () => {
   return (
     <>
       <ToastContainer />
-      <RequiredFieldNote />
+      <requiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate
@@ -97,7 +99,7 @@ const UserProfile = () => {
           <CFormInput
             type="text"
             feedbackInvalid="First Name is required."
-            label={RequiredField('First Name')}
+            label={requiredField('First Name')}
             name="first_name"
             onChange={handleInputChange}
             value={form.values.first_name}
@@ -115,7 +117,7 @@ const UserProfile = () => {
           <CFormInput
             type="text"
             feedbackInvalid="Last Name is required."
-            label={RequiredField('Last Name')}
+            label={requiredField('Last Name')}
             name="last_name"
             onChange={handleInputChange}
             value={form.values.last_name}
@@ -125,7 +127,7 @@ const UserProfile = () => {
           <CFormInput
             type="text"
             feedbackInvalid="Username is required."
-            label={RequiredField('Username')}
+            label={requiredField('Username')}
             name="username"
             onChange={handleInputChange}
             value={form.values.username}
@@ -135,7 +137,7 @@ const UserProfile = () => {
           <CFormSelect
             aria-label="Role Type"
             feedbackInvalid="Role Type is required."
-            label={RequiredField('Role Type')}
+            label={requiredField('Role Type')}
             name="role_type"
             onChange={handleInputChange}
             value={form.values.role_type}

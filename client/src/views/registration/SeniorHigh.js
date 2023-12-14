@@ -12,19 +12,20 @@ import {
   CRow,
 } from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import {
   Address,
   CivilStatus,
+  DefaultLoading,
   GradeLevel,
   SchoolYear,
   Semester,
   Sex,
-} from 'src/components/DefaultValue'
-import api from 'src/components/Api'
-import { decrypted } from 'src/components/Encrypt'
-import { DefaultLoading } from 'src/components/Loading'
-import HandleError from 'src/components/HandleError'
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+} from 'src/components/Oroqscholarship'
+
 const SeniorHigh = () => {
   const [validated, setValidated] = useState(false)
   const [school, setSchool] = useState([])
@@ -131,7 +132,7 @@ const SeniorHigh = () => {
             setValidated(false)
           })
           .catch((error) => {
-            toast.error(HandleError(error))
+            toast.error(handleError(error))
           })
           .finally(() => {
             setLoadingOperation(false)
@@ -171,7 +172,7 @@ const SeniorHigh = () => {
   return (
     <div>
       <ToastContainer />
-      <RequiredFieldNote />
+      <requiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate
@@ -181,7 +182,7 @@ const SeniorHigh = () => {
       >
         <CRow className="justify-content-between">
           <CCol md={7} sm={6} xs={6} lg={4} xl={4}>
-            <CFormLabel>{RequiredField('Application Number ')}</CFormLabel>
+            <CFormLabel>{requiredField('Application Number ')}</CFormLabel>
             <CInputGroup className="mb-3 ">
               <CFormInput
                 type="text"
@@ -231,7 +232,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="text"
               feedbackInvalid="First Name is required."
-              label={RequiredField('First Name')}
+              label={requiredField('First Name')}
               name="firstname"
               onChange={handleInputChange}
               value={formik.values.firstname}
@@ -242,7 +243,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="text"
               feedbackInvalid="Last Name is required."
-              label={RequiredField('Last Name')}
+              label={requiredField('Last Name')}
               name="lastname"
               onChange={handleInputChange}
               value={formik.values.lastname}
@@ -273,7 +274,7 @@ const SeniorHigh = () => {
             <CFormSelect
               aria-label="Address"
               feedbackInvalid="Address is required."
-              label={RequiredField('Address')}
+              label={requiredField('Address')}
               name="address"
               onChange={handleInputChange}
               value={formik.values.address}
@@ -293,7 +294,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="date"
               feedbackInvalid="Date of Birth is required."
-              label={RequiredField('Date of Birth')}
+              label={requiredField('Date of Birth')}
               name="birthdate"
               onChange={handleInputChange}
               value={formik.values.birthdate}
@@ -304,7 +305,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="number"
               feedbackInvalid="Age is required."
-              label={RequiredField('Age')}
+              label={requiredField('Age')}
               name="age"
               onChange={handleInputChange}
               value={formik.values.age}
@@ -316,7 +317,7 @@ const SeniorHigh = () => {
           <CCol md={3}>
             <CFormSelect
               feedbackInvalid="Civil Status is required."
-              label={RequiredField('Civil Status')}
+              label={requiredField('Civil Status')}
               name="civil_status"
               onChange={handleInputChange}
               value={formik.values.civil_status}
@@ -335,7 +336,7 @@ const SeniorHigh = () => {
             <CFormSelect
               type="text"
               feedbackInvalid="Sex is required."
-              label={RequiredField('Sex')}
+              label={requiredField('Sex')}
               name="sex"
               onChange={handleInputChange}
               value={formik.values.sex}
@@ -365,7 +366,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="text"
               feedbackInvalid="CTC # is required."
-              label={RequiredField('CTC #')}
+              label={requiredField('CTC #')}
               name="ctc_number"
               onChange={handleInputChange}
               value={formik.values.ctc_number}
@@ -387,7 +388,7 @@ const SeniorHigh = () => {
             <CFormInput
               type="number"
               feedbackInvalid="Availment is required."
-              label={RequiredField('Availment')}
+              label={requiredField('Availment')}
               name="availment"
               onChange={handleInputChange}
               value={formik.values.availment}
@@ -400,7 +401,7 @@ const SeniorHigh = () => {
           <CCol md={3}>
             <CFormSelect
               feedbackInvalid="School is required."
-              label={RequiredField('School')}
+              label={requiredField('School')}
               name="school"
               onChange={handleInputChange}
               value={formik.values.school}
@@ -417,7 +418,7 @@ const SeniorHigh = () => {
           <CCol md={3}>
             <CFormSelect
               feedbackInvalid="Strand is required."
-              label={RequiredField('Strand')}
+              label={requiredField('Strand')}
               name="strand"
               onChange={handleInputChange}
               value={formik.values.strand}
@@ -447,7 +448,7 @@ const SeniorHigh = () => {
           <CCol md={4}>
             <CFormSelect
               feedbackInvalid="Grade Level is required."
-              label={RequiredField('Grade Level')}
+              label={requiredField('Grade Level')}
               name="grade_level"
               onChange={handleInputChange}
               value={formik.values.grade_level}
@@ -464,7 +465,7 @@ const SeniorHigh = () => {
           <CCol md={4}>
             <CFormSelect
               feedbackInvalid="Semester is required."
-              label={RequiredField('Semester')}
+              label={requiredField('Semester')}
               name="semester"
               onChange={handleInputChange}
               value={formik.values.semester}
@@ -482,7 +483,7 @@ const SeniorHigh = () => {
           <CCol md={4}>
             <CFormSelect
               feedbackInvalid="School Year is required."
-              label={RequiredField('School Year')}
+              label={requiredField('School Year')}
               name="school_year"
               onChange={handleInputChange}
               value={formik.values.school_year}

@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './../../assets/css/react-paginate.css'
 import { CButton, CCol, CForm, CFormInput } from '@coreui/react'
-import api from 'src/components/Api'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { ToastContainer, toast } from 'react-toastify'
-import { DefaultLoading } from 'src/components/Loading'
 import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
-import { toSentenceCase } from 'src/components/FormatCase'
+import { DefaultLoading, api, requiredField, toSentenceCase } from 'src/components/Oroqscholarship'
 
 const ChangePassword = () => {
   const navigate = useNavigate()
@@ -41,7 +38,7 @@ const ChangePassword = () => {
           })
           .catch((error) => {
             console.info(error)
-            // toast.error(HandleError(error))
+            // toast.error(handleError(error))
           })
           .finally(() => {
             setOperationLoading(false)
@@ -66,7 +63,7 @@ const ChangePassword = () => {
   return (
     <>
       <ToastContainer />
-      <RequiredFieldNote />
+      <requiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate
@@ -78,7 +75,7 @@ const ChangePassword = () => {
           <CFormInput
             type="password"
             feedbackInvalid="Password is required."
-            label={RequiredField('Password')}
+            label={requiredField('Password')}
             name="password"
             onChange={handleInputChange}
             value={form.values.password}

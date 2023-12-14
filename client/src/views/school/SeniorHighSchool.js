@@ -18,20 +18,22 @@ import {
   CRow,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { Manager } from 'src/components/DefaultValue'
 import { ToastContainer, toast } from 'react-toastify'
 import { Box, ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { validationPrompt } from 'src/components/ValidationPromt'
+import {
+  DefaultLoading,
+  Manager,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+  validationPrompt,
+} from 'src/components/Oroqscholarship'
 
 const SeniorHighSchool = () => {
   const [seniorHighSchool, setSeniorHighSchool] = useState([])
@@ -68,7 +70,7 @@ const SeniorHighSchool = () => {
         setSeniorHighSchool(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchSeniorHighSchoolLoading(false)
@@ -98,7 +100,7 @@ const SeniorHighSchool = () => {
                 setValidated(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setSeniorHighSchoolOperationLoading(false)
@@ -113,7 +115,7 @@ const SeniorHighSchool = () => {
                 setModalVisible(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setSeniorHighSchoolOperationLoading(false)
@@ -184,7 +186,7 @@ const SeniorHighSchool = () => {
               toast.success(response.data.message)
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setFetchSeniorHighSchoolLoading(false)
@@ -310,7 +312,7 @@ const SeniorHighSchool = () => {
                             toast.success(response.data.message)
                           })
                           .catch((error) => {
-                            toast.error(HandleError(error))
+                            toast.error(handleError(error))
                           })
                           .finally(() => {
                             setFetchSeniorHighSchoolLoading(false)
@@ -387,14 +389,14 @@ const SeniorHighSchool = () => {
           onSubmit={formik.handleSubmit}
         >
           <CModalBody>
-            <RequiredFieldNote />
+            <requiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>
                 <CFormInput
                   type="text"
                   feedbackInvalid="School Name is required."
-                  label={RequiredField('School Name')}
+                  label={requiredField('School Name')}
                   name="school_name"
                   onChange={handleInputChange}
                   value={formik.values.school_name}
@@ -405,7 +407,7 @@ const SeniorHighSchool = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="Address is required."
-                  label={RequiredField('Address')}
+                  label={requiredField('Address')}
                   name="address"
                   onChange={handleInputChange}
                   value={formik.values.address}
@@ -415,7 +417,7 @@ const SeniorHighSchool = () => {
               <CCol md={12}>
                 <CFormSelect
                   feedbackInvalid="Manager is required."
-                  label={RequiredField('Manager')}
+                  label={requiredField('Manager')}
                   name="manager"
                   onChange={handleInputChange}
                   value={formik.values.manager}

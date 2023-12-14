@@ -50,7 +50,7 @@ const AppBreadcrumb = () => {
       </CBreadcrumb>
       <div className="float-end">
         <CBadge color={isProduction ? 'success ' : 'danger'} className="border border-light pb-2">
-          <CSpinner size="sm" variant="grow" /> {isProduction ? 'Production ' : 'Development'}
+          <CSpinner size="sm" variant="grow" /> {isProduction ? ' Live ' : ' Development'}
         </CBadge>
       </div>
     </>

@@ -32,29 +32,29 @@ import {
 import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box, ListItemIcon, MenuItem } from '@mui/material'
-import api from 'src/components/Api'
-import { DefaultLoading } from 'src/components/Loading'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
+import moment from 'moment'
 import {
   Address,
   ApprovedType,
   CivilStatus,
+  DefaultLoading,
   SchoolYear,
   Semester,
   Sex,
   StatusType,
   YearLevel,
+  api,
+  calculateAge,
+  decrypted,
+  handleError,
   handleExportTvetData,
   handleExportTvetRows,
+  requiredField,
+  toSentenceCase,
   tvetDefaultColumn,
-} from 'src/components/DefaultValue'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import moment from 'moment'
-import { toSentenceCase } from 'src/components/FormatCase'
-import { calculateAge } from 'src/components/GetAge'
-import { validationPrompt } from 'src/components/ValidationPromt'
+  validationPrompt,
+} from 'src/components/Oroqscholarship'
 
 const Tvet = () => {
   const [data, setData] = useState([])
@@ -110,7 +110,7 @@ const Tvet = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -173,7 +173,7 @@ const Tvet = () => {
               table.resetRowSelection()
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setLoading(false)
@@ -207,7 +207,7 @@ const Tvet = () => {
           table.resetRowSelection()
         })
         .catch((error) => {
-          toast.error(HandleError(error))
+          toast.error(handleError(error))
         })
         .finally(() => {
           setLoading(false)
@@ -240,7 +240,7 @@ const Tvet = () => {
               setSelectedRows([])
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setLoadingOperation(false)
@@ -283,7 +283,7 @@ const Tvet = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -314,7 +314,7 @@ const Tvet = () => {
             setEditValidated(false)
           })
           .catch((error) => {
-            toast.error(HandleError(error))
+            toast.error(handleError(error))
           })
           .finally(() => {
             setLoadingOperation(false)
@@ -394,7 +394,7 @@ const Tvet = () => {
           })
           .catch((error) => {
             console.info(error)
-            // toast.error(HandleError(error))
+            // toast.error(handleError(error))
           })
           .finally(() => {
             setLoadingOperation(false)
@@ -421,13 +421,13 @@ const Tvet = () => {
             validated={validated}
             onSubmit={filterForm.handleSubmit}
           >
-            <RequiredFieldNote />
+            <requiredFieldNote />
 
             <CRow className="my-1">
               <CCol md={6}>
                 <CFormSelect
                   feedbackInvalid="Semester is required."
-                  label={RequiredField('Semester')}
+                  label={requiredField('Semester')}
                   name="semester"
                   onChange={handleInputChange}
                   value={filterForm.values.semester}
@@ -445,7 +445,7 @@ const Tvet = () => {
               <CCol md={6}>
                 <CFormSelect
                   feedbackInvalid="School Year is required."
-                  label={RequiredField('School Year')}
+                  label={requiredField('School Year')}
                   name="school_year"
                   onChange={handleInputChange}
                   value={filterForm.values.school_year}
@@ -604,7 +604,7 @@ const Tvet = () => {
                             toast.success(response.data.message)
                           })
                           .catch((error) => {
-                            toast.error(HandleError(error))
+                            toast.error(handleError(error))
                           })
                           .finally(() => {
                             setLoading(false)
@@ -699,13 +699,13 @@ const Tvet = () => {
           onSubmit={approvedForm.handleSubmit}
         >
           <CModalBody>
-            <RequiredFieldNote />
+            <requiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>
                 <CFormSelect
                   feedbackInvalid="Status is required."
-                  label={RequiredField('Status')}
+                  label={requiredField('Status')}
                   name="status"
                   onChange={handleInputChange}
                   value={approvedForm.values.status}
@@ -754,7 +754,7 @@ const Tvet = () => {
           <CModalBody>
             <CRow className="justify-content-between">
               <CCol md={7} sm={6} xs={6} lg={4} xl={4}>
-                <CFormLabel>{RequiredField('Application Number ')}</CFormLabel>
+                <CFormLabel>{requiredField('Application Number ')}</CFormLabel>
                 <CInputGroup className="mb-3 ">
                   <CFormInput
                     type="text"
@@ -797,7 +797,7 @@ const Tvet = () => {
                 <CFormSelect
                   aria-label="Status"
                   feedbackInvalid="Status is required."
-                  label={RequiredField('Status')}
+                  label={requiredField('Status')}
                   name="status"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.status}
@@ -818,7 +818,7 @@ const Tvet = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="Last Name is required."
-                  label={RequiredField('Last Name')}
+                  label={requiredField('Last Name')}
                   name="lastname"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.lastname}
@@ -829,7 +829,7 @@ const Tvet = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="First Name is required."
-                  label={RequiredField('First Name')}
+                  label={requiredField('First Name')}
                   name="firstname"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.firstname}
@@ -860,7 +860,7 @@ const Tvet = () => {
                 <CFormSelect
                   aria-label="Address"
                   feedbackInvalid="Address is required."
-                  label={RequiredField('Address')}
+                  label={requiredField('Address')}
                   name="address"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.address}
@@ -880,7 +880,7 @@ const Tvet = () => {
                 <CFormInput
                   type="date"
                   feedbackInvalid="Date of Birth is required."
-                  label={RequiredField('Date of Birth')}
+                  label={requiredField('Date of Birth')}
                   name="birthdate"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.birthdate}
@@ -891,7 +891,7 @@ const Tvet = () => {
                 <CFormInput
                   type="number"
                   feedbackInvalid="Age is required."
-                  label={RequiredField('Age')}
+                  label={requiredField('Age')}
                   name="age"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.age}
@@ -903,7 +903,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Civil Status is required."
-                  label={RequiredField('Civil Status')}
+                  label={requiredField('Civil Status')}
                   name="civil_status"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.civil_status}
@@ -922,7 +922,7 @@ const Tvet = () => {
                 <CFormSelect
                   type="text"
                   feedbackInvalid="Sex is required."
-                  label={RequiredField('Sex')}
+                  label={requiredField('Sex')}
                   name="sex"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.sex}
@@ -952,7 +952,7 @@ const Tvet = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="CTC # is required."
-                  label={RequiredField('CTC #')}
+                  label={requiredField('CTC #')}
                   name="ctc_number"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.ctc_number}
@@ -974,7 +974,7 @@ const Tvet = () => {
                 <CFormInput
                   type="number"
                   feedbackInvalid="Availment is required."
-                  label={RequiredField('Availment')}
+                  label={requiredField('Availment')}
                   name="availment"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.availment}
@@ -987,7 +987,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="School is required."
-                  label={RequiredField('School')}
+                  label={requiredField('School')}
                   name="school"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.school}
@@ -1004,7 +1004,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Course is required."
-                  label={RequiredField('Course')}
+                  label={requiredField('Course')}
                   name="course"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.course}
@@ -1034,7 +1034,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Year Level is required."
-                  label={RequiredField('Year Level')}
+                  label={requiredField('Year Level')}
                   name="year_level"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.year_level}
@@ -1051,7 +1051,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Semester is required."
-                  label={RequiredField('Semester')}
+                  label={requiredField('Semester')}
                   name="semester"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.semester}
@@ -1070,7 +1070,7 @@ const Tvet = () => {
                 <CFormInput
                   type="number"
                   feedbackInvalid="No. of Hours is required."
-                  label={RequiredField('No. of Hours')}
+                  label={requiredField('No. of Hours')}
                   name="hour_number"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.hour_number}
@@ -1080,7 +1080,7 @@ const Tvet = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="School Year is required."
-                  label={RequiredField('School Year')}
+                  label={requiredField('School Year')}
                   name="school_year"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.school_year}

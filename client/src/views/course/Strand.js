@@ -18,20 +18,25 @@ import {
   CRow,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { Manager } from 'src/components/DefaultValue'
+
 import { ToastContainer, toast } from 'react-toastify'
 import { Box, ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
+
 import { ExportToCsv } from 'export-to-csv'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { validationPrompt } from 'src/components/ValidationPromt'
+import {
+  DefaultLoading,
+  Manager,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+  validationPrompt,
+} from 'src/components/Oroqscholarship'
 
 const Strand = () => {
   const [strand, setStrand] = useState([])
@@ -64,7 +69,7 @@ const Strand = () => {
         setStrand(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchStrandLoading(false)
@@ -93,7 +98,7 @@ const Strand = () => {
                 setValidated(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setStrandOperationLoading(false)
@@ -108,7 +113,7 @@ const Strand = () => {
                 setModalVisible(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setStrandOperationLoading(false)
@@ -178,7 +183,7 @@ const Strand = () => {
               toast.success(response.data.message)
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setFetchStrandLoading(false)
@@ -304,7 +309,7 @@ const Strand = () => {
                             toast.success(response.data.message)
                           })
                           .catch((error) => {
-                            toast.error(HandleError(error))
+                            toast.error(handleError(error))
                           })
                           .finally(() => {
                             setFetchStrandLoading(false)
@@ -379,14 +384,14 @@ const Strand = () => {
           onSubmit={formik.handleSubmit}
         >
           <CModalBody>
-            <RequiredFieldNote />
+            <requiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>
                 <CFormInput
                   type="text"
                   feedbackInvalid="Strand is required."
-                  label={RequiredField('Strand')}
+                  label={requiredField('Strand')}
                   name="strand"
                   onChange={handleInputChange}
                   value={formik.values.strand}
@@ -396,7 +401,7 @@ const Strand = () => {
               <CCol md={12}>
                 <CFormSelect
                   feedbackInvalid="Manager is required."
-                  label={RequiredField('Manager')}
+                  label={requiredField('Manager')}
                   name="manager"
                   onChange={handleInputChange}
                   value={formik.values.manager}

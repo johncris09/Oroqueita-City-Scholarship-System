@@ -3,7 +3,6 @@ import {
   CButton,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardGroup,
   CCol,
   CContainer,
@@ -15,10 +14,8 @@ import {
 import logo from './../../../assets/images/logo-sm.png'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router-dom'
-import api from 'src/components/Api'
 import { ToastContainer, toast } from 'react-toastify'
-import { DefaultLoading } from 'src/components/Loading'
-import HandleError from 'src/components/HandleError'
+import { DefaultLoading, api, handleError } from 'src/components/Oroqscholarship'
 
 const Login = () => {
   const [loading, setLoading] = useState(false)
@@ -57,7 +54,7 @@ const Login = () => {
             }
           })
           .catch((error) => {
-            toast.error(HandleError(error))
+            toast.error(handleError(error))
           })
           .finally(() => {
             setLoading(false)

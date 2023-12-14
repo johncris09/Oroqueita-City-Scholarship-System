@@ -14,16 +14,19 @@ import {
   CModalTitle,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { ToastContainer, toast } from 'react-toastify'
 import { ListItemIcon, MenuItem } from '@mui/material'
 import { EditSharp } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { SchoolYear, Semester } from 'src/components/DefaultValue'
+import {
+  DefaultLoading,
+  SchoolYear,
+  Semester,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+} from 'src/components/Oroqscholarship'
 
 const Config = () => {
   const [data, setData] = useState([])
@@ -45,7 +48,7 @@ const Config = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchDataLoading(false)
@@ -74,7 +77,7 @@ const Config = () => {
               setModalFormVisible(false)
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setOperationLoading(false)
@@ -195,7 +198,7 @@ const Config = () => {
           <CModalTitle>{isEnableEdit ? 'Edit Config' : 'Add New  Config'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <RequiredFieldNote />
+          <requiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate
@@ -206,7 +209,7 @@ const Config = () => {
             <CCol md={12}>
               <CFormSelect
                 feedbackInvalid="School Year is required."
-                label={RequiredField('School Year')}
+                label={requiredField('School Year')}
                 name="current_sy"
                 onChange={handleInputChange}
                 value={form.values.current_sy}
@@ -222,7 +225,7 @@ const Config = () => {
 
               <CFormSelect
                 feedbackInvalid="Current Semester is required."
-                label={RequiredField('Current Semester')}
+                label={requiredField('Current Semester')}
                 name="current_semester"
                 onChange={handleInputChange}
                 value={form.values.current_semester}

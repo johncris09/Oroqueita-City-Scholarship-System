@@ -14,16 +14,18 @@ import {
   CModalTitle,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { ToastContainer, toast } from 'react-toastify'
 import { ListItemIcon, MenuItem } from '@mui/material'
 import { EditSharp } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { toSentenceCase } from 'src/components/FormatCase'
+import {
+  DefaultLoading,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+  toSentenceCase,
+} from 'src/components/Oroqscholarship'
 
 const SystemSequence = () => {
   const [data, setData] = useState([])
@@ -46,7 +48,7 @@ const SystemSequence = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchDataLoading(false)
@@ -78,7 +80,7 @@ const SystemSequence = () => {
             })
             .catch((error) => {
               console.info(error)
-              // toast.error(HandleError(error))
+              // toast.error(handleError(error))
             })
             .finally(() => {
               setOperationLoading(false)
@@ -218,7 +220,7 @@ const SystemSequence = () => {
           </CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <RequiredFieldNote />
+          <requiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate
@@ -230,7 +232,7 @@ const SystemSequence = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Sequence Name is required."
-                label={RequiredField('Sequence Name')}
+                label={requiredField('Sequence Name')}
                 name="seq_name"
                 onChange={handleInputChange}
                 value={form.values.seq_name}
@@ -240,7 +242,7 @@ const SystemSequence = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Sequence Year is required."
-                label={RequiredField('Sequence Year')}
+                label={requiredField('Sequence Year')}
                 name="seq_year"
                 onChange={handleInputChange}
                 value={form.values.seq_year}
@@ -250,7 +252,7 @@ const SystemSequence = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Sequence Semester is required."
-                label={RequiredField('Sequence Semester')}
+                label={requiredField('Sequence Semester')}
                 name="seq_sem"
                 onChange={handleInputChange}
                 value={form.values.seq_sem}
@@ -260,7 +262,7 @@ const SystemSequence = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Sequence Application # is required."
-                label={RequiredField('Sequence Application #')}
+                label={requiredField('Sequence Application #')}
                 name="seq_appno"
                 onChange={handleInputChange}
                 value={form.values.seq_appno}

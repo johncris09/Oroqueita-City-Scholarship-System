@@ -10,16 +10,13 @@ import {
   CInputGroup,
   CRow,
 } from '@coreui/react'
-import api from 'src/components/Api'
 import MaterialReactTable from 'material-react-table'
-import { DefaultLoading } from 'src/components/Loading'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
 import { Box } from '@mui/material'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
 import { ToastContainer, toast } from 'react-toastify'
+import { DefaultLoading, api, decrypted, handleError } from 'src/components/Oroqscholarship'
 
 const Dashboard = () => {
   const [data, setData] = useState([])
@@ -47,7 +44,7 @@ const Dashboard = () => {
             setData(decrypted(response.data))
           })
           .catch((error) => {
-            toast.error(HandleError(error))
+            toast.error(handleError(error))
           })
           .finally(() => {
             setLoading(false)

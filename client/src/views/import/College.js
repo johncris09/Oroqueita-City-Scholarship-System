@@ -16,15 +16,17 @@ import {
   CTableRow,
 } from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify'
-import { DefaultLoading } from 'src/components/Loading'
 import * as XLSX from 'xlsx'
 import template from './../../assets/template/College Template.xlsx'
-import api from 'src/components/Api'
-import HandleError from 'src/components/HandleError'
 import { useDropzone } from 'react-dropzone'
-import FormatFileSize from 'src/components/FormatFileSize'
 import moment from 'moment'
-import { toSentenceCase } from 'src/components/FormatCase'
+import {
+  DefaultLoading,
+  api,
+  formatFileSize,
+  handleError,
+  toSentenceCase,
+} from 'src/components/Oroqscholarship'
 
 const College = () => {
   const [show, setShow] = useState(true)
@@ -48,7 +50,7 @@ const College = () => {
         setData([])
       } else {
         setUploadedFileName(file.name)
-        setUploadedFileSize(FormatFileSize(file.size))
+        setUploadedFileSize(formatFileSize(file.size))
         setSelectedFileEvent(acceptedFiles)
         setSelectedFile(acceptedFiles[0])
 
@@ -200,7 +202,7 @@ const College = () => {
                   toast.success(response.data.message)
                 })
                 .catch((error) => {
-                  toast.error(HandleError(error))
+                  toast.error(handleError(error))
                 })
                 .finally(() => {
                   setLoading(false)

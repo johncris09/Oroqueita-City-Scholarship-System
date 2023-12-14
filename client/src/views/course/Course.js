@@ -18,20 +18,22 @@ import {
   CRow,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { Manager } from 'src/components/DefaultValue'
 import { ToastContainer, toast } from 'react-toastify'
 import { Box, ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
 import { ExportToCsv } from 'export-to-csv'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { validationPrompt } from 'src/components/ValidationPromt'
+import {
+  DefaultLoading,
+  Manager,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+  validationPrompt,
+} from 'src/components/Oroqscholarship'
 
 const Course = () => {
   const [course, setCourse] = useState([])
@@ -64,7 +66,7 @@ const Course = () => {
         setCourse(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchCourseLoading(false)
@@ -93,7 +95,7 @@ const Course = () => {
                 setValidated(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setCourseOperationLoading(false)
@@ -108,7 +110,7 @@ const Course = () => {
                 setModalVisible(false)
               })
               .catch((error) => {
-                toast.error(HandleError(error))
+                toast.error(handleError(error))
               })
               .finally(() => {
                 setCourseOperationLoading(false)
@@ -178,7 +180,7 @@ const Course = () => {
               toast.success(response.data.message)
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setFetchCourseLoading(false)
@@ -304,7 +306,7 @@ const Course = () => {
                             toast.success(response.data.message)
                           })
                           .catch((error) => {
-                            toast.error(HandleError(error))
+                            toast.error(handleError(error))
                           })
                           .finally(() => {
                             setFetchCourseLoading(false)
@@ -379,14 +381,14 @@ const Course = () => {
           onSubmit={formik.handleSubmit}
         >
           <CModalBody>
-            <RequiredFieldNote />
+            <requiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>
                 <CFormInput
                   type="text"
                   feedbackInvalid="Course is required."
-                  label={RequiredField('Course')}
+                  label={requiredField('Course')}
                   name="course"
                   onChange={handleInputChange}
                   value={formik.values.course}
@@ -396,7 +398,7 @@ const Course = () => {
               <CCol md={12}>
                 <CFormSelect
                   feedbackInvalid="Manager is required."
-                  label={RequiredField('Manager')}
+                  label={requiredField('Manager')}
                   name="manager"
                   onChange={handleInputChange}
                   value={formik.values.manager}

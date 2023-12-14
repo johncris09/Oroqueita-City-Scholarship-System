@@ -16,19 +16,21 @@ import {
   CModalTitle,
 } from '@coreui/react'
 import MaterialReactTable from 'material-react-table'
-import api from 'src/components/Api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
 import { ToastContainer, toast } from 'react-toastify'
 import { ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp, Key } from '@mui/icons-material'
-import { DefaultLoading } from 'src/components/Loading'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { toSentenceCase } from 'src/components/FormatCase'
-import { validationPrompt } from 'src/components/ValidationPromt'
+import {
+  DefaultLoading,
+  api,
+  decrypted,
+  handleError,
+  requiredField,
+  toSentenceCase,
+  validationPrompt,
+} from 'src/components/Oroqscholarship'
 
 const User = () => {
   const [data, setData] = useState([])
@@ -55,7 +57,7 @@ const User = () => {
         setData(decrypted(response.data))
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setFetchDataLoading(false)
@@ -91,7 +93,7 @@ const User = () => {
               fetchData()
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setOperationLoading(false)
@@ -109,7 +111,7 @@ const User = () => {
             })
             .catch((error) => {
               console.info(error)
-              // toast.error(HandleError(error))
+              // toast.error(handleError(error))
             })
             .finally(() => {
               setOperationLoading(false)
@@ -144,7 +146,7 @@ const User = () => {
               setModalChangePasswordFormVisible(false)
             })
             .catch((error) => {
-              toast.error(HandleError(error))
+              toast.error(handleError(error))
             })
             .finally(() => {
               setOperationLoading(false)
@@ -314,7 +316,7 @@ const User = () => {
                             toast.success(response.data.message)
                           })
                           .catch((error) => {
-                            toast.error(HandleError(error))
+                            toast.error(handleError(error))
                           })
                           .finally(() => {
                             setFetchDataLoading(false)
@@ -369,7 +371,7 @@ const User = () => {
           <CModalTitle>{isEnableEdit ? 'Edit User' : 'Add New User'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <RequiredFieldNote />
+          <requiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate
@@ -381,7 +383,7 @@ const User = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="First Name is required."
-                label={RequiredField('First Name')}
+                label={requiredField('First Name')}
                 name="first_name"
                 onChange={handleInputChange}
                 value={form.values.first_name}
@@ -399,7 +401,7 @@ const User = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Last Name is required."
-                label={RequiredField('Last Name')}
+                label={requiredField('Last Name')}
                 name="last_name"
                 onChange={handleInputChange}
                 value={form.values.last_name}
@@ -409,7 +411,7 @@ const User = () => {
               <CFormInput
                 type="text"
                 feedbackInvalid="Username is required."
-                label={RequiredField('Username')}
+                label={requiredField('Username')}
                 name="username"
                 onChange={handleInputChange}
                 value={form.values.username}
@@ -420,7 +422,7 @@ const User = () => {
                 <CFormInput
                   type="password"
                   feedbackInvalid="Password is required."
-                  label={RequiredField('Password')}
+                  label={requiredField('Password')}
                   name="password"
                   onChange={handleInputChange}
                   value={form.values.password}
@@ -432,7 +434,7 @@ const User = () => {
               <CFormSelect
                 aria-label="Role Type"
                 feedbackInvalid="Role Type is required."
-                label={RequiredField('Role Type')}
+                label={requiredField('Role Type')}
                 name="role_type"
                 onChange={handleInputChange}
                 value={form.values.role_type}
@@ -467,7 +469,7 @@ const User = () => {
           <CModalTitle>Change Password</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <RequiredFieldNote />
+          <requiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate
@@ -479,7 +481,7 @@ const User = () => {
               <CFormInput
                 type="password"
                 feedbackInvalid="Password is required."
-                label={RequiredField('Password')}
+                label={requiredField('Password')}
                 name="password"
                 onChange={handlePasswordInputChange}
                 value={updatePasswordForm.values.password}

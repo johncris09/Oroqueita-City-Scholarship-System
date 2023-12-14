@@ -8,24 +8,24 @@ import { CButton, CCol, CForm, CFormInput, CFormSelect, CModal, CRow } from '@co
 import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box } from '@mui/material'
-import api from 'src/components/Api'
-import { DefaultLoading } from 'src/components/Loading'
+import { Page, Text, View, Document, StyleSheet, PDFViewer, Font, Image } from '@react-pdf/renderer'
+import logo from './../../assets/images/logo-sm.png'
+import { jwtDecode } from 'jwt-decode'
 import {
   Address,
+  DefaultLoading,
   GradeLevel,
   SchoolYear,
   Semester,
   Sex,
   StatusType,
+  api,
   cityMayor,
   commiteeChairperson,
-} from 'src/components/DefaultValue'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
-import { Page, Text, View, Document, StyleSheet, PDFViewer, Font, Image } from '@react-pdf/renderer'
-import logo from './../../assets/images/logo-sm.png'
-import { jwtDecode } from 'jwt-decode'
-import { toSentenceCase } from 'src/components/FormatCase'
+  decrypted,
+  handleError,
+  toSentenceCase,
+} from 'src/components/Oroqscholarship'
 
 const SeniorHigh = () => {
   const [data, setData] = useState([])
@@ -96,7 +96,7 @@ const SeniorHigh = () => {
             setData(decrypted(response.data))
           })
           .catch((error) => {
-            toast.error(HandleError(error))
+            toast.error(handleError(error))
           })
           .finally(() => {
             setLoadingOperation(false)

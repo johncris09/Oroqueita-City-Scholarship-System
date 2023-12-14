@@ -18,19 +18,23 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilChartLine } from '@coreui/icons'
-import api from 'src/components/Api'
 import MaterialReactTable from 'material-react-table'
-import { DefaultLoading, WidgetLoading } from 'src/components/Loading'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCancel, faEye, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { RequiredField, RequiredFieldNote } from 'src/components/RequiredField'
-import { SchoolYear, Semester } from 'src/components/DefaultValue'
-import { decrypted } from 'src/components/Encrypt'
-import HandleError from 'src/components/HandleError'
 import { ToastContainer, toast } from 'react-toastify'
 import { CChart } from '@coreui/react-chartjs'
 import { jwtDecode } from 'jwt-decode'
+import {
+  SchoolYear,
+  Semester,
+  api,
+  decrypted,
+  DefaultLoading,
+  WidgetLoading,
+  handleError,
+  requiredField,
+} from 'src/components/Oroqscholarship'
 
 const Dashboard = () => {
   const [loadingTotal, setLoadingTotal] = useState(true)
@@ -39,7 +43,7 @@ const Dashboard = () => {
   const [totalStatusData, setTotalStatusData] = useState([])
   const [totalData, setTotalData] = useState([])
   const [validated, setValidated] = useState(false)
-  const [loadingOperation, setLoadingOperation] = useState(false)
+  const [loadingOperation, setLoadingOperation] = useState(true)
   const [statusAddressChartData, setStatusAddressChartData] = useState(false)
   const [activeKey, setActiveKey] = useState(1)
   const [user, setUser] = useState([])
@@ -68,7 +72,7 @@ const Dashboard = () => {
         setStatusAddressChartData(newData)
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setLoadingChart(false)
@@ -88,7 +92,7 @@ const Dashboard = () => {
         setTotalStatusData(newData)
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -194,7 +198,7 @@ const Dashboard = () => {
         setStatusAddressChartData(newData)
       })
       .catch((error) => {
-        toast.error(HandleError(error))
+        toast.error(handleError(error))
       })
       .finally(() => {
         setLoading(false)
@@ -340,13 +344,13 @@ const Dashboard = () => {
                 validated={validated}
                 onSubmit={filterForm.handleSubmit}
               >
-                <RequiredFieldNote />
+                <requiredFieldNote />
 
                 <CRow className="my-1">
                   <CCol md={6}>
                     <CFormSelect
                       feedbackInvalid="Semester is required."
-                      label={RequiredField('Semester')}
+                      label={requiredField('Semester')}
                       name="semester"
                       onChange={handleInputChange}
                       value={filterForm.values.semester}
@@ -364,7 +368,7 @@ const Dashboard = () => {
                   <CCol md={6}>
                     <CFormSelect
                       feedbackInvalid="School Year is required."
-                      label={RequiredField('School Year')}
+                      label={requiredField('School Year')}
                       name="school_year"
                       onChange={handleInputChange}
                       value={filterForm.values.school_year}
@@ -571,7 +575,6 @@ const Dashboard = () => {
                 >
                   <CChart type="bar" data={statusAddressChartData.tvet} />
                 </CTabPane>
-
                 {loadingChart && <DefaultLoading />}
               </CTabContent>
             </CCardBody>
