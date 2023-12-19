@@ -145,7 +145,7 @@ const Login = () => {
                 }}
               >
                 <p style={{ fontSize: '10px' }}>
-                  Date Update: {process.env.REACT_APP_DATE_UPDATED}
+                  Date Last Update: {process.env.REACT_APP_DATE_UPDATED}
                 </p>
               </div>
             </CCardGroup>

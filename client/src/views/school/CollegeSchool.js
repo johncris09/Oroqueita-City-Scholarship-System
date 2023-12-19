@@ -28,6 +28,7 @@ import { ExportToCsv } from 'export-to-csv'
 import {
   DefaultLoading,
   Manager,
+  RequiredFieldNote,
   api,
   decrypted,
   handleError,
@@ -35,7 +36,7 @@ import {
   validationPrompt,
 } from 'src/components/Oroqscholarship'
 
-const CollegeSchool = () => {
+const CollegeSchool = ({ cardTitle }) => {
   const [collegeSchool, setCollegeSchool] = useState([])
   const [validated, setValidated] = useState(true)
   const [fetchCollegeSchoolLoading, setFetchCollegeSchoolLoading] = useState(true)
@@ -214,7 +215,7 @@ const CollegeSchool = () => {
       <ToastContainer />
       <CCard className="mb-4">
         <CCardHeader>
-          College School
+          {cardTitle}
           <div className="float-end">
             <CButton
               size="sm"
@@ -390,7 +391,7 @@ const CollegeSchool = () => {
           onSubmit={formik.handleSubmit}
         >
           <CModalBody>
-            <requiredFieldNote />
+            <RequiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>

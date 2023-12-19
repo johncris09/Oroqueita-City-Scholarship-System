@@ -15,14 +15,14 @@ import College from './College'
 import Tvet from './Tvet'
 import { toast } from 'react-toastify'
 
-const Void = () => {
+const Void = ({ cardTitle }) => {
   const [activeKey, setActiveKey] = useState(1)
 
   useEffect(() => {}, [])
   return (
     <>
       <CCard className="mb-4">
-        <CCardHeader>Void</CCardHeader>
+        <CCardHeader> {cardTitle}</CCardHeader>
         <CCardBody>
           <CNav variant="pills" layout="justified">
             <CNavItem role="presentation">

@@ -17,6 +17,7 @@ import {
   CivilStatus,
   DefaultLoading,
   GradeLevel,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   Sex,
@@ -172,7 +173,7 @@ const SeniorHigh = () => {
   return (
     <div>
       <ToastContainer />
-      <requiredFieldNote />
+      <RequiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate

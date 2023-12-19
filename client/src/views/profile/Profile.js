@@ -14,13 +14,13 @@ import UserProfile from './UserProfile'
 import ChangePassword from './ChangePassword'
 import { toast } from 'react-toastify'
 
-const User = () => {
+const User = ({ cardTitle }) => {
   const [activeKey, setActiveKey] = useState(1)
 
   return (
     <>
       <CCard className="mb-4">
-        <CCardHeader>Profile</CCardHeader>
+        <CCardHeader>{cardTitle}</CCardHeader>
         <CCardBody>
           <CNav variant="pills" layout="justified">
             <CNavItem role="presentation">

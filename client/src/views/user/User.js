@@ -24,6 +24,7 @@ import { ListItemIcon, MenuItem } from '@mui/material'
 import { DeleteOutline, EditSharp, Key } from '@mui/icons-material'
 import {
   DefaultLoading,
+  RequiredFieldNote,
   api,
   decrypted,
   handleError,
@@ -32,7 +33,7 @@ import {
   validationPrompt,
 } from 'src/components/Oroqscholarship'
 
-const User = () => {
+const User = ({ cardTitle }) => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(true)
   const [passwordValidated, setPasswordValidated] = useState(false)
@@ -205,7 +206,7 @@ const User = () => {
       <ToastContainer />
       <CCard className="mb-4" style={{ position: 'relative' }}>
         <CCardHeader>
-          User
+          {cardTitle}
           <div className="float-end">
             <CButton
               size="sm"
@@ -217,7 +218,7 @@ const User = () => {
                 setModalFormVisible(!modalVisible)
               }}
             >
-              <FontAwesomeIcon icon={faPlus} /> Add User
+              <FontAwesomeIcon icon={faPlus} /> Add {cardTitle}
             </CButton>
           </div>
         </CCardHeader>
@@ -368,10 +369,10 @@ const User = () => {
         size="lg"
       >
         <CModalHeader>
-          <CModalTitle>{isEnableEdit ? 'Edit User' : 'Add New User'}</CModalTitle>
+          <CModalTitle>{isEnableEdit ? `Edit ${cardTitle}` : `Add New ${cardTitle}`}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <requiredFieldNote />
+          <RequiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate
@@ -469,7 +470,7 @@ const User = () => {
           <CModalTitle>Change Password</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <requiredFieldNote />
+          <RequiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate

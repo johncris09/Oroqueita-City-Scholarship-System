@@ -4,7 +4,16 @@ import { ExportToCsv } from 'export-to-csv'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { CButton, CCol, CForm, CFormInput, CFormSelect, CModal, CRow } from '@coreui/react'
+import {
+  CButton,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormSelect,
+  CModal,
+  CRow,
+  CSpinner,
+} from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box } from '@mui/material'
@@ -32,6 +41,7 @@ const College = () => {
   const [school, setSchool] = useState([])
   const [loading, setLoading] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(false)
+  const [fetchSchoolLoading, setFetchSchoolLoading] = useState(true)
   const [title, setTitle] = useState('')
   const [printPreviewModalVisible, setPrintPreviewModalVisible] = useState(false)
   const [user, setUser] = useState([])
@@ -49,6 +59,9 @@ const College = () => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error)
+      })
+      .finally(() => {
+        setFetchSchoolLoading(false)
       })
   }
 
@@ -341,7 +354,7 @@ const College = () => {
     course: 0,
     year_level: 0,
     school: 0,
-    ctcf_number: 0,
+    ctc_number: 0,
     availment: 0,
   }
 
@@ -355,7 +368,7 @@ const College = () => {
     maxWidths.course = Math.max(maxWidths.course, row.colCourse.length)
     maxWidths.year_level = Math.max(maxWidths.year_level, row.colYearLevel.length + 10)
     maxWidths.school = Math.max(maxWidths.school, row.colSchool.length)
-    maxWidths.ctcf_number = Math.max(maxWidths.ctcf_number, row.colCTC.length)
+    maxWidths.ctc_number = Math.max(maxWidths.ctc_number, row.colCTC.length)
     maxWidths.availment = Math.max(maxWidths.availment, row.colAvailment.length + 10)
   })
   return (
@@ -372,7 +385,12 @@ const College = () => {
             <CRow>
               <CCol md={12}>
                 <CFormSelect
-                  label="School"
+                  label={
+                    <>
+                      {fetchSchoolLoading && <CSpinner size="sm" />}
+                      {' School'}
+                    </>
+                  }
                   name="school"
                   onChange={handleInputChange}
                   value={form.values.school}

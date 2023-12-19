@@ -20,6 +20,7 @@ import { ListItemIcon, MenuItem } from '@mui/material'
 import { EditSharp } from '@mui/icons-material'
 import {
   DefaultLoading,
+  RequiredFieldNote,
   api,
   decrypted,
   handleError,
@@ -27,7 +28,7 @@ import {
   toSentenceCase,
 } from 'src/components/Oroqscholarship'
 
-const SystemSequence = () => {
+const SystemSequence = ({ cardTitle }) => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(true)
   const [fetchDataLoading, setFetchDataLoading] = useState(true)
@@ -129,7 +130,7 @@ const SystemSequence = () => {
     <>
       <ToastContainer />
       <CCard className="mb-4" style={{ position: 'relative' }}>
-        <CCardHeader>System Sequence</CCardHeader>
+        <CCardHeader>{cardTitle}</CCardHeader>
         <CCardBody>
           <MaterialReactTable
             columns={column}
@@ -220,7 +221,7 @@ const SystemSequence = () => {
           </CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <requiredFieldNote />
+          <RequiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate

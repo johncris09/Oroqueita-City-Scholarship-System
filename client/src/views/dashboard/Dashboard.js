@@ -34,9 +34,10 @@ import {
   WidgetLoading,
   handleError,
   requiredField,
+  RequiredFieldNote,
 } from 'src/components/Oroqscholarship'
 
-const Dashboard = () => {
+const Dashboard = ({ cardTitle }) => {
   const [loadingTotal, setLoadingTotal] = useState(true)
   const [loading, setLoading] = useState(false)
   const [loadingChart, setLoadingChart] = useState(false)
@@ -44,7 +45,7 @@ const Dashboard = () => {
   const [totalData, setTotalData] = useState([])
   const [validated, setValidated] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(true)
-  const [statusAddressChartData, setStatusAddressChartData] = useState(false)
+  const [statusAddressChartData, setStatusAddressChartData] = useState([])
   const [activeKey, setActiveKey] = useState(1)
   const [user, setUser] = useState([])
 
@@ -332,7 +333,7 @@ const Dashboard = () => {
       <CRow className="justify-content-center mt-2">
         <CCol md={12}>
           <CCard className="mb-4">
-            <CCardHeader>Dashboard</CCardHeader>
+            <CCardHeader>{cardTitle}</CCardHeader>
             <CCardBody>
               <h5>
                 <FontAwesomeIcon icon={faFilter} /> Filter
@@ -344,7 +345,7 @@ const Dashboard = () => {
                 validated={validated}
                 onSubmit={filterForm.handleSubmit}
               >
-                <requiredFieldNote />
+                <RequiredFieldNote />
 
                 <CRow className="my-1">
                   <CCol md={6}>
@@ -557,7 +558,14 @@ const Dashboard = () => {
                   visible={activeKey === 1}
                   style={{ position: 'relative' }}
                 >
-                  <CChart type="bar" data={statusAddressChartData.senior_high} />
+                  <CChart
+                    type="bar"
+                    data={
+                      statusAddressChartData.senior_high === undefined
+                        ? []
+                        : statusAddressChartData.senior_high
+                    }
+                  />
                 </CTabPane>
                 <CTabPane
                   role="tabpanel"
@@ -565,7 +573,14 @@ const Dashboard = () => {
                   visible={activeKey === 2}
                   style={{ position: 'relative' }}
                 >
-                  <CChart type="bar" data={statusAddressChartData.college} />
+                  <CChart
+                    type="bar"
+                    data={
+                      statusAddressChartData.college === undefined
+                        ? []
+                        : statusAddressChartData.college
+                    }
+                  />
                 </CTabPane>
                 <CTabPane
                   role="tabpanel"
@@ -573,7 +588,12 @@ const Dashboard = () => {
                   visible={activeKey === 3}
                   style={{ position: 'relative' }}
                 >
-                  <CChart type="bar" data={statusAddressChartData.tvet} />
+                  <CChart
+                    type="bar"
+                    data={
+                      statusAddressChartData.tvet === undefined ? [] : statusAddressChartData.tvet
+                    }
+                  />
                 </CTabPane>
                 {loadingChart && <DefaultLoading />}
               </CTabContent>

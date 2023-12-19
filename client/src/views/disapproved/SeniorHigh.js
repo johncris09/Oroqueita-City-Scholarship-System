@@ -29,6 +29,7 @@ import {
   CivilStatus,
   DefaultLoading,
   GradeLevel,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   Sex,
@@ -273,7 +274,7 @@ const SeniorHigh = () => {
             validated={validated}
             onSubmit={filterForm.handleSubmit}
           >
-            <requiredFieldNote />
+            <RequiredFieldNote />
 
             <CRow className="my-1">
               <CCol md={6}>
@@ -385,15 +386,15 @@ const SeniorHigh = () => {
                         app_no_year: response.data.AppNoYear,
                         app_no_sem: response.data.AppNoSem,
                         app_no_id: response.data.AppNoID,
-                        firstname: response.data.AppFirstName,
-                        lastname: response.data.AppLastName,
-                        middle_initial: response.data.AppMidIn,
+                        firstname: toSentenceCase(response.data.AppFirstName),
+                        lastname: toSentenceCase(response.data.AppLastName),
+                        middle_initial: toSentenceCase(response.data.AppMidIn),
                         suffix: response.data.AppSuffix,
                         address: response.data.AppAddress,
                         birthdate: moment(response.data.AppDOB).format('YYYY-MM-DD'),
                         age: response.data.AppAge,
-                        civil_status: response.data.AppCivilStat,
-                        sex: response.data.AppGender,
+                        civil_status: toSentenceCase(response.data.AppCivilStat),
+                        sex: toSentenceCase(response.data.AppGender),
                         contact_number: response.data.AppContact,
                         ctc_number: response.data.AppCTC,
                         email_address: response.data.AppEmailAdd,
@@ -404,10 +405,10 @@ const SeniorHigh = () => {
                         grade_level: response.data.AppYear,
                         semester: response.data.AppSem,
                         school_year: response.data.AppSY,
-                        father_name: response.data.AppFather,
-                        father_occupation: response.data.AppFatherOccu,
-                        mother_name: response.data.AppMother,
-                        mother_occupation: response.data.AppMotherOccu,
+                        father_name: toSentenceCase(response.data.AppFather),
+                        father_occupation: toSentenceCase(response.data.AppFatherOccu),
+                        mother_name: toSentenceCase(response.data.AppMother),
+                        mother_occupation: toSentenceCase(response.data.AppMotherOccu),
                       })
                     })
                     .catch((error) => {

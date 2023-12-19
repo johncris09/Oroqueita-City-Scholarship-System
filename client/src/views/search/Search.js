@@ -16,9 +16,15 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
 import { Box } from '@mui/material'
 import { ToastContainer, toast } from 'react-toastify'
-import { DefaultLoading, api, decrypted, handleError } from 'src/components/Oroqscholarship'
+import {
+  DefaultLoading,
+  api,
+  decrypted,
+  handleError,
+  toSentenceCase,
+} from 'src/components/Oroqscholarship'
 
-const Dashboard = () => {
+const Search = ({ cardTitle }) => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -83,14 +89,17 @@ const Dashboard = () => {
     {
       accessorKey: 'lastname',
       header: 'Last Name',
+      accessorFn: (row) => `${toSentenceCase(row.lastname)}`,
     },
     {
       accessorKey: 'firstname',
       header: 'First Name',
+      accessorFn: (row) => `${toSentenceCase(row.firstname)}`,
     },
     {
       accessorKey: 'middlename',
       header: 'M.I.',
+      accessorFn: (row) => `${toSentenceCase(row.middlename)}`,
     },
     {
       accessorKey: 'contact_number',
@@ -99,6 +108,7 @@ const Dashboard = () => {
     {
       accessorKey: 'address',
       header: 'Address',
+      accessorFn: (row) => `${toSentenceCase(row.address)}`,
     },
     {
       accessorKey: 'gender',
@@ -140,7 +150,7 @@ const Dashboard = () => {
       <CRow className="mb-3">
         <CCol md={12}>
           <CCard>
-            <CCardHeader>Advance Search</CCardHeader>
+            <CCardHeader>{cardTitle}</CCardHeader>
             <CCardBody>
               <CForm
                 id="searchForm"
@@ -212,4 +222,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Search

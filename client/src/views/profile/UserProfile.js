@@ -87,7 +87,7 @@ const UserProfile = () => {
   return (
     <>
       <ToastContainer />
-      <requiredFieldNote />
+      <RequiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate

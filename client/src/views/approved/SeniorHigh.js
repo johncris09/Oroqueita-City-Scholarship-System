@@ -30,6 +30,7 @@ import {
   CivilStatus,
   DefaultLoading,
   GradeLevel,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   Sex,
@@ -40,6 +41,7 @@ import {
   handleError,
   handleExportSeniorHighData,
   handleExportSeniorHighRows,
+  requiredField,
   requiredFieldNote,
   seniorHighDefaultColumn,
   toSentenceCase,
@@ -272,13 +274,13 @@ const SeniorHigh = () => {
             validated={validated}
             onSubmit={filterForm.handleSubmit}
           >
-            <requiredFieldNoteNote />
+            <RequiredFieldNote />
 
             <CRow className="my-1">
               <CCol md={6}>
                 <CFormSelect
                   feedbackInvalid="Semester is required."
-                  label={requiredFieldNote('Semester')}
+                  label={requiredField('Semester')}
                   name="semester"
                   onChange={handleInputChange}
                   value={filterForm.values.semester}
@@ -296,7 +298,7 @@ const SeniorHigh = () => {
               <CCol md={6}>
                 <CFormSelect
                   feedbackInvalid="School Year is required."
-                  label={requiredFieldNote('School Year')}
+                  label={requiredField('School Year')}
                   name="school_year"
                   onChange={handleInputChange}
                   value={filterForm.values.school_year}
@@ -383,15 +385,15 @@ const SeniorHigh = () => {
                         app_no_year: response.data.AppNoYear,
                         app_no_sem: response.data.AppNoSem,
                         app_no_id: response.data.AppNoID,
-                        firstname: response.data.AppFirstName,
-                        lastname: response.data.AppLastName,
-                        middle_initial: response.data.AppMidIn,
+                        firstname: toSentenceCase(response.data.AppFirstName),
+                        lastname: toSentenceCase(response.data.AppLastName),
+                        middle_initial: toSentenceCase(response.data.AppMidIn),
                         suffix: response.data.AppSuffix,
                         address: response.data.AppAddress,
                         birthdate: moment(response.data.AppDOB).format('YYYY-MM-DD'),
                         age: response.data.AppAge,
-                        civil_status: response.data.AppCivilStat,
-                        sex: response.data.AppGender,
+                        civil_status: toSentenceCase(response.data.AppCivilStat),
+                        sex: toSentenceCase(response.data.AppGender),
                         contact_number: response.data.AppContact,
                         ctc_number: response.data.AppCTC,
                         email_address: response.data.AppEmailAdd,
@@ -402,10 +404,10 @@ const SeniorHigh = () => {
                         grade_level: response.data.AppYear,
                         semester: response.data.AppSem,
                         school_year: response.data.AppSY,
-                        father_name: response.data.AppFather,
-                        father_occupation: response.data.AppFatherOccu,
-                        mother_name: response.data.AppMother,
-                        mother_occupation: response.data.AppMotherOccu,
+                        father_name: toSentenceCase(response.data.AppFather),
+                        father_occupation: toSentenceCase(response.data.AppFatherOccu),
+                        mother_name: toSentenceCase(response.data.AppMother),
+                        mother_occupation: toSentenceCase(response.data.AppMotherOccu),
                       })
                     })
                     .catch((error) => {
@@ -520,7 +522,7 @@ const SeniorHigh = () => {
           <CModalBody>
             <CRow className="justify-content-between">
               <CCol md={7} sm={6} xs={6} lg={4} xl={4}>
-                <CFormLabel>{requiredFieldNote('Application Number ')}</CFormLabel>
+                <CFormLabel>{requiredField('Application Number ')}</CFormLabel>
                 <CInputGroup className="mb-3 ">
                   <CFormInput
                     type="text"
@@ -563,7 +565,7 @@ const SeniorHigh = () => {
                 <CFormSelect
                   aria-label="Status"
                   feedbackInvalid="Status is required."
-                  label={requiredFieldNote('Status')}
+                  label={requiredField('Status')}
                   name="status"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.status}
@@ -584,7 +586,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="Last Name is required."
-                  label={requiredFieldNote('Last Name')}
+                  label={requiredField('Last Name')}
                   name="lastname"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.lastname}
@@ -595,7 +597,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="First Name is required."
-                  label={requiredFieldNote('First Name')}
+                  label={requiredField('First Name')}
                   name="firstname"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.firstname}
@@ -626,7 +628,7 @@ const SeniorHigh = () => {
                 <CFormSelect
                   aria-label="Address"
                   feedbackInvalid="Address is required."
-                  label={requiredFieldNote('Address')}
+                  label={requiredField('Address')}
                   name="address"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.address}
@@ -646,7 +648,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="date"
                   feedbackInvalid="Date of Birth is required."
-                  label={requiredFieldNote('Date of Birth')}
+                  label={requiredField('Date of Birth')}
                   name="birthdate"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.birthdate}
@@ -657,7 +659,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="number"
                   feedbackInvalid="Age is required."
-                  label={requiredFieldNote('Age')}
+                  label={requiredField('Age')}
                   name="age"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.age}
@@ -669,7 +671,7 @@ const SeniorHigh = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Civil Status is required."
-                  label={requiredFieldNote('Civil Status')}
+                  label={requiredField('Civil Status')}
                   name="civil_status"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.civil_status}
@@ -688,7 +690,7 @@ const SeniorHigh = () => {
                 <CFormSelect
                   type="text"
                   feedbackInvalid="Sex is required."
-                  label={requiredFieldNote('Sex')}
+                  label={requiredField('Sex')}
                   name="sex"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.sex}
@@ -718,7 +720,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="text"
                   feedbackInvalid="CTC # is required."
-                  label={requiredFieldNote('CTC #')}
+                  label={requiredField('CTC #')}
                   name="ctc_number"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.ctc_number}
@@ -740,7 +742,7 @@ const SeniorHigh = () => {
                 <CFormInput
                   type="number"
                   feedbackInvalid="Availment is required."
-                  label={requiredFieldNote('Availment')}
+                  label={requiredField('Availment')}
                   name="availment"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.availment}
@@ -753,7 +755,7 @@ const SeniorHigh = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="School is required."
-                  label={requiredFieldNote('School')}
+                  label={requiredField('School')}
                   name="school"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.school}
@@ -770,7 +772,7 @@ const SeniorHigh = () => {
               <CCol md={3}>
                 <CFormSelect
                   feedbackInvalid="Strand is required."
-                  label={requiredFieldNote('Strand')}
+                  label={requiredField('Strand')}
                   name="strand"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.strand}
@@ -800,7 +802,7 @@ const SeniorHigh = () => {
               <CCol md={4}>
                 <CFormSelect
                   feedbackInvalid="Grade Level is required."
-                  label={requiredFieldNote('Grade Level')}
+                  label={requiredField('Grade Level')}
                   name="grade_level"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.grade_level}
@@ -817,7 +819,7 @@ const SeniorHigh = () => {
               <CCol md={4}>
                 <CFormSelect
                   feedbackInvalid="Semester is required."
-                  label={requiredFieldNote('Semester')}
+                  label={requiredField('Semester')}
                   name="semester"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.semester}
@@ -835,7 +837,7 @@ const SeniorHigh = () => {
               <CCol md={4}>
                 <CFormSelect
                   feedbackInvalid="School Year is required."
-                  label={requiredFieldNote('School Year')}
+                  label={requiredField('School Year')}
                   name="school_year"
                   onChange={handleEditApplicationInputChange}
                   value={form.values.school_year}

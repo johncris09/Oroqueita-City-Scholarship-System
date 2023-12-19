@@ -686,7 +686,7 @@ const WidgetLoading = () => {
   )
 }
 
-const requiredFieldNote = (label) => {
+const RequiredFieldNote = (label) => {
   return (
     <>
       <div>
@@ -745,7 +745,7 @@ const validationPrompt = (operationCallback) => {
 export {
   validationPrompt,
   requiredField,
-  requiredFieldNote,
+  RequiredFieldNote,
   DefaultLoading,
   WidgetLoading,
   handleError,

@@ -31,6 +31,7 @@ import { ExportToCsv } from 'export-to-csv'
 import {
   DefaultLoading,
   Manager,
+  RequiredFieldNote,
   api,
   decrypted,
   handleError,
@@ -38,7 +39,7 @@ import {
   validationPrompt,
 } from 'src/components/Oroqscholarship'
 
-const Strand = () => {
+const Strand = ({ cardTitle }) => {
   const [strand, setStrand] = useState([])
   const [validated, setValidated] = useState(true)
   const [fetchStrandLoading, setFetchStrandLoading] = useState(true)
@@ -210,7 +211,7 @@ const Strand = () => {
       <ToastContainer />
       <CCard className="mb-4">
         <CCardHeader>
-          Strand
+          {cardTitle}
           <div className="float-end">
             <CButton
               size="sm"
@@ -222,7 +223,7 @@ const Strand = () => {
                 setModalVisible(!modalVisible)
               }}
             >
-              <FontAwesomeIcon icon={faPlus} /> Add Strand
+              <FontAwesomeIcon icon={faPlus} /> Add {cardTitle}
             </CButton>
           </div>
         </CCardHeader>
@@ -374,7 +375,7 @@ const Strand = () => {
         onClose={() => setModalVisible(false)}
       >
         <CModalHeader onClose={() => setModalVisible(false)}>
-          <CModalTitle> {isEnableEdit ? 'Edit Strand' : 'Add New Strand'}</CModalTitle>
+          <CModalTitle> {isEnableEdit ? `Edit ${cardTitle}` : `Add New ${cardTitle}`}</CModalTitle>
         </CModalHeader>
         <CForm
           id="form"
@@ -384,7 +385,7 @@ const Strand = () => {
           onSubmit={formik.handleSubmit}
         >
           <CModalBody>
-            <requiredFieldNote />
+            <RequiredFieldNote />
 
             <CRow className="my-2">
               <CCol md={12}>

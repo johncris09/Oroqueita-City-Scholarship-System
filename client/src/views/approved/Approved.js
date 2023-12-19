@@ -15,12 +15,12 @@ import College from './College'
 import Tvet from './Tvet'
 import { toast } from 'react-toastify'
 
-const Approved = () => {
+const Approved = ({ cardTitle }) => {
   const [activeKey, setActiveKey] = useState(1)
   return (
     <>
       <CCard className="mb-4">
-        <CCardHeader>Approved</CCardHeader>
+        <CCardHeader>{cardTitle}</CCardHeader>
         <CCardBody>
           <CNav variant="pills" layout="justified">
             <CNavItem role="presentation">

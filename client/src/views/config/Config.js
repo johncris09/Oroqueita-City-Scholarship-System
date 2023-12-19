@@ -20,6 +20,7 @@ import { ListItemIcon, MenuItem } from '@mui/material'
 import { EditSharp } from '@mui/icons-material'
 import {
   DefaultLoading,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   api,
@@ -28,7 +29,7 @@ import {
   requiredField,
 } from 'src/components/Oroqscholarship'
 
-const Config = () => {
+const Config = ({ cardTitle }) => {
   const [data, setData] = useState([])
   const [validated, setValidated] = useState(true)
   const [fetchDataLoading, setFetchDataLoading] = useState(true)
@@ -112,7 +113,7 @@ const Config = () => {
     <>
       <ToastContainer />
       <CCard className="mb-4" style={{ position: 'relative' }}>
-        <CCardHeader>Config</CCardHeader>
+        <CCardHeader>{cardTitle}</CCardHeader>
         <CCardBody>
           <MaterialReactTable
             columns={column}
@@ -198,7 +199,7 @@ const Config = () => {
           <CModalTitle>{isEnableEdit ? 'Edit Config' : 'Add New  Config'}</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <requiredFieldNote />
+          <RequiredFieldNote />
           <CForm
             className="row g-3 needs-validation mt-4"
             noValidate

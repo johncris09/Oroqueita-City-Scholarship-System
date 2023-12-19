@@ -4,7 +4,16 @@ import { ExportToCsv } from 'export-to-csv'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { useFormik } from 'formik'
-import { CButton, CCol, CForm, CFormInput, CFormSelect, CModal, CRow } from '@coreui/react'
+import {
+  CButton,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormSelect,
+  CModal,
+  CRow,
+  CSpinner,
+} from '@coreui/react'
 import { ToastContainer, toast } from 'react-toastify'
 import MaterialReactTable from 'material-react-table'
 import { Box } from '@mui/material'
@@ -32,6 +41,7 @@ const Tvet = () => {
   const [school, setSchool] = useState([])
   const [loading, setLoading] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(false)
+  const [fetchSchoolLoading, setFetchSchoolLoading] = useState(true)
   const [title, setTitle] = useState('')
   const [printPreviewModalVisible, setPrintPreviewModalVisible] = useState(false)
   const [user, setUser] = useState([])
@@ -49,6 +59,9 @@ const Tvet = () => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error)
+      })
+      .finally(() => {
+        setFetchSchoolLoading(false)
       })
   }
 
@@ -371,7 +384,12 @@ const Tvet = () => {
             <CRow>
               <CCol md={12}>
                 <CFormSelect
-                  label="School"
+                  label={
+                    <>
+                      {fetchSchoolLoading && <CSpinner size="sm" />}
+                      {' School'}
+                    </>
+                  }
                   name="school"
                   onChange={handleInputChange}
                   value={form.values.school}

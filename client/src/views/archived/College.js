@@ -29,6 +29,7 @@ import {
   Address,
   CivilStatus,
   DefaultLoading,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   Sex,
@@ -271,7 +272,7 @@ const College = () => {
             validated={validated}
             onSubmit={filterForm.handleSubmit}
           >
-            <requiredFieldNote />
+            <RequiredFieldNote />
 
             <CRow className="my-1">
               <CCol md={6}>
@@ -387,15 +388,15 @@ const College = () => {
                         app_no_year: response.data.colAppNoYear,
                         app_no_sem: response.data.colAppNoSem,
                         app_no_id: response.data.colAppNoID,
-                        firstname: response.data.colFirstName,
-                        lastname: response.data.colLastName,
-                        middle_initial: response.data.colMI,
+                        firstname: toSentenceCase(response.data.colFirstName),
+                        lastname: toSentenceCase(response.data.colLastName),
+                        middle_initial: toSentenceCase(response.data.colMI),
                         suffix: response.data.colSuffix,
                         address: response.data.colAddress,
                         birthdate: moment(response.data.colDOB).format('YYYY-MM-DD'),
                         age: response.data.colAge,
-                        civil_status: response.data.colCivilStat,
-                        sex: response.data.colGender,
+                        civil_status: toSentenceCase(response.data.colCivilStat),
+                        sex: toSentenceCase(response.data.colGender),
                         contact_number: response.data.colContactNo,
                         ctc_number: response.data.colCTC,
                         email_address: response.data.colEmailAdd,
@@ -407,10 +408,10 @@ const College = () => {
                         semester: response.data.colSem,
                         units: response.data.colUnits,
                         school_year: response.data.colSY,
-                        father_name: response.data.colFathersName,
-                        father_occupation: response.data.colFatherOccu,
-                        mother_name: response.data.colMothersName,
-                        mother_occupation: response.data.colMotherOccu,
+                        father_name: toSentenceCase(response.data.colFathersName),
+                        father_occupation: toSentenceCase(response.data.colFatherOccu),
+                        mother_name: toSentenceCase(response.data.colMothersName),
+                        mother_occupation: toSentenceCase(response.data.colMotherOccu),
                       })
                     })
                     .catch((error) => {

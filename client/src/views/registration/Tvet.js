@@ -16,6 +16,7 @@ import {
   Address,
   CivilStatus,
   DefaultLoading,
+  RequiredFieldNote,
   SchoolYear,
   Semester,
   Sex,
@@ -171,7 +172,7 @@ const Tvet = () => {
   return (
     <div>
       <ToastContainer />
-      <requiredFieldNote />
+      <RequiredFieldNote />
       <CForm
         className="row g-3 needs-validation mt-4"
         noValidate

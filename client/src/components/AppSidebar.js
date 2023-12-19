@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { CImage, CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/react'
@@ -8,7 +8,7 @@ import { AppSidebarNav } from './AppSidebarNav'
 import avatar from './../assets/images/logo-sm.png'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
-import { jwtDecode } from 'jwt-decode'
+import { InvalidTokenError, jwtDecode } from 'jwt-decode'
 // sidebar nav config
 import navigation from '../_nav'
 
@@ -16,8 +16,22 @@ const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
-  const userInfo = jwtDecode(localStorage.getItem('oroqScholarshipToken'))
+  const [user, setUser] = useState([])
 
+  useEffect(() => {
+    try {
+      setUser(jwtDecode(localStorage.getItem('oroqScholarshipToken')))
+      // Continue with the rest of your code if the token is valid
+    } catch (error) {
+      if (error instanceof InvalidTokenError) {
+        // Handle the specific error related to an invalid token
+        console.error('Invalid token:', error.message)
+      } else {
+        // Handle other types of errors
+        console.error('Unexpected error:', error.message)
+      }
+    }
+  }, [])
   return (
     <CSidebar
       position="fixed"
@@ -35,7 +49,7 @@ const AppSidebar = () => {
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation(userInfo)} />
+          <AppSidebarNav items={navigation(user)} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler
