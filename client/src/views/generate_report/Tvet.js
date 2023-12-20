@@ -42,12 +42,15 @@ const Tvet = () => {
   const [loading, setLoading] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(false)
   const [fetchSchoolLoading, setFetchSchoolLoading] = useState(true)
+  const [fetchCourseLoading, setFetchCourseLoading] = useState(true)
   const [title, setTitle] = useState('')
   const [printPreviewModalVisible, setPrintPreviewModalVisible] = useState(false)
   const [user, setUser] = useState([])
+  const [course, setCourse] = useState([])
 
   useEffect(() => {
     fetchSchool()
+    fetchCourse()
     setUser(jwtDecode(localStorage.getItem('oroqScholarshipToken')))
   }, [])
 
@@ -65,6 +68,19 @@ const Tvet = () => {
       })
   }
 
+  const fetchCourse = () => {
+    api
+      .get('course')
+      .then((response) => {
+        setCourse(decrypted(response.data))
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+      .finally(() => {
+        setFetchCourseLoading(false)
+      })
+  }
   const handleInputChange = (e) => {
     const { name, value } = e.target
     form.setFieldValue(name, value)
@@ -80,6 +96,7 @@ const Tvet = () => {
       sex: '',
       year_level: '',
       address: '',
+      course: '',
     },
     onSubmit: async (values) => {
       const nonOptionalFields = [
@@ -91,6 +108,7 @@ const Tvet = () => {
         'sex',
         'year_level',
         'address',
+        'course',
       ]
 
       const allNonOptionalFieldsNotEmpty = Object.keys(values).every((key) => {
@@ -136,7 +154,7 @@ const Tvet = () => {
     },
     {
       accessorKey: 'colCourse',
-      header: 'Strand',
+      header: 'Course',
     },
     {
       accessorKey: 'colYearLevel',
@@ -171,7 +189,7 @@ const Tvet = () => {
       return {
         Name: `${item.colLastName}, ${item.colFirstName} ${item.colMI}`,
         Address: item.colAddress,
-        Strand: item.colCourse,
+        Course: item.colCourse,
         'Year Level': item.colYearLevel,
         School: item.colSchool,
         'Contact #': item.colContactNo,
@@ -512,6 +530,28 @@ const Tvet = () => {
                   {Address.map((address, index) => (
                     <option key={index} value={address}>
                       {address}
+                    </option>
+                  ))}
+                </CFormSelect>
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol md={12}>
+                <CFormSelect
+                  label={
+                    <>
+                      {fetchCourseLoading && <CSpinner size="sm" />}
+                      {' Course'}
+                    </>
+                  }
+                  name="course"
+                  onChange={handleInputChange}
+                  value={form.values.course}
+                >
+                  <option value="">Select</option>
+                  {course.map((course, index) => (
+                    <option key={index} value={course.colCourse}>
+                      {course.colCourse}
                     </option>
                   ))}
                 </CFormSelect>

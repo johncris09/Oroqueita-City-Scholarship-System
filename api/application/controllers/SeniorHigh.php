@@ -255,6 +255,7 @@ class SeniorHigh extends RestController
 			'AppStatus' => $this->input->get('status'),
 		);
 		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->filter_by_status($data)));
+		 
 		$this->response($result, RestController::HTTP_OK);
 	}
 
@@ -495,6 +496,7 @@ class SeniorHigh extends RestController
 		$seniorhigh = new SeniorHighModel;
 		$CryptoHelper = new CryptoHelper;
 		$requestData = $this->input->get();
+        $data = [];
 
 		$data = array();
 		if (isset($requestData['school']) && !empty($requestData['school'])) {
@@ -520,8 +522,11 @@ class SeniorHigh extends RestController
 		}
 		if (isset($requestData['address']) && !empty($requestData['address'])) {
 			$data['AppAddress'] = $requestData['address'];
-		}
+		} 
 
+		if (isset($requestData['strand']) && !empty($requestData['strand'])) {
+			$data['AppCourse'] = $requestData['strand'];
+		}
 		$result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($seniorhigh->generate_report($data)));
 		 
 		$this->response($result, RestController::HTTP_OK);

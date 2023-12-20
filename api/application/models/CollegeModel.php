@@ -445,9 +445,13 @@ class CollegeModel extends CI_Model
 
 	public function generate_report($data)
 	{
-		$query = $this->db
-			->select($this->default_column)
-			->where($data)
+
+		$this->db->select($this->default_column);
+		if (!empty($data)) {
+			$this->db->where($data);
+		}
+
+		$query = $this->db->where($data)
 			->order_by('colLastName', 'asc')
 			->get($this->table);
 		return $query->result_array();

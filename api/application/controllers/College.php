@@ -487,7 +487,7 @@ class College extends RestController
         $college = new CollegeModel;
         $CryptoHelper = new CryptoHelper;
         $requestData = $this->input->get();
-
+        $data = [];
         if (isset($requestData['school']) && !empty($requestData['school'])) {
             $data['colSchool'] = $requestData['school'];
         }
@@ -513,8 +513,12 @@ class College extends RestController
             $data['colAddress'] = $requestData['address'];
         }
 
+        if (isset($requestData['course']) && !empty($requestData['course'])) {
+            $data['colCourse'] = $requestData['course'];
+        }
 
         $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($college->generate_report($data)));
+ 
 
         $this->response($result, RestController::HTTP_OK);
     }

@@ -42,12 +42,15 @@ const SeniorHigh = () => {
   const [loading, setLoading] = useState(false)
   const [loadingOperation, setLoadingOperation] = useState(false)
   const [fetchSchoolLoading, setFetchSchoolLoading] = useState(true)
+  const [fetchStrandLoading, setFetchStrandLoading] = useState(true)
   const [title, setTitle] = useState('')
   const [printPreviewModalVisible, setPrintPreviewModalVisible] = useState(false)
   const [user, setUser] = useState([])
+  const [strand, setStrand] = useState([])
 
   useEffect(() => {
     fetchSchool()
+    fetchStrand()
     setUser(jwtDecode(localStorage.getItem('oroqScholarshipToken')))
   }, [])
 
@@ -65,6 +68,19 @@ const SeniorHigh = () => {
       })
   }
 
+  const fetchStrand = () => {
+    api
+      .get('strand')
+      .then((response) => {
+        setStrand(decrypted(response.data))
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error)
+      })
+      .finally(() => {
+        setFetchStrandLoading(false)
+      })
+  }
   const handleInputChange = (e) => {
     const { name, value } = e.target
     form.setFieldValue(name, value)
@@ -80,6 +96,7 @@ const SeniorHigh = () => {
       sex: '',
       grade_level: '',
       address: '',
+      strand: '',
     },
     onSubmit: async (values) => {
       const nonOptionalFields = [
@@ -91,6 +108,7 @@ const SeniorHigh = () => {
         'sex',
         'grade_level',
         'address',
+        'strand',
       ]
 
       const allNonOptionalFieldsNotEmpty = Object.keys(values).every((key) => {
@@ -517,6 +535,28 @@ const SeniorHigh = () => {
               </CCol>
             </CRow>
 
+            <CRow>
+              <CCol md={12}>
+                <CFormSelect
+                  label={
+                    <>
+                      {fetchStrandLoading && <CSpinner size="sm" />}
+                      {' Strand'}
+                    </>
+                  }
+                  name="strand"
+                  onChange={handleInputChange}
+                  value={form.values.strand}
+                >
+                  <option value="">Select</option>
+                  {strand.map((strand, index) => (
+                    <option key={index} value={strand.Strand}>
+                      {strand.Strand}
+                    </option>
+                  ))}
+                </CFormSelect>
+              </CCol>
+            </CRow>
             <CRow className="justify-content-between mt-4">
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <CButton color="primary" type="submit">

@@ -484,6 +484,7 @@ class Tvet extends RestController
         $CryptoHelper = new CryptoHelper;
         $requestData = $this->input->get();
 
+        $data = [];
         $data = array();
         if (isset($requestData['school']) && !empty($requestData['school'])) {
             $data['colSchool'] = $requestData['school'];
@@ -510,6 +511,9 @@ class Tvet extends RestController
             $data['colAddress'] = $requestData['address'];
         }
 
+        if (isset($requestData['course']) && !empty($requestData['course'])) {
+            $data['colCourse'] = $requestData['course'];
+        }
         $result = $CryptoHelper->cryptoJsAesEncrypt(json_encode($tvet->generate_report($data)));
         $this->response($result, RestController::HTTP_OK);
     }
